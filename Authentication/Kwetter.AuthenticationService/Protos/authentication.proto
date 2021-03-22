@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option csharp_namespace = "Kwetter.AuthenticationService";
+
+package AuthenticationService;
+
+// The greeting service definition.
+service Authentication {
+  // Sends a greeting
+  rpc SignIn (SignInRequest) returns (SignInResponse);
+  rpc Register (RegisterRequest) returns (RegisterResponse);
+}
+
+
+message SignInRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message SignInResponse {
+  string token = 1;
+  bool status = 2;
+}
+
+message RegisterRequest {
+	string username = 1;
+	string email = 2;
+	string password = 3;
+}
+
+message RegisterResponse {
+  bool status = 1;
+}

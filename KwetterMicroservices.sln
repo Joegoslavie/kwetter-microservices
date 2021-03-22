@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuthenticationService", "AuthenticationService", "{7AE45C4F-D045-46A2-91C9-E4CFF6D9DF7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.AuthenticationService", "Authentication\Kwetter.AuthenticationService\Kwetter.AuthenticationService.csproj", "{6162B308-863D-405E-984D-625648427B5D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6162B308-863D-405E-984D-625648427B5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6162B308-863D-405E-984D-625648427B5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6162B308-863D-405E-984D-625648427B5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6162B308-863D-405E-984D-625648427B5D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6162B308-863D-405E-984D-625648427B5D} = {7AE45C4F-D045-46A2-91C9-E4CFF6D9DF7D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57D66AD2-6A33-4E4C-9EDC-68A2A3509CCC}
+	EndGlobalSection
+EndGlobal
