@@ -8,12 +8,11 @@
     using System.Text;
     using System.Threading.Tasks;
     using Grpc.Core;
+    using Kwetter.AuthenticationService.Factory;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
     using Microsoft.IdentityModel.Tokens;
-
-    // https://www.c-sharpcorner.com/article/authentication-and-authorization-in-asp-net-5-with-jwt-and-swagger/
 
     /// <summary>
     /// Service class that contains functions related to authentication.
@@ -31,7 +30,7 @@
         private readonly UserManager<IdentityUser> userManager;
 
         /// <summary>
-        /// 
+        /// Interface for reading the configuration file.
         /// </summary>
         private readonly IConfiguration configuration;
 
@@ -76,27 +75,40 @@
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 
                 // return token.
-                return new SignInResponse
-                {
-                    Status = true,
-                    Token = new JwtSecurityTokenHandler().WriteToken(token),
-                };
+                return ResponseFactory.SignInSuccessfull(new JwtSecurityTokenHandler().WriteToken(token));
             }
 
-            await Task.Delay(10);
-            return null;
+            return ResponseFactory.SignInFailure();
         }
 
         /// <summary>
-        /// Tries to register
+        /// Tries to register an account in the Microsoft identity tables.
         /// </summary>
-        /// <param name="request"></param>
-        /// <param name="context"></param>
-        /// <returns></returns>
+        /// <param name="request">Register request.</param>
+        /// <param name="context">Server context.</param>
+        /// <returns>The <see cref="ServerCallContext"/> with the status of the request.</returns>
         public override async Task<RegisterResponse> Register(RegisterRequest request, ServerCallContext context)
         {
-            await Task.Delay(10);
-            return null;
+            var user = await this.userManager.FindByNameAsync(request.Username).ConfigureAwait(false);
+            if (user != null)
+            {
+                return ResponseFactory.RegisterFailure("Username already exists!");
+            }
+
+            var newUser = new IdentityUser
+            {
+                UserName = request.Username,
+                Email = request.Email,
+                SecurityStamp = Guid.NewGuid().ToString(),
+            };
+
+            var result = await this.userManager.CreateAsync(user, request.Password).ConfigureAwait(false);
+            if (!result.Succeeded)
+            {
+                return ResponseFactory.RegisterFailure("Failed to create user!");
+            }
+
+            return ResponseFactory.RegisterSuccessfull("User created!");
         }
     }
 }
