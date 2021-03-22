@@ -5,7 +5,15 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuthenticationService", "AuthenticationService", "{7AE45C4F-D045-46A2-91C9-E4CFF6D9DF7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.AuthenticationService", "Authentication\Kwetter.AuthenticationService\Kwetter.AuthenticationService.csproj", "{6162B308-863D-405E-984D-625648427B5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kwetter.AuthenticationService", "Authentication\Kwetter.AuthenticationService\Kwetter.AuthenticationService.csproj", "{6162B308-863D-405E-984D-625648427B5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.TweetService", "Tweets\Kwetter.TweetService\Kwetter.TweetService.csproj", "{EE5EEF9E-C141-4985-98C8-DC3643F90EDC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TweetService", "TweetService", "{C6497817-BCDD-49F4-BD95-BF4F0D3446D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.ProfileService", "Profile\Kwetter.ProfileService\Kwetter.ProfileService.csproj", "{390493B6-C26B-4215-A574-F16B10F976FD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProfileService", "ProfileService", "{03B2D698-A830-4B23-8DB8-221BD5AAF4A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +25,22 @@ Global
 		{6162B308-863D-405E-984D-625648427B5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6162B308-863D-405E-984D-625648427B5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6162B308-863D-405E-984D-625648427B5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE5EEF9E-C141-4985-98C8-DC3643F90EDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE5EEF9E-C141-4985-98C8-DC3643F90EDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE5EEF9E-C141-4985-98C8-DC3643F90EDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE5EEF9E-C141-4985-98C8-DC3643F90EDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{390493B6-C26B-4215-A574-F16B10F976FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{390493B6-C26B-4215-A574-F16B10F976FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{390493B6-C26B-4215-A574-F16B10F976FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{390493B6-C26B-4215-A574-F16B10F976FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6162B308-863D-405E-984D-625648427B5D} = {7AE45C4F-D045-46A2-91C9-E4CFF6D9DF7D}
+		{EE5EEF9E-C141-4985-98C8-DC3643F90EDC} = {C6497817-BCDD-49F4-BD95-BF4F0D3446D2}
+		{390493B6-C26B-4215-A574-F16B10F976FD} = {03B2D698-A830-4B23-8DB8-221BD5AAF4A7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {57D66AD2-6A33-4E4C-9EDC-68A2A3509CCC}
