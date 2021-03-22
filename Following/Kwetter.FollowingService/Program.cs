@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Kwetter.AuthenticationService
+namespace Kwetter.FollowingService
 {
     public class Program
     {
