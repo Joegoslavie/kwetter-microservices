@@ -4,9 +4,8 @@ option csharp_namespace = "Kwetter.AuthenticationService";
 
 package AuthenticationService;
 
-// The greeting service definition.
+// The authentication service definition.
 service Authentication {
-  // Sends a greeting
   rpc SignIn (SignInRequest) returns (SignInResponse);
   rpc Register (RegisterRequest) returns (RegisterResponse);
 }

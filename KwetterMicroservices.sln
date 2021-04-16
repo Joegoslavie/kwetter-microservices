@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.FollowingService", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FollowingService", "FollowingService", "{7D0FA1C8-2C4E-4977-AD39-F582599919C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.TweetService.Persistence", "Tweets\Kwetter.TweetService.Persistence\Kwetter.TweetService.Persistence.csproj", "{9D8A3B08-5380-4CE7-B96E-6366920E20D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{232474D2-3360-496B-87FD-71EC59FF5FC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{232474D2-3360-496B-87FD-71EC59FF5FC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{232474D2-3360-496B-87FD-71EC59FF5FC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D8A3B08-5380-4CE7-B96E-6366920E20D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D8A3B08-5380-4CE7-B96E-6366920E20D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D8A3B08-5380-4CE7-B96E-6366920E20D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D8A3B08-5380-4CE7-B96E-6366920E20D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +56,7 @@ Global
 		{EE5EEF9E-C141-4985-98C8-DC3643F90EDC} = {C6497817-BCDD-49F4-BD95-BF4F0D3446D2}
 		{390493B6-C26B-4215-A574-F16B10F976FD} = {03B2D698-A830-4B23-8DB8-221BD5AAF4A7}
 		{232474D2-3360-496B-87FD-71EC59FF5FC9} = {7D0FA1C8-2C4E-4977-AD39-F582599919C2}
+		{9D8A3B08-5380-4CE7-B96E-6366920E20D5} = {C6497817-BCDD-49F4-BD95-BF4F0D3446D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {57D66AD2-6A33-4E4C-9EDC-68A2A3509CCC}
