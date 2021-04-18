@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option csharp_namespace = "Kwetter.ProfileService";
+
+package profile;
+
+service ProfileGRPCService {
+  
+	rpc GetAll (ProfileRequest) returns (ProfileResponse);
+
+	rpc GetProfile (ProfileRequest) returns (ProfileResponse);
+
+	//
+	rpc CreateProfile(UpdateProfileRequest) returns (ProfileResponse);
+}
+
+// The request message containing the user's name.
+message ProfileRequest {
+  string name = 1;
+}
+
+message UpdateProfileRequest {
+  string name = 1;
+}
+
+message ProfileResponse {
+  string name = 1;
+}
