@@ -19,7 +19,7 @@
         /// <summary>
         /// 
         /// </summary>
-        public int BlockedId { get; set; }
+        public int FollowingId { get; set; }
 
         /// <summary>
         /// 

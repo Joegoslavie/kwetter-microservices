@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using Kwetter.FollowingService.Business;
+using Kwetter.FollowingService.Business.Enum;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -20,14 +21,50 @@ namespace Kwetter.FollowingService.Services
             this.manager = manager;
         }
 
-        public override Task<OperationResponse> ToggleFollow(FollowRequest request, ServerCallContext context)
+        public override async Task<OperationResponse> ToggleFollow(FollowRequest request, ServerCallContext context)
         {
-            return base.ToggleFollow(request, context);
+            try
+            {
+                var result = await this.manager.ToggleFollower(request.UserId, request.FollowingId).ConfigureAwait(false);
+
+                switch (result)
+                {
+                    case Operation.Created:
+                        return new OperationResponse { Status = true, Message = string.Empty, };
+                    case Operation.Removed:
+                        return new OperationResponse { Status = true, Message = string.Empty, };
+                    default:
+                        return new OperationResponse { Status = false, Message = string.Empty, };
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError("Exception occurred!", ex);
+                throw;
+            }
         }
 
-        public override Task<OperationResponse> ToggleBlock(BlockRequest request, ServerCallContext context)
+        public override async Task<OperationResponse> ToggleBlock(BlockRequest request, ServerCallContext context)
         {
-            return base.ToggleBlock(request, context);
+            try
+            {
+                var result = await this.manager.ToggleBlocked(request.UserId, request.BlockId).ConfigureAwait(false);
+
+                switch (result)
+                {
+                    case Operation.Created:
+                        return new OperationResponse { Status = true, Message = string.Empty, };
+                    case Operation.Removed:
+                        return new OperationResponse { Status = true, Message = string.Empty, };
+                    default:
+                        return new OperationResponse { Status = false, Message = string.Empty, };
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError("Exception occurred!", ex);
+                throw;
+            }
         }
 
     }

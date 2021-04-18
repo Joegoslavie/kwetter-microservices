@@ -12,14 +12,17 @@ service FollowGRPCService {
 
 // The request message containing the user's name.
 message BlockRequest {
-  string name = 1;
+  int32 UserId = 1;
+  int32 BlockId = 2;
 }
 
 // The response message containing the greetings.
 message FollowRequest {
-  string message = 1;
+  int32 UserId = 1;
+  int32 FollowingId = 2;
 }
 
 message OperationResponse {
-
+	bool Status = 1;
+	string Message = 2;
 }
