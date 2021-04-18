@@ -27,4 +27,8 @@
 		</PackageReference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Kwetter.FollowingService.Persistence\Kwetter.FollowingService.Persistence.csproj" />
+	</ItemGroup>
+
 </Project>
