@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Kwetter.TweetService.Persistence.Entity
 {
-    class Hashtag
+    class HashtagEntity
     {
     }
 }
