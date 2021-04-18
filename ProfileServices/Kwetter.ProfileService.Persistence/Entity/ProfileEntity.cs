@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kwetter.ProfileService.Persistence.Entity
 {
-    class ProfileEntity
+    public class ProfileEntity
     {
     }
 }
