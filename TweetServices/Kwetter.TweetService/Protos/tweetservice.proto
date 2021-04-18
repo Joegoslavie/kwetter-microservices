@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option csharp_namespace = "Kwetter.TweetService";
+
+package tweet;
+
+// The greeting service definition.
+service TweetGRPCService {
+  rpc GetByUser (RetrieveTweetRequest) returns (TweetResponse);
+  rpc GetByHashtag (RetrieveTweetRequest) returns (TweetResponse);
+  rpc PlaceTweet (TweetOperationRequest) returns (TweetResponse);
+  rpc ToggleLike(TweetOperationRequest) returns (TweetResponse);
+}
+
+
+message RetrieveTweetRequest {
+
+}
+
+message TweetOperationRequest {
+
+}
+
+message TweetResponse {
+
+}
+
+message HelloRequest {
+  string name = 1;
+}
