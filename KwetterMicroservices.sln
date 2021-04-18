@@ -5,21 +5,21 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuthenticationService", "AuthenticationService", "{7AE45C4F-D045-46A2-91C9-E4CFF6D9DF7D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kwetter.AuthenticationService", "Authentication\Kwetter.AuthenticationService\Kwetter.AuthenticationService.csproj", "{6162B308-863D-405E-984D-625648427B5D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.TweetService", "Tweets\Kwetter.TweetService\Kwetter.TweetService.csproj", "{EE5EEF9E-C141-4985-98C8-DC3643F90EDC}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TweetService", "TweetService", "{C6497817-BCDD-49F4-BD95-BF4F0D3446D2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.ProfileService", "Profile\Kwetter.ProfileService\Kwetter.ProfileService.csproj", "{390493B6-C26B-4215-A574-F16B10F976FD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProfileService", "ProfileService", "{03B2D698-A830-4B23-8DB8-221BD5AAF4A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.FollowingService", "Following\Kwetter.FollowingService\Kwetter.FollowingService.csproj", "{232474D2-3360-496B-87FD-71EC59FF5FC9}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FollowingService", "FollowingService", "{7D0FA1C8-2C4E-4977-AD39-F582599919C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.TweetService.Persistence", "Tweets\Kwetter.TweetService.Persistence\Kwetter.TweetService.Persistence.csproj", "{9D8A3B08-5380-4CE7-B96E-6366920E20D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kwetter.AuthenticationService", "AuthenticationServices\Kwetter.AuthenticationService\Kwetter.AuthenticationService.csproj", "{0B0F5846-EBD2-4D1B-9749-C41F841BD7E0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kwetter.FollowingService", "FollowingServices\Kwetter.FollowingService\Kwetter.FollowingService.csproj", "{CB7AF745-B394-44A4-B9C9-E4CD6730BD58}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kwetter.ProfileService", "ProfileServices\Kwetter.ProfileService\Kwetter.ProfileService.csproj", "{802076D5-865E-424A-858D-118ACCF311AF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kwetter.TweetService", "TweetServices\Kwetter.TweetService\Kwetter.TweetService.csproj", "{14BCEF20-E07C-4FDD-88AB-88145BE886FD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kwetter.TweetService.Persistence", "TweetServices\Kwetter.TweetService.Persistence\Kwetter.TweetService.Persistence.csproj", "{6C341BEA-6269-44CA-A3BF-7745A644859B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,36 +27,36 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6162B308-863D-405E-984D-625648427B5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6162B308-863D-405E-984D-625648427B5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6162B308-863D-405E-984D-625648427B5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6162B308-863D-405E-984D-625648427B5D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EE5EEF9E-C141-4985-98C8-DC3643F90EDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE5EEF9E-C141-4985-98C8-DC3643F90EDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EE5EEF9E-C141-4985-98C8-DC3643F90EDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EE5EEF9E-C141-4985-98C8-DC3643F90EDC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{390493B6-C26B-4215-A574-F16B10F976FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{390493B6-C26B-4215-A574-F16B10F976FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{390493B6-C26B-4215-A574-F16B10F976FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{390493B6-C26B-4215-A574-F16B10F976FD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{232474D2-3360-496B-87FD-71EC59FF5FC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{232474D2-3360-496B-87FD-71EC59FF5FC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{232474D2-3360-496B-87FD-71EC59FF5FC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{232474D2-3360-496B-87FD-71EC59FF5FC9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9D8A3B08-5380-4CE7-B96E-6366920E20D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9D8A3B08-5380-4CE7-B96E-6366920E20D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9D8A3B08-5380-4CE7-B96E-6366920E20D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9D8A3B08-5380-4CE7-B96E-6366920E20D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B0F5846-EBD2-4D1B-9749-C41F841BD7E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B0F5846-EBD2-4D1B-9749-C41F841BD7E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B0F5846-EBD2-4D1B-9749-C41F841BD7E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B0F5846-EBD2-4D1B-9749-C41F841BD7E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB7AF745-B394-44A4-B9C9-E4CD6730BD58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB7AF745-B394-44A4-B9C9-E4CD6730BD58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB7AF745-B394-44A4-B9C9-E4CD6730BD58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB7AF745-B394-44A4-B9C9-E4CD6730BD58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{802076D5-865E-424A-858D-118ACCF311AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{802076D5-865E-424A-858D-118ACCF311AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{802076D5-865E-424A-858D-118ACCF311AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{802076D5-865E-424A-858D-118ACCF311AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14BCEF20-E07C-4FDD-88AB-88145BE886FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14BCEF20-E07C-4FDD-88AB-88145BE886FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14BCEF20-E07C-4FDD-88AB-88145BE886FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14BCEF20-E07C-4FDD-88AB-88145BE886FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C341BEA-6269-44CA-A3BF-7745A644859B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C341BEA-6269-44CA-A3BF-7745A644859B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C341BEA-6269-44CA-A3BF-7745A644859B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C341BEA-6269-44CA-A3BF-7745A644859B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{6162B308-863D-405E-984D-625648427B5D} = {7AE45C4F-D045-46A2-91C9-E4CFF6D9DF7D}
-		{EE5EEF9E-C141-4985-98C8-DC3643F90EDC} = {C6497817-BCDD-49F4-BD95-BF4F0D3446D2}
-		{390493B6-C26B-4215-A574-F16B10F976FD} = {03B2D698-A830-4B23-8DB8-221BD5AAF4A7}
-		{232474D2-3360-496B-87FD-71EC59FF5FC9} = {7D0FA1C8-2C4E-4977-AD39-F582599919C2}
-		{9D8A3B08-5380-4CE7-B96E-6366920E20D5} = {C6497817-BCDD-49F4-BD95-BF4F0D3446D2}
+		{0B0F5846-EBD2-4D1B-9749-C41F841BD7E0} = {7AE45C4F-D045-46A2-91C9-E4CFF6D9DF7D}
+		{CB7AF745-B394-44A4-B9C9-E4CD6730BD58} = {7D0FA1C8-2C4E-4977-AD39-F582599919C2}
+		{802076D5-865E-424A-858D-118ACCF311AF} = {03B2D698-A830-4B23-8DB8-221BD5AAF4A7}
+		{14BCEF20-E07C-4FDD-88AB-88145BE886FD} = {C6497817-BCDD-49F4-BD95-BF4F0D3446D2}
+		{6C341BEA-6269-44CA-A3BF-7745A644859B} = {C6497817-BCDD-49F4-BD95-BF4F0D3446D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {57D66AD2-6A33-4E4C-9EDC-68A2A3509CCC}
