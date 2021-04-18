@@ -27,6 +27,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.FollowingService.Pe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.ProfileService.Persistence", "ProfileServices\Kwetter.ProfileService.Persistence\Kwetter.ProfileService.Persistence.csproj", "{4FE39C45-1AE5-4630-86D3-0E928C5CA38A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.AuthenticationService.Tests", "AuthenticationServices\Kwetter.AuthenticationService.Tests\Kwetter.AuthenticationService.Tests.csproj", "{057EC055-EC0E-4D63-B97B-3AA014F12BAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.FollowingService.Tests", "FollowingServices\Kwetter.FollowingService.Tests\Kwetter.FollowingService.Tests.csproj", "{33BE4F97-C7DC-402B-B2A7-82B03B637DF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.ProfileService.Tests", "Kwetter.ProfileService.Tests\Kwetter.ProfileService.Tests.csproj", "{F16A5EBD-3F9A-4FE6-8BAC-8F089AAC788D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.TweetService.Tests", "Kwetter.TweetService.Tests\Kwetter.TweetService.Tests.csproj", "{C4AA9FCB-95F2-450A-8F3B-2062B9EE091B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +73,22 @@ Global
 		{4FE39C45-1AE5-4630-86D3-0E928C5CA38A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FE39C45-1AE5-4630-86D3-0E928C5CA38A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FE39C45-1AE5-4630-86D3-0E928C5CA38A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{057EC055-EC0E-4D63-B97B-3AA014F12BAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{057EC055-EC0E-4D63-B97B-3AA014F12BAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{057EC055-EC0E-4D63-B97B-3AA014F12BAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{057EC055-EC0E-4D63-B97B-3AA014F12BAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33BE4F97-C7DC-402B-B2A7-82B03B637DF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33BE4F97-C7DC-402B-B2A7-82B03B637DF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33BE4F97-C7DC-402B-B2A7-82B03B637DF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33BE4F97-C7DC-402B-B2A7-82B03B637DF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F16A5EBD-3F9A-4FE6-8BAC-8F089AAC788D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F16A5EBD-3F9A-4FE6-8BAC-8F089AAC788D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F16A5EBD-3F9A-4FE6-8BAC-8F089AAC788D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F16A5EBD-3F9A-4FE6-8BAC-8F089AAC788D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4AA9FCB-95F2-450A-8F3B-2062B9EE091B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4AA9FCB-95F2-450A-8F3B-2062B9EE091B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4AA9FCB-95F2-450A-8F3B-2062B9EE091B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4AA9FCB-95F2-450A-8F3B-2062B9EE091B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +102,10 @@ Global
 		{E163CA72-B372-4539-9B49-3234EEE33FD1} = {7AE45C4F-D045-46A2-91C9-E4CFF6D9DF7D}
 		{7BB157CF-5B5F-4B52-AC73-B6D0F07213E8} = {7D0FA1C8-2C4E-4977-AD39-F582599919C2}
 		{4FE39C45-1AE5-4630-86D3-0E928C5CA38A} = {03B2D698-A830-4B23-8DB8-221BD5AAF4A7}
+		{057EC055-EC0E-4D63-B97B-3AA014F12BAB} = {7AE45C4F-D045-46A2-91C9-E4CFF6D9DF7D}
+		{33BE4F97-C7DC-402B-B2A7-82B03B637DF2} = {7D0FA1C8-2C4E-4977-AD39-F582599919C2}
+		{F16A5EBD-3F9A-4FE6-8BAC-8F089AAC788D} = {03B2D698-A830-4B23-8DB8-221BD5AAF4A7}
+		{C4AA9FCB-95F2-450A-8F3B-2062B9EE091B} = {C6497817-BCDD-49F4-BD95-BF4F0D3446D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {57D66AD2-6A33-4E4C-9EDC-68A2A3509CCC}
