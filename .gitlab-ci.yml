@@ -6,6 +6,8 @@ build:
     stage: build
     script:
         - echo "Building"
+        - "dotnet build"
+        - echo "Building complete"
 
 test:
     stage: test
