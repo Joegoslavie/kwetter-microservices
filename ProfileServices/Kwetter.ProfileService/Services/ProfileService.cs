@@ -38,7 +38,7 @@
         {
             try
             {
-
+                throw new NotImplementedException();
             }
             catch (Exception)
             {
@@ -54,6 +54,7 @@
                 {
                     var entity = this.manager.FindById(request.UserId);
                 });
+                throw new NotImplementedException();
             }
             catch (Exception ex)
             {
@@ -70,6 +71,7 @@
                 {
                     var entity = this.manager.FindByUsername(request.Username);
                 });
+                throw new NotImplementedException();
             }
             catch (Exception ex)
             {
@@ -88,7 +90,7 @@
         {
             try
             {
-
+                throw new NotImplementedException();
             }
             catch (Exception)
             {
