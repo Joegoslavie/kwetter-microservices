@@ -31,6 +31,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kwetter.AuthenticationServi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kwetter.FollowingService.Tests", "FollowingServices\Kwetter.FollowingService.Tests\Kwetter.FollowingService.Tests.csproj", "{33BE4F97-C7DC-402B-B2A7-82B03B637DF2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.TweetService.Tests", "TweetServices\Kwetter.TweetService.Tests\Kwetter.TweetService.Tests.csproj", "{27A2D27E-F399-4290-9D8B-204DBF918F4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.ProfileService.Tests", "ProfileServices\Kwetter.ProfileService.Tests\Kwetter.ProfileService.Tests.csproj", "{86E6A377-4506-414F-ADB1-1B0045B2844A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +81,14 @@ Global
 		{33BE4F97-C7DC-402B-B2A7-82B03B637DF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33BE4F97-C7DC-402B-B2A7-82B03B637DF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33BE4F97-C7DC-402B-B2A7-82B03B637DF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27A2D27E-F399-4290-9D8B-204DBF918F4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27A2D27E-F399-4290-9D8B-204DBF918F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27A2D27E-F399-4290-9D8B-204DBF918F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27A2D27E-F399-4290-9D8B-204DBF918F4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86E6A377-4506-414F-ADB1-1B0045B2844A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86E6A377-4506-414F-ADB1-1B0045B2844A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86E6A377-4506-414F-ADB1-1B0045B2844A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86E6A377-4506-414F-ADB1-1B0045B2844A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,6 +104,8 @@ Global
 		{4FE39C45-1AE5-4630-86D3-0E928C5CA38A} = {03B2D698-A830-4B23-8DB8-221BD5AAF4A7}
 		{057EC055-EC0E-4D63-B97B-3AA014F12BAB} = {7AE45C4F-D045-46A2-91C9-E4CFF6D9DF7D}
 		{33BE4F97-C7DC-402B-B2A7-82B03B637DF2} = {7D0FA1C8-2C4E-4977-AD39-F582599919C2}
+		{27A2D27E-F399-4290-9D8B-204DBF918F4E} = {C6497817-BCDD-49F4-BD95-BF4F0D3446D2}
+		{86E6A377-4506-414F-ADB1-1B0045B2844A} = {03B2D698-A830-4B23-8DB8-221BD5AAF4A7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {57D66AD2-6A33-4E4C-9EDC-68A2A3509CCC}
