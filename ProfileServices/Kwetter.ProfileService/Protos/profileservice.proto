@@ -8,7 +8,9 @@ service ProfileGRPCService {
   
 	rpc GetAll (ProfileRequest) returns (ProfileResponse);
 
-	rpc GetProfile (ProfileRequest) returns (ProfileResponse);
+	rpc GetProfileByUsername (ProfileRequest) returns (ProfileResponse);
+
+	rpc GetProfileByUserId (ProfileRequest) returns (ProfileResponse);
 
 	//
 	rpc CreateProfile(UpdateProfileRequest) returns (ProfileResponse);
@@ -16,7 +18,8 @@ service ProfileGRPCService {
 
 // The request message containing the user's name.
 message ProfileRequest {
-  string name = 1;
+  int32 UserId = 1;
+  string Username = 2;
 }
 
 message UpdateProfileRequest {
@@ -24,5 +27,15 @@ message UpdateProfileRequest {
 }
 
 message ProfileResponse {
-  string name = 1;
+	bool status = 1;
+	repeated ProfileDto profiles = 2;
+}
+
+message ProfileDto {
+	int32 Id = 1;
+	int32 UserId = 2;
+	string DisplayName = 3;
+	string Website = 4;
+	int64 CreatedAt = 5;
+	int64 UpdatedAt = 6;
 }

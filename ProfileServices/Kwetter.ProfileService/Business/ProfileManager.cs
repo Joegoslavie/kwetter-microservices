@@ -1,6 +1,7 @@
 ﻿namespace Kwetter.ProfileService.Business
 {
     using Kwetter.ProfileService.Persistence.Context;
+    using Kwetter.ProfileService.Persistence.Entity;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -17,6 +18,21 @@
         public ProfileManager(ProfileContext context)
         {
             this.context = context;
+        }
+
+        public ProfileDto FindById(int userId)
+        {
+            return null;
+        }
+
+        public ProfileDto FindByUsername(string username)
+        {
+            return null;
+        }
+
+        public ProfileDto New(int userId, string displayName, string siteUrl, string avatarUrl, string description)
+        {
+            return null;
         }
     }
 }

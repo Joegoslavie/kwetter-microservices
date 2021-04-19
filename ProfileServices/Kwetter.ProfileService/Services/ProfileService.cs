@@ -15,6 +15,8 @@
     {
         private readonly ILogger<ProfileService> logger;
 
+        private readonly ProfileManager manager;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ProfileService"/> class.
         /// </summary>
@@ -23,6 +25,7 @@
         public ProfileService(ILogger<ProfileService> logger, ProfileManager manager)
         {
             this.logger = logger;
+            this.manager = manager;
         }
 
         /// <summary>
@@ -33,18 +36,46 @@
         /// <returns></returns>
         public override Task<ProfileResponse> GetAll(ProfileRequest request, ServerCallContext context)
         {
-            return base.GetAll(request, context);
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public override Task<ProfileResponse> GetProfile(ProfileRequest request, ServerCallContext context)
+        public override Task<ProfileResponse> GetProfileByUserId(ProfileRequest request, ServerCallContext context)
         {
-            return base.GetProfile(request, context);
+            try
+            {
+                Task.Run(() =>
+                {
+                    var entity = this.manager.FindById(request.UserId);
+                });
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError("Exception occurred in retrieving profile", ex);
+                throw;
+            }
+        }
+
+        public override Task<ProfileResponse> GetProfileByUsername(ProfileRequest request, ServerCallContext context)
+        {
+            try
+            {
+                Task.Run(() =>
+                {
+                    var entity = this.manager.FindByUsername(request.Username);
+                });
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError("Exception occurred in retrieving profile", ex);
+                throw;
+            }
         }
 
         /// <summary>
@@ -55,7 +86,14 @@
         /// <returns></returns>
         public override Task<ProfileResponse> CreateProfile(UpdateProfileRequest request, ServerCallContext context)
         {
-            return base.CreateProfile(request, context);
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
