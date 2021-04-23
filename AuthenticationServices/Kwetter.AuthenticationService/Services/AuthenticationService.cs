@@ -9,6 +9,7 @@
     using System.Threading.Tasks;
     using Grpc.Core;
     using Kwetter.AuthenticationService.Factory;
+    using Kwetter.AuthenticationService.Persistence.Entity;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
@@ -27,7 +28,7 @@
         /// <summary>
         /// The dotnet user manager class.
         /// </summary>
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<KwetterUserEntity> userManager;
 
         /// <summary>
         /// Interface for reading the configuration file.
@@ -40,7 +41,7 @@
         /// <param name="userManager">Injected user manager.</param>
         /// <param name="configuration">Injected configuration.</param>
         /// <param name="logger">Injected logger.</param>
-        public AuthenticationService(UserManager<IdentityUser> userManager, IConfiguration configuration, ILogger<AuthenticationService> logger)
+        public AuthenticationService(UserManager<KwetterUserEntity> userManager, IConfiguration configuration, ILogger<AuthenticationService> logger)
         {
             this.userManager = userManager;
             this.configuration = configuration;
@@ -95,20 +96,21 @@
                 return ResponseFactory.RegisterFailure("Username already exists!");
             }
 
-            var newUser = new IdentityUser
+            var newUser = new KwetterUserEntity
             {
                 UserName = request.Username,
                 Email = request.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
             };
 
-            var result = await this.userManager.CreateAsync(user, request.Password).ConfigureAwait(false);
+            var result = await this.userManager.CreateAsync(newUser, request.Password).ConfigureAwait(false);
             if (!result.Succeeded)
             {
                 return ResponseFactory.RegisterFailure("Failed to create user!");
             }
 
-            return ResponseFactory.RegisterSuccessfull("User created!");
+            return ResponseFactory.RegisterSuccessfull("Registration succesfull)");
+
         }
     }
 }
