@@ -14,11 +14,12 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
     using Microsoft.IdentityModel.Tokens;
+    using Microservice.AuthGRPCService;
 
     /// <summary>
     /// Service class that contains functions related to authentication.
     /// </summary>
-    public class AuthenticationService : Authentication.AuthenticationBase
+    public class AuthenticationService : AuthGRPCService.AuthGRPCServiceBase
     {
         /// <summary>
         /// Logger interface for the authentication service.

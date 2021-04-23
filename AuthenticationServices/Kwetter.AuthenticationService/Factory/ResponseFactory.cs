@@ -1,4 +1,6 @@
-﻿namespace Kwetter.AuthenticationService.Factory
+﻿using Microservice.AuthGRPCService;
+
+namespace Kwetter.AuthenticationService.Factory
 {
     /// <summary>
     /// Factory for <see cref="Services.AuthenticationService"/> responses.
