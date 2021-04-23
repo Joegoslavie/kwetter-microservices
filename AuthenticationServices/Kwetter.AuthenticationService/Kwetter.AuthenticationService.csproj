@@ -32,4 +32,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Kwetter.AuthenticationService.Persistence\Kwetter.AuthenticationService.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>
