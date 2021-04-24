@@ -16,6 +16,11 @@
         public int Id { get; set; }
 
         /// <summary>
+        /// Gets or sets the author user id.
+        /// </summary>
+        public int UserId { get; set; }
+
+        /// <summary>
         /// Gets or sets the username.
         /// </summary>
         public string Username { get; set; }
@@ -36,14 +41,23 @@
         public string Content { get; set; }
 
         /// <summary>
+        /// Gets or sets the likes of the tweet.
+        /// </summary>
+        public List<LikeEntity> LikedBy { get; set; } = new List<LikeEntity>();
+
+        /// <summary>
+        /// Gets or sets the hashtags in the tweet content.
+        /// </summary>
+        public List<HashtagEntity> Hashtags { get; set; } = new List<HashtagEntity>();
+
+        /// <summary>
+        /// Gets or sets a value indicating whether if the tweet is flagged.
+        /// </summary>
+        public bool Reported { get; set; }
+
+        /// <summary>
         /// Gets or sets the time the tweet was created.
         /// </summary>
         public DateTime CreatedAt { get; set; } = DateTime.Now;
-
-        /// <summary>
-        /// Gets or sets the amount of likes this tweet has.
-        /// </summary>
-        [NotMapped]
-        public int Likes { get; set; }
     }
 }

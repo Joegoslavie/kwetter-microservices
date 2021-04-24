@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Ex\**" />
+    <Content Remove="Ex\**" />
+    <EmbeddedResource Remove="Ex\**" />
+    <None Remove="Ex\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Protobuf Include="Protos\profileservice.proto" GrpcServices="Server" />
   </ItemGroup>
 

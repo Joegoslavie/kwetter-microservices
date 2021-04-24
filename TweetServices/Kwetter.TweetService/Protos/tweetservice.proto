@@ -27,9 +27,7 @@ message TweetResponseData {
 	int32 userId = 1;
 	string username = 2;
 	string displayName = 3;
-	string description = 4;
-	string websiteUri = 5;
-	string location = 6;
-	string avatarUri = 7;
-	int64 createdAt = 8;
+	string avatarUrl = 4;
+	string content = 5;
+	int64 createdAt = 6;
 }
