@@ -93,5 +93,34 @@
                 return response;
             });
         }
+
+        /// <summary>
+        /// Toggles a like on the tweet associated with the passed id. In case the user has not yet liked the tweet, the
+        /// tweet will be liked. If the user already liked this tweet, it will be undone.
+        /// </summary>
+        /// <param name="request">Incoming request.</param>
+        /// <param name="context">Callback context.</param>
+        /// <returns><see cref="TweetResponse"/>.</returns>
+        public override async Task<TweetResponse> ToggleLike(LikeTweetRequest request, ServerCallContext context)
+        {
+            var likeRecord = this.context.Likes.FirstOrDefault(x => x.UserId == request.UserId && x.TweetId == request.TweetId);
+            if (likeRecord == null)
+            {
+                // This tweet is not yet liked by the user.
+                this.context.Likes.Add(new Persistence.Entity.LikeEntity
+                {
+                    UserId = request.UserId,
+                    TweetId = request.TweetId,
+                });
+            }
+            else
+            {
+                // The tweet is already liked by the user.
+                this.context.Likes.Remove(likeRecord);
+            }
+
+            await this.context.SaveChangesAsync().ConfigureAwait(false);
+            return new TweetResponse { Status = likeRecord != null };
+        }
     }
 }
