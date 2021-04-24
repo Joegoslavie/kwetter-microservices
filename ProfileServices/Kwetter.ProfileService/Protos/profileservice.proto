@@ -20,6 +20,12 @@ message ProfileRequest {
 
 message UpdateProfileRequest {
 	int32 userId = 1;
+	string username = 2;
+	string displayName = 3;
+	string description = 4;
+	string websiteUri = 5;
+	string location = 6;
+	string avatarUri = 7;
 }
 
 message SingleProfileResponse {
