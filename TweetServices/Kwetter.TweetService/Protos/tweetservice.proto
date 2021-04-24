@@ -9,12 +9,19 @@ service TweetGRPCService {
   rpc GetTweetsByUserId (TweetRequest) returns (TweetResponse);
   rpc GetTweetsByUsername (TweetRequest) returns (TweetResponse);
   rpc GetTweetsByUserIds (TweetRequest) returns (TweetResponse);
+
+  rpc ToggleLike (LikeTweetRequest) returns (TweetResponse);
 }
 
 message TweetRequest {
 	int32 userId = 1;
 	string username = 2;
 	repeated int32 userIds = 3;
+}
+
+message LikeTweetRequest {
+	int32 userId = 1;
+	int32 tweetId = 2;
 }
 
 message TweetResponse {
