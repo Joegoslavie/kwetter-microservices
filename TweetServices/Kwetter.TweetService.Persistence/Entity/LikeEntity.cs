@@ -20,5 +20,10 @@
         /// Gets or sets the user id.
         /// </summary>
         public int UserId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the accociated tweet.
+        /// </summary>
+        public virtual TweetEntity Tweet { get; set; }
     }
 }
