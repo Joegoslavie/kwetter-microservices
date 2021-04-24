@@ -1,15 +1,11 @@
 ﻿namespace Kwetter.TweetService.Services
 {
-    using Grpc.Core;
-    using Kwetter.TweetService.Business;
+    using Kwetter.TweetService.Persistence.Context;
+    using Microservice.TweetGRPCService;
     using Microsoft.Extensions.Logging;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     /// <summary>
-    /// 
+    /// Tweet service class.
     /// </summary>
     public class TweetService : TweetGRPCService.TweetGRPCServiceBase
     {
@@ -19,40 +15,19 @@
         private readonly ILogger<TweetService> logger;
 
         /// <summary>
-        /// Manager class for tweets.
+        /// Tweet context instance.
         /// </summary>
-        private readonly TweetManager manager;
+        private readonly TweetContext context;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TweetService"/> class.
         /// </summary>
         /// <param name="logger">Injected logger.</param>
-        /// <param name="manager">Injected manager.</param>
-        public TweetService(ILogger<TweetService> logger, TweetManager manager)
+        /// <param name="context">Injected context.</param>
+        public TweetService(ILogger<TweetService> logger, TweetContext context)
         {
             this.logger = logger;
-            this.manager = manager;
+            this.context = context;
         }
-
-        public override Task<TweetResponse> GetByUser(RetrieveTweetRequest request, ServerCallContext context)
-        {
-            return base.GetByUser(request, context);
-        }
-
-        public override Task<TweetResponse> GetByHashtag(RetrieveTweetRequest request, ServerCallContext context)
-        {
-            return base.GetByHashtag(request, context);
-        }
-
-        public override Task<TweetResponse> PlaceTweet(TweetOperationRequest request, ServerCallContext context)
-        {
-            return base.PlaceTweet(request, context);
-        }
-
-        public override Task<TweetResponse> ToggleLike(TweetOperationRequest request, ServerCallContext context)
-        {
-            return base.ToggleLike(request, context);
-        }
-
     }
 }

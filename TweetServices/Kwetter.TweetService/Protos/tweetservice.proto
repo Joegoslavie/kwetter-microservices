@@ -1,30 +1,35 @@
 syntax = "proto3";
 
-option csharp_namespace = "Kwetter.TweetService";
+option csharp_namespace = "Microservice.TweetGRPCService";
 
-package tweet;
+package domain;
 
-// The greeting service definition.
+// The profile service definition.
 service TweetGRPCService {
-  rpc GetByUser (RetrieveTweetRequest) returns (TweetResponse);
-  rpc GetByHashtag (RetrieveTweetRequest) returns (TweetResponse);
-  rpc PlaceTweet (TweetOperationRequest) returns (TweetResponse);
-  rpc ToggleLike(TweetOperationRequest) returns (TweetResponse);
+  rpc GetTweetsByUserId (TweetRequest) returns (TweetResponse);
+  rpc GetTweetsByUsername (TweetRequest) returns (TweetResponse);
+  rpc GetTweetsByUserIds (TweetRequest) returns (TweetResponse);
 }
 
-
-message RetrieveTweetRequest {
-
-}
-
-message TweetOperationRequest {
-
+message TweetRequest {
+	int32 userId = 1;
+	string username = 2;
+	repeated int32 userIds = 3;
 }
 
 message TweetResponse {
-
+	repeated TweetResponseData tweets = 1;
+	string message = 2;
+	bool status = 3;
 }
 
-message HelloRequest {
-  string name = 1;
+message TweetResponseData {
+	int32 userId = 1;
+	string username = 2;
+	string displayName = 3;
+	string description = 4;
+	string websiteUri = 5;
+	string location = 6;
+	string avatarUri = 7;
+	int64 createdAt = 8;
 }

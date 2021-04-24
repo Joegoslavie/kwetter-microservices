@@ -29,8 +29,7 @@ namespace Kwetter.TweetService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
-            services.AddDbContext<TweetContext>(o => o.UseSqlServer(this.configuration.GetConnectionString("tweet-db")));
-            services.AddTransient<TweetManager>();
+            services.AddDbContext<TweetContext>(o => o.UseSqlServer(this.configuration.GetConnectionString("kwetter-tweet-db")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
