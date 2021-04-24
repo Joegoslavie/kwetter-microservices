@@ -9,14 +9,50 @@ namespace Kwetter.ProfileService.Persistence.Entity
 {
     public class ProfileEntity
     {
+        /// <summary>
+        /// 
+        /// </summary>
         [Key]
         public int Id { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public int UserId { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string DisplayName { get; set; }
-        public Uri WebsiteUri { get; set; }
-        public Uri AvatarUri { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string WebsiteUri { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string AvatarUri { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Location { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public DateTime CreatedAt { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public DateTime UpdatedAt { get; set; }
     }
 }
