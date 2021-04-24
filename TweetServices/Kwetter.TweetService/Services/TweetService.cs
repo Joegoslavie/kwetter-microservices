@@ -101,7 +101,7 @@
         /// <param name="request">Incoming request.</param>
         /// <param name="context">Callback context.</param>
         /// <returns><see cref="TweetResponse"/>.</returns>
-        public override async Task<TweetResponse> ToggleLike(LikeTweetRequest request, ServerCallContext context)
+        public override async Task<TweetResponse> ToggleLike(TweetOperationRequest request, ServerCallContext context)
         {
             var likeRecord = this.context.Likes.FirstOrDefault(x => x.UserId == request.UserId && x.TweetId == request.TweetId);
             if (likeRecord == null)

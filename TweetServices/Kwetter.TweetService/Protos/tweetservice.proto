@@ -10,7 +10,9 @@ service TweetGRPCService {
   rpc GetTweetsByUsername (TweetRequest) returns (TweetResponse);
   rpc GetTweetsByUserIds (TweetRequest) returns (TweetResponse);
 
-  rpc ToggleLike (LikeTweetRequest) returns (TweetResponse);
+  rpc ToggleLike (TweetOperationRequest) returns (TweetResponse);
+  rpc RegisterMention (TweetOperationRequest) returns (TweetResponse);
+  rpc RegisterHashtag (TweetOperationRequest) returns (TweetResponse);
 }
 
 message TweetRequest {
@@ -19,9 +21,10 @@ message TweetRequest {
 	repeated int32 userIds = 3;
 }
 
-message LikeTweetRequest {
+message TweetOperationRequest {
 	int32 userId = 1;
 	int32 tweetId = 2;
+	string tag = 3;
 }
 
 message TweetResponse {
