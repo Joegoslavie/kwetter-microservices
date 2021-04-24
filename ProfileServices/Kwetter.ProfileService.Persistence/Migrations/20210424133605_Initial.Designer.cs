@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kwetter.ProfileService.Persistence.Migrations
 {
     [DbContext(typeof(ProfileContext))]
-    [Migration("20210424130637_Initial")]
+    [Migration("20210424133605_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,6 +48,9 @@ namespace Kwetter.ProfileService.Persistence.Migrations
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WebsiteUri")
                         .HasColumnType("nvarchar(max)");

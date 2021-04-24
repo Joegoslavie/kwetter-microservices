@@ -47,6 +47,9 @@ namespace Kwetter.ProfileService.Persistence.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("WebsiteUri")
                         .HasColumnType("nvarchar(max)");
 
