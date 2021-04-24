@@ -18,6 +18,11 @@ namespace Kwetter.ProfileService.Persistence.Entity
         /// <summary>
         /// 
         /// </summary>
+        public string Username { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public int UserId { get; set; }
 
         /// <summary>

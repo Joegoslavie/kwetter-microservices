@@ -1,101 +1,107 @@
 ﻿namespace Kwetter.ProfileService.Services
 {
     using Grpc.Core;
-    using Kwetter.ProfileService.Business;
     using Microsoft.Extensions.Logging;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+    using Microservice.ProfileGRPCService;
     using System.Threading.Tasks;
+    using Kwetter.ProfileService.Persistence.Context;
+    using System.Linq;
+    using Kwetter.ProfileService.Extentions;
 
     /// <summary>
-    /// 
+    /// Profile GRPC service.
     /// </summary>
     public class ProfileService : ProfileGRPCService.ProfileGRPCServiceBase
     {
+        /// <summary>
+        /// Logger instance.
+        /// </summary>
         private readonly ILogger<ProfileService> logger;
 
-        private readonly ProfileManager manager;
+        /// <summary>
+        /// Profile manager instance.
+        /// </summary>
+        private readonly ProfileContext context;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProfileService"/> class.
         /// </summary>
-        /// <param name="logger"></param>
-        /// <param name="manager"></param>
-        public ProfileService(ILogger<ProfileService> logger, ProfileManager manager)
+        /// <param name="logger">Injected logger.</param>
+        /// <param name="context">Injected context.</param>
+        public ProfileService(ILogger<ProfileService> logger, ProfileContext context)
         {
             this.logger = logger;
-            this.manager = manager;
+            this.context = context;
         }
 
         /// <summary>
-        /// 
+        /// Retrieves a profile by user id.
         /// </summary>
-        /// <param name="request"></param>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public override Task<ProfileResponse> GetAll(ProfileRequest request, ServerCallContext context)
+        /// <param name="request">Incoming request.</param>
+        /// <param name="context">Callback context.</param>
+        /// <returns><see cref="SingleProfileResponse"/>.</returns>
+        public override async Task<SingleProfileResponse> GetProfileById(ProfileRequest request, ServerCallContext context)
         {
-            try
+            return await Task.Run(() =>
             {
-                throw new NotImplementedException();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public override Task<ProfileResponse> GetProfileByUserId(ProfileRequest request, ServerCallContext context)
-        {
-            try
-            {
-                Task.Run(() =>
+                var profile = this.context.Profiles.FirstOrDefault(p => p.UserId == request.UserId);
+                if (profile == null)
                 {
-                    var entity = this.manager.FindById(request.UserId);
-                });
-                throw new NotImplementedException();
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError("Exception occurred in retrieving profile", ex);
-                throw;
-            }
-        }
+                    this.logger.LogWarning("Passed user id was not found", request.UserId);
+                    return new SingleProfileResponse { Status = false, Message = "Profile not found by id" };
+                }
 
-        public override Task<ProfileResponse> GetProfileByUsername(ProfileRequest request, ServerCallContext context)
-        {
-            try
-            {
-                Task.Run(() =>
+                return new SingleProfileResponse
                 {
-                    var entity = this.manager.FindByUsername(request.Username);
-                });
-                throw new NotImplementedException();
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError("Exception occurred in retrieving profile", ex);
-                throw;
-            }
+                    Status = true,
+                    Profile = profile.Convert(),
+                };
+            });
         }
 
         /// <summary>
-        /// 
+        /// Retrieves multiple profiles by id.
         /// </summary>
-        /// <param name="request"></param>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public override Task<ProfileResponse> CreateProfile(UpdateProfileRequest request, ServerCallContext context)
+        /// <param name="request">Incoming request.</param>
+        /// <param name="context">Callback context.</param>
+        /// <returns><see cref="MultipleProfileResponse"/>.</returns>
+        public override async Task<MultipleProfileResponse> GetMultipleById(ProfileRequest request, ServerCallContext context)
         {
-            try
+            return await Task.Run(() =>
             {
-                throw new NotImplementedException();
-            }
-            catch (Exception)
+                var profiles = this.context.Profiles.Where(p => request.UserIds.Contains(p.Id)).ToList();
+
+                var response = new MultipleProfileResponse { Status = profiles.Any() };
+                response.Profiles.AddRange(profiles.Select(x => x.Convert()));
+
+                return response;
+            })
+            .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Retrieves a profile based on the username.
+        /// </summary>
+        /// <param name="request">Incoming request.</param>
+        /// <param name="context">Callback context.</param>
+        /// <returns><see cref="SingleProfileResponse"/>.</returns>
+        public override async Task<SingleProfileResponse> GetProfileByUsername(ProfileRequest request, ServerCallContext context)
+        {
+            return await Task.Run(() =>
             {
-                throw;
-            }
+                var profile = this.context.Profiles.FirstOrDefault(p => p.Username == request.Username);
+                if (profile == null)
+                {
+                    this.logger.LogWarning("Passed username was not found", request.UserId);
+                    return new SingleProfileResponse { Status = false, Message = "Profile not found by username" };
+                }
+
+                return new SingleProfileResponse
+                {
+                    Status = true,
+                    Profile = profile.Convert(),
+                };
+            });
         }
     }
 }

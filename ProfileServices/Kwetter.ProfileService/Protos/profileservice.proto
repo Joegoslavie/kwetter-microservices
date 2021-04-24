@@ -1,41 +1,46 @@
 syntax = "proto3";
 
-option csharp_namespace = "Kwetter.ProfileService";
+option csharp_namespace = "Microservice.ProfileGRPCService";
 
-package profile;
+package domain;
 
+// The profile service definition.
 service ProfileGRPCService {
-  
-	rpc GetAll (ProfileRequest) returns (ProfileResponse);
-
-	rpc GetProfileByUsername (ProfileRequest) returns (ProfileResponse);
-
-	rpc GetProfileByUserId (ProfileRequest) returns (ProfileResponse);
-
-	//
-	rpc CreateProfile(UpdateProfileRequest) returns (ProfileResponse);
+  rpc GetProfileById (ProfileRequest) returns (SingleProfileResponse);
+  rpc GetProfileByUsername (ProfileRequest) returns (SingleProfileResponse);
+  rpc GetMultipleById (ProfileRequest) returns (MultipleProfileResponse);
+  rpc UpdateProfile(UpdateProfileRequest) returns (SingleProfileResponse);
 }
 
-// The request message containing the user's name.
 message ProfileRequest {
-  int32 UserId = 1;
-  string Username = 2;
+  int32 userId = 1;
+  string username = 2;
+  repeated int32 userIds = 3;
 }
 
 message UpdateProfileRequest {
-  string name = 1;
+	int32 userId = 1;
+}
+
+message SingleProfileResponse {
+  ProfileResponse profile = 1;
+  string message = 2;
+  bool status = 3;
+}
+
+message MultipleProfileResponse {
+	repeated ProfileResponse profiles = 1;
+	string message = 2;
+	bool status = 3;
 }
 
 message ProfileResponse {
-	bool status = 1;
-	repeated ProfileDto profiles = 2;
-}
-
-message ProfileDto {
-	int32 Id = 1;
-	int32 UserId = 2;
-	string DisplayName = 3;
-	string Website = 4;
-	int64 CreatedAt = 5;
-	int64 UpdatedAt = 6;
+	int32 userId = 1;
+	string username = 2;
+	string displayName = 3;
+	string description = 4;
+	string websiteUri = 5;
+	string location = 6;
+	string avatarUri = 7;
+	int64 createdAt = 8;
 }
