@@ -1,10 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Kwetter.TweetService.Persistence.Entity
+﻿namespace Kwetter.TweetService.Persistence.Entity
 {
-    class HashtagEntity
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    /// <summary>
+    /// Represents a hashtag record.
+    /// </summary>
+    public class HashtagEntity
     {
+        /// <summary>
+        /// Gets or sets the id.
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tag.
+        /// </summary>
+        public string Tag { get; set; }
     }
 }

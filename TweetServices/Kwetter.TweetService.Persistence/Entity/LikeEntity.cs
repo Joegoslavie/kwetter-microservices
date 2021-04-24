@@ -2,12 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
+    using System.Threading.Tasks;
 
     /// <summary>
-    /// Represents a mention record.
+    /// Represents a like record.
     /// </summary>
-    public class MentionEntity
+    public class LikeEntity
     {
         /// <summary>
         /// Gets or sets the tweet id.
@@ -18,10 +20,5 @@
         /// Gets or sets the user id.
         /// </summary>
         public int UserId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the username that was mentioned.
-        /// </summary>
-        public string Username { get; set; }
     }
 }
