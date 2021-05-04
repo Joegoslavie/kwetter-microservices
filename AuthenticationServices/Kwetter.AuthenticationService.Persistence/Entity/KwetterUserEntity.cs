@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Kwetter.AuthenticationService.Persistence.Entity
 {
-    public class KwetterUserEntity : IdentityUser
+    public class KwetterUserEntity<T> : IdentityUser<int>
     {
 
     }

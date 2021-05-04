@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Kwetter.AuthenticationService.Persistence.Context
 {
-    public class AuthenticationContext : IdentityDbContext<KwetterUserEntity>
+    public class AuthenticationContext : IdentityDbContext<KwetterUserEntity<int>, KwetterRoleEntity<int>, int>
     {
         public AuthenticationContext(DbContextOptions<AuthenticationContext> options)
             : base(options)

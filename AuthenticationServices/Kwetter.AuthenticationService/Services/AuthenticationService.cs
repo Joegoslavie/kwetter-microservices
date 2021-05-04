@@ -29,7 +29,7 @@
         /// <summary>
         /// The dotnet user manager class.
         /// </summary>
-        private readonly UserManager<KwetterUserEntity> userManager;
+        private readonly UserManager<KwetterUserEntity<int>> userManager;
 
         /// <summary>
         /// Interface for reading the configuration file.
@@ -42,7 +42,7 @@
         /// <param name="userManager">Injected user manager.</param>
         /// <param name="configuration">Injected configuration.</param>
         /// <param name="logger">Injected logger.</param>
-        public AuthenticationService(UserManager<KwetterUserEntity> userManager, IConfiguration configuration, ILogger<AuthenticationService> logger)
+        public AuthenticationService(UserManager<KwetterUserEntity<int>> userManager, IConfiguration configuration, ILogger<AuthenticationService> logger)
         {
             this.userManager = userManager;
             this.configuration = configuration;
@@ -97,7 +97,7 @@
                 return ResponseFactory.RegisterFailure("Username already exists!");
             }
 
-            var newUser = new KwetterUserEntity
+            var newUser = new KwetterUserEntity<int>
             {
                 UserName = request.Username,
                 Email = request.Email,
