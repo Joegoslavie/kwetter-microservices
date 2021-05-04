@@ -42,7 +42,7 @@ namespace Kwetter.ProfileService
 
             var builder = new ConsumerBuilder<Ignore, string>(config).Build();
 
-            builder.Subscribe("AccountCreatedEvent");
+            builder.Subscribe("SetupProfileEvent");
             services.AddHostedService(sp => new ConsumerHandler(builder, services.BuildServiceProvider().GetRequiredService<ProfileContext>()));
         }
 

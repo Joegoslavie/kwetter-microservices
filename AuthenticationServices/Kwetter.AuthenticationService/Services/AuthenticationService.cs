@@ -15,6 +15,7 @@
     using Microsoft.Extensions.Logging;
     using Microsoft.IdentityModel.Tokens;
     using Microservice.AuthGRPCService;
+    using Kwetter.AuthenticationService.Events;
 
     /// <summary>
     /// Service class that contains functions related to authentication.
@@ -31,6 +32,8 @@
         /// </summary>
         private readonly UserManager<KwetterUserEntity<int>> userManager;
 
+        private readonly SetupProfileEvent profileEvent;
+
         /// <summary>
         /// Interface for reading the configuration file.
         /// </summary>
@@ -42,11 +45,12 @@
         /// <param name="userManager">Injected user manager.</param>
         /// <param name="configuration">Injected configuration.</param>
         /// <param name="logger">Injected logger.</param>
-        public AuthenticationService(UserManager<KwetterUserEntity<int>> userManager, IConfiguration configuration, ILogger<AuthenticationService> logger)
+        public AuthenticationService(UserManager<KwetterUserEntity<int>> userManager, IConfiguration configuration, ILogger<AuthenticationService> logger, SetupProfileEvent profileEvent)
         {
             this.userManager = userManager;
             this.configuration = configuration;
             this.logger = logger;
+            this.profileEvent = profileEvent;
         }
 
         /// <summary>
@@ -110,8 +114,8 @@
                 return ResponseFactory.RegisterFailure("Failed to create user!");
             }
 
-            return ResponseFactory.RegisterSuccessfull("Registration succesfull)");
-
+            this.profileEvent.Invoke(newUser.Id, newUser.UserName);
+            return ResponseFactory.RegisterSuccessfull("Registration succesfull");
         }
     }
 }

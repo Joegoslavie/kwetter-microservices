@@ -2,7 +2,9 @@
 {
     using Confluent.Kafka;
     using Kwetter.ProfileService.Persistence.Context;
+    using Kwetter.ProfileService.Persistence.Entity;
     using Microsoft.Extensions.Hosting;
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -37,21 +39,29 @@
         /// <summary>
         /// Execute.
         /// </summary>
-        /// <param name="stoppingToken">CancellationToken.</param>
+        /// <param name="token">CancellationToken.</param>
         /// <returns>Task yo.</returns>
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken token)
         {
             await Task.Yield();
 
-            while (!stoppingToken.IsCancellationRequested)
+            while (!token.IsCancellationRequested)
             {
                 try
                 {
-                    var consumeResult = this.consumer.Consume(stoppingToken);
+                    var consumeResult = this.consumer.Consume(token);
                     if (consumeResult != null)
                     {
-                        var value = consumeResult.Message.Value;
-                        // profiel maken.
+                        var args = JsonConvert.DeserializeObject<ProfileEventArgs>(consumeResult.Message.Value);
+                        this.context.Profiles.Add(new ProfileEntity
+                        {
+                            UserId = args.Id,
+                            Username = args.Username,
+                            DisplayName = args.Username,
+                        });
+
+                        await this.context.SaveChangesAsync(token).ConfigureAwait(false);
+
                         this.consumer.Commit();
                         Console.WriteLine($"Consumed message '{consumeResult.Message.Value}' at: '{consumeResult.TopicPartitionOffset}'.");
                     }
@@ -61,6 +71,13 @@
                     Console.WriteLine($"Error occured: {e.Error.Reason}");
                 }
             }
+        }
+
+        class ProfileEventArgs
+        {
+            public int Id { get; set; }
+
+            public string Username { get; set; }
         }
     }
 }
