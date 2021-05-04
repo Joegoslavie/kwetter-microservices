@@ -36,7 +36,8 @@ namespace Kwetter.ProfileService.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DisplayName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
@@ -48,6 +49,7 @@ namespace Kwetter.ProfileService.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Username")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WebsiteUri")

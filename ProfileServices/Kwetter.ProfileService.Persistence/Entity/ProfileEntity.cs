@@ -17,16 +17,19 @@
         /// <summary>
         /// Gets or sets username of the profile.
         /// </summary>
+        [Required]
         public string Username { get; set; }
 
         /// <summary>
         /// Gets or sets the user id of the user.
         /// </summary>
+        [Required]
         public int UserId { get; set; }
 
         /// <summary>
         /// Gets or sets the display name.
         /// </summary>
+        [MaxLength(50)]
         public string DisplayName { get; set; }
 
         /// <summary>
