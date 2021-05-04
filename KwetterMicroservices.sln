@@ -31,9 +31,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kwetter.AuthenticationServi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kwetter.FollowingService.Tests", "FollowingServices\Kwetter.FollowingService.Tests\Kwetter.FollowingService.Tests.csproj", "{33BE4F97-C7DC-402B-B2A7-82B03B637DF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.TweetService.Tests", "TweetServices\Kwetter.TweetService.Tests\Kwetter.TweetService.Tests.csproj", "{27A2D27E-F399-4290-9D8B-204DBF918F4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kwetter.TweetService.Tests", "TweetServices\Kwetter.TweetService.Tests\Kwetter.TweetService.Tests.csproj", "{27A2D27E-F399-4290-9D8B-204DBF918F4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.ProfileService.Tests", "ProfileServices\Kwetter.ProfileService.Tests\Kwetter.ProfileService.Tests.csproj", "{86E6A377-4506-414F-ADB1-1B0045B2844A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kwetter.ProfileService.Tests", "ProfileServices\Kwetter.ProfileService.Tests\Kwetter.ProfileService.Tests.csproj", "{86E6A377-4506-414F-ADB1-1B0045B2844A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
