@@ -29,6 +29,8 @@ namespace Kwetter.ProfileService
         {
             services.AddGrpc();
             services.AddDbContext<ProfileContext>(o => o.UseSqlServer(this.configuration.GetConnectionString("kwetter-profile-db")));
+        
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
