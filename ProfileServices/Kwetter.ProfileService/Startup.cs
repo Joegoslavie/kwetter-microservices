@@ -35,7 +35,7 @@ namespace Kwetter.ProfileService
 
             ConsumerConfig config = new ConsumerConfig
             {
-                BootstrapServers = configuration.GetValue<string>("ProducerConfiguration:Server"),
+                BootstrapServers = configuration.GetValue<string>("ProducerConfiguration:Servers"),
                 GroupId = configuration.GetValue<string>("ProducerConfiguration:GroupId"),
                 AutoOffsetReset = AutoOffsetReset.Earliest,
                 EnableAutoCommit = false,
