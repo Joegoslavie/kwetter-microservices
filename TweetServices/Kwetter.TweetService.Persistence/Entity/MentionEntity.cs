@@ -22,9 +22,9 @@
         public int TweetId { get; set; }
 
         /// <summary>
-        /// Gets or sets the user id.
+        /// Gets or sets the profile reference table.
         /// </summary>
-        public int UserId { get; set; }
+        public virtual ProfileReferenceEntity DirectedTo { get; set; }
 
         /// <summary>
         /// Gets or sets the accociated tweet.

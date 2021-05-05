@@ -45,7 +45,7 @@
         {
             return await Task.Run(() =>
             {
-                var tweets = this.context.Tweets.Where(x => x.UserId == request.UserId).Include(x => x.LikedBy).Include(x => x.Hashtags).ToList();
+                var tweets = this.context.Tweets.Include(x => x.Author).Where(x => x.Author.UserId == request.UserId).Include(x => x.LikedBy).Include(x => x.Hashtags).ToList();
                 var response = new TweetResponse { Status = tweets.Any() };
 
                 response.Tweets.AddRange(tweets.Select(t => t.Convert()));
@@ -63,7 +63,7 @@
         {
             return await Task.Run(() =>
             {
-                var tweets = this.context.Tweets.Where(x => x.Username == request.Username).Include(x => x.LikedBy).Include(x => x.Hashtags).ToList();
+                var tweets = this.context.Tweets.Include(x => x.Author).Where(x => x.Author.Username == request.Username).Include(x => x.LikedBy).Include(x => x.Hashtags).ToList();
                 var response = new TweetResponse { Status = tweets.Any() };
 
                 response.Tweets.AddRange(tweets.Select(t => t.Convert()));
@@ -81,7 +81,7 @@
         {
             return await Task.Run(() =>
             {
-                var tweets = this.context.Tweets.Where(x => request.UserIds.Contains(x.UserId))
+                var tweets = this.context.Tweets.Include(x => x.Author).Where(x => request.UserIds.Contains(x.Author.UserId))
                     .Include(x => x.LikedBy)
                     .Include(x => x.Hashtags)
                     .OrderByDescending(x => x.CreatedAt)
@@ -103,13 +103,13 @@
         /// <returns><see cref="TweetResponse"/>.</returns>
         public override async Task<TweetResponse> ToggleLike(TweetOperationRequest request, ServerCallContext context)
         {
-            var likeRecord = this.context.Likes.FirstOrDefault(x => x.UserId == request.UserId && x.TweetId == request.TweetId);
+            var likeRecord = this.context.Likes.Include(x => x.Author).FirstOrDefault(x => x.Author.UserId == request.UserId && x.TweetId == request.TweetId);
             if (likeRecord == null)
             {
                 // This tweet is not yet liked by the user.
                 this.context.Likes.Add(new Persistence.Entity.LikeEntity
                 {
-                    UserId = request.UserId,
+                    //UserId = request.UserId,
                     TweetId = request.TweetId,
                 });
             }

@@ -75,7 +75,7 @@ namespace Kwetter.AuthenticationService
             // Kafka unit.
             ProducerConfig config = new ProducerConfig
             {
-                BootstrapServers = configuration.GetValue<string>("ProducerConfiguration:Servers"),
+                BootstrapServers = configuration.GetValue<string>("ProducerConfiguration:Servers"), // docker port
             };
 
             var builder = new ProducerBuilder<string, string>(config).Build();

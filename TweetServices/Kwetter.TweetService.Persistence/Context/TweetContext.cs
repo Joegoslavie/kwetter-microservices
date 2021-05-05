@@ -43,7 +43,7 @@
         /// <param name="modelBuilder">Used to build the models.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<LikeEntity>().HasKey(t => new { t.TweetId, t.UserId });
+            //modelBuilder.Entity<LikeEntity>().HasKey(t => new { t.TweetId, });
         }
     }
 }

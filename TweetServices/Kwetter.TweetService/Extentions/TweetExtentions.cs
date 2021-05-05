@@ -23,9 +23,9 @@
 
             return new TweetResponseData
             {
-                UserId = tweet.UserId,
-                Username = tweet.Username,
-                DisplayName = tweet.DisplayName,
+                UserId = tweet.Author.UserId,
+                Username = tweet.Author.Username,
+                DisplayName = tweet.Author.DisplayName,
                 AvatarUrl = tweet.AvatarUrl,
                 Content = tweet.Content,
                 CreatedAt = tweet.CreatedAt.Ticks,

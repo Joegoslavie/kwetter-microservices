@@ -18,19 +18,9 @@
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the author user id.
+        /// Gets or sets the profile reference table.
         /// </summary>
-        public int UserId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the username.
-        /// </summary>
-        public string Username { get; set; }
-
-        /// <summary>
-        /// Gets or sets the display name.
-        /// </summary>
-        public string DisplayName { get; set; }
+        public virtual ProfileReferenceEntity Author { get; set; }
 
         /// <summary>
         /// Gets or sets the avatar url.
