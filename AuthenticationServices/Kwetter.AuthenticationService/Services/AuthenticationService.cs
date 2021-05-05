@@ -122,7 +122,7 @@
                 return ResponseFactory.RegisterFailure("Failed to create user!");
             }
 
-            this.createProfileEvent.Invoke(newUser.Id, newUser.UserName, string.Empty);
+            this.createProfileEvent.Invoke(newUser.Id, newUser.UserName, newUser.UserName);
             return ResponseFactory.RegisterSuccessfull("Registration succesfull");
         }
     }
