@@ -1,11 +1,7 @@
 ﻿namespace Kwetter.TweetService.Persistence.Entity
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     /// <summary>
     /// 
@@ -16,6 +12,7 @@
         /// Gets or sets the user id.
         /// </summary>
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int UserId { get; set; }
 
         /// <summary>

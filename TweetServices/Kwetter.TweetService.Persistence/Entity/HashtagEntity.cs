@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Text;
 
     /// <summary>
@@ -12,6 +13,7 @@
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
