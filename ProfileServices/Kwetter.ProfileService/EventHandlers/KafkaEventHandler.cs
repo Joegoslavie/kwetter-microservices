@@ -1,17 +1,17 @@
 ﻿namespace Kwetter.ProfileService.EventHandlers
 {
-    using Confluent.Kafka;
-    using Kwetter.ProfileService.Persistence.Context;
-    using Kwetter.ProfileService.Persistence.Entity;
-    using Microsoft.Extensions.Hosting;
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Confluent.Kafka;
+    using Kwetter.ProfileService.Persistence.Context;
+    using Kwetter.ProfileService.Persistence.Entity;
+    using Microsoft.Extensions.Hosting;
+    using Newtonsoft.Json;
 
-    public class ConsumerHandler : BackgroundService
+    public class KafkaEventHandler : BackgroundService
     {
         /// <summary>
         /// Topic name.
@@ -26,11 +26,11 @@
         private readonly ProfileContext context;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConsumerHandler"/> class.
+        /// Initializes a new instance of the <see cref="KafkaEventHandler"/> class.
         /// </summary>
         /// <param name="consumer">Consumer.</param>
         /// <param name="context">Context.</param>
-        public ConsumerHandler(IConsumer<Ignore, string> consumer, ProfileContext context)
+        public KafkaEventHandler(IConsumer<Ignore, string> consumer, ProfileContext context)
         {
             this.consumer = consumer;
             this.context = context;
