@@ -10,12 +10,13 @@
     using Grpc.Core;
     using Kwetter.AuthenticationService.Factory;
     using Kwetter.AuthenticationService.Persistence.Entity;
+    using Kwetter.Messaging.Events;
+    using Kwetter.Messaging.Interfaces;
+    using Microservice.AuthGRPCService;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
     using Microsoft.IdentityModel.Tokens;
-    using Microservice.AuthGRPCService;
-    using Kwetter.AuthenticationService.Events;
 
     /// <summary>
     /// Service class that contains functions related to authentication.
@@ -32,7 +33,10 @@
         /// </summary>
         private readonly UserManager<KwetterUserEntity<int>> userManager;
 
-        private readonly SetupProfileEvent profileEvent;
+        /// <summary>
+        /// 
+        /// </summary>
+        private readonly IProfileEvent createProfileEvent;
 
         /// <summary>
         /// Interface for reading the configuration file.
@@ -45,12 +49,16 @@
         /// <param name="userManager">Injected user manager.</param>
         /// <param name="configuration">Injected configuration.</param>
         /// <param name="logger">Injected logger.</param>
-        public AuthenticationService(UserManager<KwetterUserEntity<int>> userManager, IConfiguration configuration, ILogger<AuthenticationService> logger, SetupProfileEvent profileEvent)
+        public AuthenticationService(
+            UserManager<KwetterUserEntity<int>> userManager,
+            IConfiguration configuration,
+            ILogger<AuthenticationService> logger,
+            NewProfileEvent profileEvent)
         {
             this.userManager = userManager;
             this.configuration = configuration;
             this.logger = logger;
-            this.profileEvent = profileEvent;
+            this.createProfileEvent = profileEvent;
         }
 
         /// <summary>
@@ -114,7 +122,7 @@
                 return ResponseFactory.RegisterFailure("Failed to create user!");
             }
 
-            this.profileEvent.Invoke(newUser.Id, newUser.UserName);
+            this.createProfileEvent.Invoke(newUser.Id, newUser.UserName, string.Empty);
             return ResponseFactory.RegisterSuccessfull("Registration succesfull");
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace Kwetter.ProfileService.EventHandlers
+﻿namespace Kwetter.TweetService.EventHandler
 {
     using System;
     using System.Collections.Generic;
@@ -7,31 +7,29 @@
     using System.Threading.Tasks;
     using Confluent.Kafka;
     using Kwetter.Messaging.Arguments;
-    using Kwetter.ProfileService.Persistence.Context;
-    using Kwetter.ProfileService.Persistence.Entity;
+    using Kwetter.TweetService.Persistence.Context;
+    using Kwetter.TweetService.Persistence.Entity;
     using Microsoft.Extensions.Hosting;
     using Newtonsoft.Json;
 
     public class KafkaEventHandler : BackgroundService
     {
         /// <summary>
-        /// Topic name.
-        /// </summary>
-        private readonly string topic = "kwetter_pf";
-
-        /// <summary>
         /// Consumes the shit out of Kwetter.
         /// </summary>
         private readonly IConsumer<Ignore, string> consumer;
 
-        private readonly ProfileContext context;
+        /// <summary>
+        /// 
+        /// </summary>
+        private readonly TweetContext context;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KafkaEventHandler"/> class.
         /// </summary>
         /// <param name="consumer">Consumer.</param>
         /// <param name="context">Context.</param>
-        public KafkaEventHandler(IConsumer<Ignore, string> consumer, ProfileContext context)
+        public KafkaEventHandler(IConsumer<Ignore, string> consumer, TweetContext context)
         {
             this.consumer = consumer;
             this.context = context;
@@ -45,7 +43,6 @@
         protected override async Task ExecuteAsync(CancellationToken token)
         {
             await Task.Yield();
-
             while (!token.IsCancellationRequested)
             {
                 try
@@ -53,8 +50,9 @@
                     var consumeResult = this.consumer.Consume(token);
                     if (consumeResult != null)
                     {
-                        var args = JsonConvert.DeserializeObject<ProfileEventArgs>(consumeResult.Message.Value);
-                        await this.CreateOrUpdate(args, token).ConfigureAwait(false);
+                        var profileArgs = JsonConvert.DeserializeObject<ProfileEventArgs>(consumeResult.Message.Value);
+                        await this.CreateOrUpdate(profileArgs, token).ConfigureAwait(false);
+
                         Console.WriteLine($"Consumed message '{consumeResult.Message.Value}' at: '{consumeResult.TopicPartitionOffset}'.");
                     }
                 }
@@ -67,14 +65,19 @@
 
         private async Task CreateOrUpdate(ProfileEventArgs profileArgs, CancellationToken token)
         {
-            var entity = new ProfileEntity()
-            {
-                UserId = profileArgs.UserId,
-                Username = profileArgs.Username,
-                DisplayName = profileArgs.DisplayName,
-            };
+            var entity = this.context.ProfileReferences.FirstOrDefault(p => p.UserId == profileArgs.UserId);
 
-            this.context.Profiles.Add(entity);
+            if (entity == null)
+            {
+                entity = new ProfileReferenceEntity()
+                {
+                    UserId = profileArgs.UserId,
+                    Username = profileArgs.Username,
+                };
+            }
+
+            entity.DisplayName = profileArgs.DisplayName;
+            this.context.ProfileReferences.Add(entity);
 
             await this.context.SaveChangesAsync(token).ConfigureAwait(false);
             this.consumer.Commit();
