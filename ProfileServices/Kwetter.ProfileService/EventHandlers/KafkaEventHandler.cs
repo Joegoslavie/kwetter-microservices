@@ -15,11 +15,6 @@
     public class KafkaEventHandler : BackgroundService
     {
         /// <summary>
-        /// Topic name.
-        /// </summary>
-        private readonly string topic = "kwetter_pf";
-
-        /// <summary>
         /// Consumes the shit out of Kwetter.
         /// </summary>
         private readonly IConsumer<Ignore, string> consumer;

@@ -20,11 +20,11 @@ namespace Kwetter.ProfileService.Extentions
             {
                 UserId = profile.UserId,
                 Username = profile.Username,
-                Description = profile.Description,
+                Description = profile.Description ?? string.Empty,
                 DisplayName = profile.DisplayName,
-                AvatarUri = profile.AvatarUri,
-                WebsiteUri = profile.WebsiteUri,
-                Location = profile.Location,
+                AvatarUri = profile.AvatarUri ?? string.Empty,
+                WebsiteUri = profile.WebsiteUri ?? string.Empty,
+                Location = profile.Location ?? string.Empty,
                 CreatedAt = profile.CreatedAt.Ticks,
             };
         }

@@ -78,8 +78,8 @@ namespace Kwetter.AuthenticationService
             };
 
             var builder = new ProducerBuilder<string, string>(config).Build();
-            services.AddSingleton<IProfileEvent>(_ => new NewProfileEvent(builder, EventSettings.NewProfileEventTopic));
-            services.AddSingleton<IProfileEvent>(_ => new UpdateProfileEvent(builder, EventSettings.UpdateProfileEventTopic));
+            services.AddTransient<IProfileEvent>(_ => new NewProfileEvent(builder, EventSettings.NewProfileEventTopic));
+            //services.AddTransient<IProfileEvent>(_ => new UpdateProfileEvent(builder, EventSettings.UpdateProfileEventTopic));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,13 +89,11 @@ namespace Kwetter.AuthenticationService
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseRouting();
             app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<Services.AuthenticationService>();
-
                 endpoints.MapGet("/", async context =>
                 {
                     await context.Response.WriteAsync("Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");

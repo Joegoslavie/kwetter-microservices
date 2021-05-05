@@ -8,9 +8,7 @@
     using System.Text;
     using System.Threading.Tasks;
     using Grpc.Core;
-    using Kwetter.AuthenticationService.Factory;
     using Kwetter.AuthenticationService.Persistence.Entity;
-    using Kwetter.Messaging.Events;
     using Kwetter.Messaging.Interfaces;
     using Microservice.AuthGRPCService;
     using Microsoft.AspNetCore.Identity;
@@ -53,7 +51,7 @@
             UserManager<KwetterUserEntity<int>> userManager,
             IConfiguration configuration,
             ILogger<AuthenticationService> logger,
-            NewProfileEvent profileEvent)
+            IProfileEvent profileEvent)
         {
             this.userManager = userManager;
             this.configuration = configuration;
@@ -69,30 +67,29 @@
         /// <returns><see cref="SignInResponse"/> that contains the status of the request and
         /// if succesfull, returns a generated JWT token.
         /// </returns>
-        public override async Task<SignInResponse> SignIn(SignInRequest request, ServerCallContext context)
+        public override async Task<AuthenticationResponse> SignIn(SignInRequest request, ServerCallContext context)
         {
             var user = await this.userManager.FindByNameAsync(request.Username).ConfigureAwait(false);
+            string generatedToken = string.Empty;
+
             if (user != null && await this.userManager.CheckPasswordAsync(user, request.Password).ConfigureAwait(false))
             {
-                var authClaims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                };
-
-                var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.configuration["JWT:Secret"]));
-                var token = new JwtSecurityToken(
-                    issuer: this.configuration["JWT:ValidIssuer"],
-                    audience: this.configuration["JWT:ValidAudience"],
-                    expires: DateTime.Now.AddHours(3),
-                    claims: authClaims,
-                    signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
-
-                // return token.
-                return ResponseFactory.SignInSuccessfull(new JwtSecurityTokenHandler().WriteToken(token));
+                generatedToken = this.GenerateToken(user.UserName);
             }
 
-            return ResponseFactory.SignInFailure();
+            var response = new AuthenticationResponse { Status = !string.IsNullOrEmpty(generatedToken), };
+            if (response.Status)
+            {
+                response.Account = new AccountResponse
+                {
+                    Id = user.Id,
+                    Token = generatedToken,
+                    Email = user.Email,
+                    Username = user.UserName,
+                };
+            }
+
+            return response;
         }
 
         /// <summary>
@@ -101,12 +98,12 @@
         /// <param name="request">Register request.</param>
         /// <param name="context">Server context.</param>
         /// <returns>The <see cref="ServerCallContext"/> with the status of the request.</returns>
-        public override async Task<RegisterResponse> Register(RegisterRequest request, ServerCallContext context)
+        public override async Task<AuthenticationResponse> Register(RegisterRequest request, ServerCallContext context)
         {
             var user = await this.userManager.FindByNameAsync(request.Username).ConfigureAwait(false);
             if (user != null)
             {
-                return ResponseFactory.RegisterFailure("Username already exists!");
+                return new AuthenticationResponse { Status = false, Message = "This username is already taken", };
             }
 
             var newUser = new KwetterUserEntity<int>
@@ -119,11 +116,41 @@
             var result = await this.userManager.CreateAsync(newUser, request.Password).ConfigureAwait(false);
             if (!result.Succeeded)
             {
-                return ResponseFactory.RegisterFailure("Failed to create user!");
+                return new AuthenticationResponse { Status = false, Message = result.Errors.First().Description };
             }
 
             this.createProfileEvent.Invoke(newUser.Id, newUser.UserName, newUser.UserName);
-            return ResponseFactory.RegisterSuccessfull("Registration succesfull");
+            return new AuthenticationResponse
+            {
+                Status = true,
+                Account = new AccountResponse
+                {
+                    Id = newUser.Id,
+                    Email = newUser.Email,
+                    Username = newUser.UserName,
+                    Token = this.GenerateToken(newUser.UserName),
+                },
+            };
+        }
+
+        private string GenerateToken(string username)
+        {
+            var authClaims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, username),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            };
+
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.configuration["JWT:Secret"]));
+            var token = new JwtSecurityToken(
+                issuer: this.configuration["JWT:ValidIssuer"],
+                audience: this.configuration["JWT:ValidAudience"],
+                expires: DateTime.Now.AddHours(3),
+                claims: authClaims,
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
+
+            // return token.
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

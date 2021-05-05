@@ -6,8 +6,8 @@ package auth;
 
 // The authentication service definition.
 service AuthGRPCService {
-  rpc SignIn (SignInRequest) returns (SignInResponse);
-  rpc Register (RegisterRequest) returns (RegisterResponse);
+  rpc SignIn (SignInRequest) returns (AuthenticationResponse);
+  rpc Register (RegisterRequest) returns (AuthenticationResponse);
 }
 
 
@@ -16,17 +16,21 @@ message SignInRequest {
   string password = 2;
 }
 
-message SignInResponse {
-  string token = 1;
-  bool status = 2;
-}
-
 message RegisterRequest {
 	string username = 1;
 	string email = 2;
 	string password = 3;
 }
 
-message RegisterResponse {
-  bool status = 1;
+message AuthenticationResponse {
+  AccountResponse account = 1;
+  string message = 2;
+  bool status = 3;
+}
+
+message AccountResponse {
+	int32 id = 1;
+	string username = 2;
+	string email = 3;
+	string token = 4;
 }
