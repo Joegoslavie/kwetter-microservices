@@ -15,6 +15,11 @@
     public class KafkaEventHandler : BackgroundService
     {
         /// <summary>
+        /// Topic name.
+        /// </summary>
+        private readonly string topic = "kwetter_pf";
+
+        /// <summary>
         /// Consumes the shit out of Kwetter.
         /// </summary>
         private readonly IConsumer<Ignore, string> consumer;
@@ -70,7 +75,6 @@
             };
 
             this.context.Profiles.Add(entity);
-
             await this.context.SaveChangesAsync(token).ConfigureAwait(false);
             this.consumer.Commit();
         }

@@ -18,7 +18,7 @@
         private readonly string topic;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateProfileEvent"/> class.
+        /// Initializes a new instance of the <see cref="ITweetProfileEvent"/> class.
         /// </summary>
         /// <param name="producer">Producer.</param>
         /// <param name="topicName">Topic string.</param>
@@ -29,7 +29,7 @@
         }
 
         /// <inheritdoc/>
-        public async void Invoke(int userId, string username, string displayName)
+        public void Invoke(int userId, string username, string displayName)
         {
             try
             {
@@ -41,11 +41,11 @@
                 };
 
                 var jsonContents = JsonConvert.SerializeObject(content);
-                var result = await this.producer.ProduceAsync(this.topic, new Message<string, string> { Value = jsonContents }).ConfigureAwait(false);
+                this.producer.ProduceAsync(this.topic, new Message<string, string> { Value = jsonContents }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                throw;
+                Console.WriteLine(ex.Message);
             }
         }
 

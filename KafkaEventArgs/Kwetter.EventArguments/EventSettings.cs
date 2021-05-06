@@ -11,11 +11,11 @@ namespace Kwetter.Messaging
         /// <summary>
         /// 
         /// </summary>
-        public static string NewProfileEventTopic { get; } = "Kwetter.NewProfileEvent";
+        public static string NewProfileEventTopic { get; } = "NewProfileEvent";
 
         /// <summary>
         /// 
         /// </summary>
-        public static string UpdateProfileEventTopic { get; } = "Kwetter.UpdateProfileEvent";
+        public static string TweetProfileEventTopic { get; } = "TweetProfileEvent";
     }
 }

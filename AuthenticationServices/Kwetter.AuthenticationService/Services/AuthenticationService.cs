@@ -34,7 +34,12 @@
         /// <summary>
         /// 
         /// </summary>
-        private readonly IProfileEvent createProfileEvent;
+        private readonly IProfileEvent profileEvent;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private readonly ITweetProfileEvent tweetProfileEvent;
 
         /// <summary>
         /// Interface for reading the configuration file.
@@ -51,12 +56,14 @@
             UserManager<KwetterUserEntity<int>> userManager,
             IConfiguration configuration,
             ILogger<AuthenticationService> logger,
-            IProfileEvent profileEvent)
+            IProfileEvent profileEvent,
+            ITweetProfileEvent tweetProfileEvent)
         {
             this.userManager = userManager;
             this.configuration = configuration;
             this.logger = logger;
-            this.createProfileEvent = profileEvent;
+            this.profileEvent = profileEvent;
+            this.tweetProfileEvent = tweetProfileEvent;
         }
 
         /// <summary>
@@ -70,26 +77,38 @@
         public override async Task<AuthenticationResponse> SignIn(SignInRequest request, ServerCallContext context)
         {
             var user = await this.userManager.FindByNameAsync(request.Username).ConfigureAwait(false);
-            string generatedToken = string.Empty;
-
-            if (user != null && await this.userManager.CheckPasswordAsync(user, request.Password).ConfigureAwait(false))
+            if (user == null)
             {
-                generatedToken = this.GenerateToken(user.UserName);
+                var metadata = new Metadata
+                {
+                    { "Username", request.Username },
+                };
+
+                throw new RpcException(new Status(StatusCode.NotFound, "Username not found"), metadata);
             }
 
-            var response = new AuthenticationResponse { Status = !string.IsNullOrEmpty(generatedToken), };
-            if (response.Status)
+            if (!await this.userManager.CheckPasswordAsync(user, request.Password).ConfigureAwait(false))
             {
-                response.Account = new AccountResponse
+                throw new RpcException(new Status(StatusCode.Unauthenticated, "Username and/or password incorrect"));
+            }
+
+            string generatedToken = this.GenerateToken(user.UserName);
+            if (string.IsNullOrEmpty(generatedToken))
+            {
+                throw new RpcException(new Status(StatusCode.Internal, "Failed to generate token"));
+            }
+
+            return new AuthenticationResponse
+            {
+                Status = true,
+                Account = new AccountResponse
                 {
                     Id = user.Id,
                     Token = generatedToken,
                     Email = user.Email,
                     Username = user.UserName,
-                };
-            }
-
-            return response;
+                },
+            };
         }
 
         /// <summary>
@@ -103,7 +122,7 @@
             var user = await this.userManager.FindByNameAsync(request.Username).ConfigureAwait(false);
             if (user != null)
             {
-                return new AuthenticationResponse { Status = false, Message = "This username is already taken", };
+                throw new RpcException(new Status(StatusCode.AlreadyExists, "Username already exists."));
             }
 
             var newUser = new KwetterUserEntity<int>
@@ -116,10 +135,12 @@
             var result = await this.userManager.CreateAsync(newUser, request.Password).ConfigureAwait(false);
             if (!result.Succeeded)
             {
-                return new AuthenticationResponse { Status = false, Message = result.Errors.First().Description };
+                throw new RpcException(new Status(StatusCode.InvalidArgument, "Failed to create account."));
             }
 
-            this.createProfileEvent.Invoke(newUser.Id, newUser.UserName, newUser.UserName);
+            this.profileEvent.Invoke(newUser.Id, newUser.UserName, newUser.UserName);
+            this.tweetProfileEvent.Invoke(newUser.Id, newUser.UserName, newUser.UserName);
+
             return new AuthenticationResponse
             {
                 Status = true,

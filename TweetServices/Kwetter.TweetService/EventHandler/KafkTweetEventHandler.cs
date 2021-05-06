@@ -12,7 +12,7 @@
     using Microsoft.Extensions.Hosting;
     using Newtonsoft.Json;
 
-    public class KafkaEventHandler : BackgroundService
+    public class KafkTweetEventHandler : BackgroundService
     {
         /// <summary>
         /// Consumes the shit out of Kwetter.
@@ -29,7 +29,7 @@
         /// </summary>
         /// <param name="consumer">Consumer.</param>
         /// <param name="context">Context.</param>
-        public KafkaEventHandler(IConsumer<Ignore, string> consumer, TweetContext context)
+        public KafkTweetEventHandler(IConsumer<Ignore, string> consumer, TweetContext context)
         {
             this.consumer = consumer;
             this.context = context;
@@ -50,9 +50,8 @@
                     var consumeResult = this.consumer.Consume(token);
                     if (consumeResult != null)
                     {
-                        var profileArgs = JsonConvert.DeserializeObject<ProfileEventArgs>(consumeResult.Message.Value);
-                        await this.CreateOrUpdate(profileArgs, token).ConfigureAwait(false);
-
+                        var args = JsonConvert.DeserializeObject<ProfileEventArgs>(consumeResult.Message.Value);
+                        await this.CreateOrUpdate(args, token).ConfigureAwait(false);
                         Console.WriteLine($"Consumed message '{consumeResult.Message.Value}' at: '{consumeResult.TopicPartitionOffset}'.");
                     }
                 }

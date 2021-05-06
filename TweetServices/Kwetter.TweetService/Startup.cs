@@ -44,8 +44,8 @@ namespace Kwetter.TweetService
 
             var builder = new ConsumerBuilder<Ignore, string>(config).Build();
 
-            builder.Subscribe(EventSettings.NewProfileEventTopic);
-            services.AddHostedService(sp => new KafkaEventHandler(builder, services.BuildServiceProvider().GetRequiredService<TweetContext>()));
+            builder.Subscribe(EventSettings.TweetProfileEventTopic);
+            services.AddHostedService(sp => new KafkTweetEventHandler(builder, services.BuildServiceProvider().GetRequiredService<TweetContext>()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

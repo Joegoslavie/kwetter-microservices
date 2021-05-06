@@ -43,8 +43,8 @@ namespace Kwetter.ProfileService
 
             var builder = new ConsumerBuilder<Ignore, string>(config).Build();
 
-            //builder.Subscribe(EventSettings.NewProfileEventTopic);
-            //services.AddHostedService(sp => new KafkaEventHandler(builder, services.BuildServiceProvider().GetRequiredService<ProfileContext>()));
+            builder.Subscribe(EventSettings.NewProfileEventTopic);
+            services.AddHostedService(sp => new KafkaEventHandler(builder, services.BuildServiceProvider().GetRequiredService<ProfileContext>()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

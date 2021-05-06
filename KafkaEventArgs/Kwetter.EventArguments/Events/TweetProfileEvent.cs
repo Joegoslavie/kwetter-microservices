@@ -12,24 +12,24 @@
     /// <summary>
     /// 
     /// </summary>
-    public class UpdateProfileEvent : IProfileEvent, IDisposable
+    public class TweetProfileEvent : ITweetProfileEvent, IDisposable
     {
         private readonly IProducer<string, string> producer;
         private readonly string topic;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateProfileEvent"/> class.
+        /// Initializes a new instance of the <see cref="ITweetProfileEvent"/> class.
         /// </summary>
         /// <param name="producer">Producer.</param>
         /// <param name="topicName">Topic string.</param>
-        public UpdateProfileEvent(IProducer<string, string> producer, string topicName)
+        public TweetProfileEvent(IProducer<string, string> producer, string topicName)
         {
             this.producer = producer;
             this.topic = topicName;
         }
 
         /// <inheritdoc/>
-        public async void Invoke(int userId, string username, string displayName)
+        public void Invoke(int userId, string username, string displayName)
         {
             try
             {
@@ -41,7 +41,7 @@
                 };
 
                 var jsonContents = JsonConvert.SerializeObject(content);
-                var result = await this.producer.ProduceAsync(this.topic, new Message<string, string> { Value = jsonContents }).ConfigureAwait(false);
+                this.producer.ProduceAsync(this.topic, new Message<string, string> { Value = jsonContents }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
