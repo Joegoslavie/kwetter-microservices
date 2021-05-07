@@ -13,6 +13,16 @@ services:
       - '2181:2181'
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+  
+  db:
+    image: "mcr.microsoft.com/mssql/server"
+    environment:
+      SA_PASSWORD: "4aSuperSecretKwetterSqlAccountPw"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "13371:1433"
+    volumes:
+      - sqlserver:/sqlserver
 
   broker:
     image: 'bitnami/kafka:latest'
@@ -40,3 +50,7 @@ services:
       - JVM_OPTS=-Xms16M -Xmx48M -Xss180K -XX:-TieredCompilation -XX:+UseStringDeduplication -noverify
     depends_on:
       - broker
+
+volumes:
+    sqlserver:
+        driver: local
