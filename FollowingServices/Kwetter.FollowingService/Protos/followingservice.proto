@@ -8,6 +8,8 @@ package followingservice;
 service FollowGRPCService {
   rpc ToggleBlock (BlockRequest) returns (OperationResponse);
   rpc ToggleFollow (FollowRequest) returns (OperationResponse);
+  rpc GetFollowerIds (FollowerRequest) returns (OperationResponse);
+  rpc GetFollowingIds (FollowerRequest) returns (OperationResponse);
 }
 
 // The request message containing the user's name.
@@ -20,6 +22,11 @@ message BlockRequest {
 message FollowRequest {
   int32 UserId = 1;
   int32 FollowingId = 2;
+}
+
+message FollowerRequest {
+	int32 UserId = 1;
+	string Username = 2;
 }
 
 message OperationResponse {

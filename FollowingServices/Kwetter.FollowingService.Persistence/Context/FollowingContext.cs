@@ -38,5 +38,15 @@
         /// Gets or sets the followings by users records.
         /// </summary>
         public DbSet<FollowingEntity> Followings { get; set; }
+
+        /// <summary>
+        /// Overrides creating models.
+        /// </summary>
+        /// <param name="modelBuilder">Used to build the models.</param>
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BlockEntity>().HasKey(t => new { t.UserId, t.BlockedId });
+            modelBuilder.Entity<FollowingEntity>().HasKey(t => new { t.UserId, t.FollowingId});
+        }
     }
 }

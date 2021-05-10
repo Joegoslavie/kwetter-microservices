@@ -24,6 +24,6 @@
         /// <summary>
         /// 
         /// </summary>
-        public DateTime BlockedAt { get; set; } = DateTime.Now;
+        public DateTime FollowingSince { get; set; } = DateTime.Now;
     }
 }
