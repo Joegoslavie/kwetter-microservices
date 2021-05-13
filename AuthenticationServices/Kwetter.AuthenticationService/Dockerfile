@@ -7,10 +7,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
-COPY ["AuthenticationServices/Kwetter.AuthenticationService/Kwetter.AuthenticationService.csproj", "Authentication/Kwetter.AuthenticationService/"]
-RUN dotnet restore "AuthenticationServices/Kwetter.AuthenticationService/Kwetter.AuthenticationService.csproj"
+COPY ["AuthenticationServices/Kwetter.AuthenticationService/Kwetter.AuthenticationService.csproj", "Kwetter.AuthenticationService/"]
+RUN dotnet restore "Kwetter.AuthenticationService/Kwetter.AuthenticationService.csproj"
 COPY . .
-WORKDIR "/src/AuthenticationServices/Kwetter.AuthenticationService"
+WORKDIR "/src/Kwetter.AuthenticationService"
 RUN dotnet build "Kwetter.AuthenticationService.csproj" -c Release -o /app/build
 
 FROM build AS publish

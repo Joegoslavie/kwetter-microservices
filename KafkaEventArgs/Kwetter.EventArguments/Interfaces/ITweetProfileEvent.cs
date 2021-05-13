@@ -8,6 +8,6 @@ namespace Kwetter.Messaging.Interfaces
 {
     public interface ITweetProfileEvent : IProfileEvent
     {
-
+        
     }
 }
