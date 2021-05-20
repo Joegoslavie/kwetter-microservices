@@ -37,3 +37,18 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build the docker AuthenticationService image
         run: docker build . --file AuthenticationServices/Kwetter.AuthenticationService/Dockerfile --tag kwetter-auth-service:$(date +%s)
+        
+  publish-docker:
+    if: contains(github.ref, 'develop')
+    needs: [build-docker]
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@master
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: joegoslavie/kwetter-authenticationservice
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        dockerfile: AuthenticationServices/Kwetter.AuthenticationService/Dockerfile 
+        #workdir: src
