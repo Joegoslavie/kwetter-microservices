@@ -6,7 +6,7 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
 COPY ["AuthenticationServices/Kwetter.AuthenticationService/Kwetter.AuthenticationService.csproj", "Kwetter.AuthenticationService/"]
 COPY ["AuthenticationServices/Kwetter.AuthenticationService.Persistence/Kwetter.AuthenticationService.Persistence.csproj", "Kwetter.AuthenticationService.Persistence/"]
-COPY ["KafkaEventArgs/Kwetter.EventArguments/Kwetter.Messaging.csproj", "KafkaEventArgs/Kwetter.EventArguments/"]
+#COPY ["KafkaEventArgs/Kwetter.EventArguments/Kwetter.Messaging.csproj", "KafkaEventArgs/Kwetter.EventArguments/"]
 
 RUN dotnet restore "Kwetter.AuthenticationService/Kwetter.AuthenticationService.csproj"
 COPY . .
