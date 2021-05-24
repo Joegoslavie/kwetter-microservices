@@ -21,6 +21,16 @@ namespace Kwetter.FollowingService.Business
             this.context = context;
         }
 
+        public List<FollowingEntity> GetFollowerIds(int userId)
+        {
+            return this.context.Followings.Where(x => x.FollowingId == userId).ToList();
+        }
+
+        public List<FollowingEntity> GetFollowingIds(int userId)
+        {
+            return this.context.Followings.Where(x => x.UserId == userId).ToList();
+        }
+
         public async Task<Operation> ToggleFollower(int currentId, int followId)
         {
             var entity = this.context.Followings.FirstOrDefault(x => x.UserId == currentId && x.FollowingId == followId);
