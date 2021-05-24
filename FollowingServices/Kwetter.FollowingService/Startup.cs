@@ -31,6 +31,16 @@ namespace Kwetter.FollowingService
             services.AddGrpc();
             services.AddDbContext<FollowingContext>(o => o.UseSqlServer(this.configuration.GetConnectionString("kwetter-follow-db")));
             services.AddTransient<FollowManager>();
+
+            try
+            {
+                var context = services.BuildServiceProvider().GetRequiredService<FollowingContext>();
+                context.Database.Migrate();
+            }
+            catch
+            {
+
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

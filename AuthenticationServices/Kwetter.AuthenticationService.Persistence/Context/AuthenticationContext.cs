@@ -13,6 +13,7 @@
         public AuthenticationContext(DbContextOptions<AuthenticationContext> options)
             : base(options)
         {
+            
         }
     }
 }

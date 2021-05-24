@@ -41,6 +41,16 @@ namespace Kwetter.ProfileService
                 EnableAutoCommit = false,
             };
 
+            try
+            {
+                var context = services.BuildServiceProvider().GetRequiredService<ProfileContext>();
+                context.Database.Migrate();
+            }
+            catch
+            {
+
+            }
+
             var builder = new ConsumerBuilder<Ignore, string>(config).Build();
 
             builder.Subscribe(EventSettings.NewProfileEventTopic);

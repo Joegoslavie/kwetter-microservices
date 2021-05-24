@@ -42,6 +42,16 @@ namespace Kwetter.TweetService
                 EnableAutoCommit = false,
             };
 
+            try
+            {
+                var context = services.BuildServiceProvider().GetRequiredService<TweetContext>();
+                context.Database.Migrate();
+            }
+            catch
+            {
+
+            }
+
             var builder = new ConsumerBuilder<Ignore, string>(config).Build();
 
             builder.Subscribe(EventSettings.TweetProfileEventTopic);

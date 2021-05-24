@@ -38,6 +38,16 @@ namespace Kwetter.AuthenticationService
                 .AddEntityFrameworkStores<AuthenticationContext>()
                 .AddDefaultTokenProviders();
 
+            try
+            {
+                var context = services.BuildServiceProvider().GetRequiredService<AuthenticationContext>();
+                context.Database.Migrate();
+            }
+            catch
+            {
+
+            }
+
             services.Configure<IdentityOptions>(options =>
             {
                 // Kwetter has a VERY strong password policy.
