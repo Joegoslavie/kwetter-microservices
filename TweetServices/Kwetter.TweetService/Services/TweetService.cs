@@ -1,10 +1,12 @@
 ﻿namespace Kwetter.TweetService.Services
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using Grpc.Core;
     using Kwetter.TweetService.Extentions;
     using Kwetter.TweetService.Persistence.Context;
+    using Kwetter.TweetService.Persistence.Entity;
     using Microservice.TweetGRPCService;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
@@ -33,6 +35,25 @@
         {
             this.logger = logger;
             this.context = context;
+        }
+
+        public override async Task<TweetResponse> PlaceTweet(PlaceTweetRequest request, ServerCallContext context)
+        {
+            var profile = this.context.ProfileReferences.FirstOrDefault(x => x.UserId == request.UserId);
+            var tweet = new TweetEntity
+            {
+                Author = profile,
+                Content = request.Content,
+                CreatedAt = DateTime.Now,
+            };
+
+            this.context.Tweets.Add(tweet);
+            await this.context.SaveChangesAsync().ConfigureAwait(false);
+
+            var response = new TweetResponse { Status = tweet != null };
+            response.Tweets.Add(tweet.Convert());
+
+            return response;
         }
 
         /// <summary>
@@ -106,12 +127,18 @@
             var likeRecord = this.context.Likes.Include(x => x.Author).FirstOrDefault(x => x.Author.UserId == request.UserId && x.TweetId == request.TweetId);
             if (likeRecord == null)
             {
-                // This tweet is not yet liked by the user.
-                this.context.Likes.Add(new Persistence.Entity.LikeEntity
+                var profile = this.context.ProfileReferences.FirstOrDefault(x => x.UserId == request.UserId);
+                var tweet = this.context.Tweets.FirstOrDefault(x => x.Id == request.TweetId);
+                if (profile != null && tweet != null)
                 {
-                    //UserId = request.UserId,
-                    TweetId = request.TweetId,
-                });
+                    // This tweet is not yet liked by the user.
+                    this.context.Likes.Add(new Persistence.Entity.LikeEntity
+                    {
+                        Author = profile,
+                        Tweet = tweet,
+                        TweetId = request.TweetId,
+                    });
+                }
             }
             else
             {

@@ -23,6 +23,7 @@
 
             return new TweetResponseData
             {
+                Id = tweet.Id,
                 UserId = tweet.Author.UserId,
                 Username = tweet.Author.Username,
                 DisplayName = tweet.Author.DisplayName,

@@ -72,6 +72,7 @@
                 {
                     UserId = profileArgs.UserId,
                     Username = profileArgs.Username,
+                    AvatarUrl = "default.jpg",
                 };
             }
 
