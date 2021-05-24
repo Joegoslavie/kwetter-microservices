@@ -92,7 +92,7 @@
                 throw new RpcException(new Status(StatusCode.Unauthenticated, "Username and/or password incorrect"));
             }
 
-            string generatedToken = this.GenerateToken(user.UserName);
+            string generatedToken = this.GenerateToken(user.UserName, user.Id);
             if (string.IsNullOrEmpty(generatedToken))
             {
                 throw new RpcException(new Status(StatusCode.Internal, "Failed to generate token"));
@@ -149,16 +149,17 @@
                     Id = newUser.Id,
                     Email = newUser.Email,
                     Username = newUser.UserName,
-                    Token = this.GenerateToken(newUser.UserName),
+                    Token = this.GenerateToken(newUser.UserName, newUser.Id),
                 },
             };
         }
 
-        private string GenerateToken(string username)
+        private string GenerateToken(string username, int id)
         {
             var authClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, username),
+                new Claim(ClaimTypes.Sid, id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 

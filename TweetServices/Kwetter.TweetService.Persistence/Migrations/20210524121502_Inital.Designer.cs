@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kwetter.TweetService.Persistence.Migrations
 {
     [DbContext(typeof(TweetContext))]
-    [Migration("20210505152217_Initial")]
-    partial class Initial
+    [Migration("20210524121502_Inital")]
+    partial class Inital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -90,6 +90,9 @@ namespace Kwetter.TweetService.Persistence.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("AvatarUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DisplayName")
                         .HasColumnType("nvarchar(max)");
 
@@ -110,9 +113,6 @@ namespace Kwetter.TweetService.Persistence.Migrations
 
                     b.Property<int?>("AuthorUserId")
                         .HasColumnType("int");
-
-                    b.Property<string>("AvatarUrl")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");

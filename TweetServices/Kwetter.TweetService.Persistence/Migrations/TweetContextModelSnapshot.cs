@@ -88,6 +88,9 @@ namespace Kwetter.TweetService.Persistence.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("AvatarUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DisplayName")
                         .HasColumnType("nvarchar(max)");
 
@@ -108,9 +111,6 @@ namespace Kwetter.TweetService.Persistence.Migrations
 
                     b.Property<int?>("AuthorUserId")
                         .HasColumnType("int");
-
-                    b.Property<string>("AvatarUrl")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");

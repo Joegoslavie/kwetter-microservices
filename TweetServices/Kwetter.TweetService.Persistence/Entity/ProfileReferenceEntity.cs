@@ -24,5 +24,10 @@
         /// Gets or sets the display name.
         /// </summary>
         public string DisplayName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the avatar url.
+        /// </summary>
+        public string AvatarUrl { get; set; }
     }
 }

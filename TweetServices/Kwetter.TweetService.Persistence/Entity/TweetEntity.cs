@@ -23,11 +23,6 @@
         public virtual ProfileReferenceEntity Author { get; set; }
 
         /// <summary>
-        /// Gets or sets the avatar url.
-        /// </summary>
-        public string AvatarUrl { get; set; }
-
-        /// <summary>
         /// Gets or sets the tweet contents.
         /// </summary>
         public string Content { get; set; }
