@@ -2,12 +2,13 @@ syntax = "proto3";
 
 option csharp_namespace = "Kwetter.FollowingService";
 
-package followingservice;
+package domain;
 
 // The greeting service definition.
 service FollowGRPCService {
   rpc ToggleBlock (BlockRequest) returns (OperationResponse);
   rpc ToggleFollow (FollowRequest) returns (OperationResponse);
+  rpc GetFollowIdsByUsername (FollowerRequest) returns (OperationResponse);
   rpc GetFollowIds (FollowerRequest) returns (OperationResponse);
 }
 
