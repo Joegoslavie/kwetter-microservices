@@ -35,8 +35,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - name: Build the docker ProfileServices image
-        run: docker build . --file ProfileServices/Kwetter.ProfileServices/Dockerfile --tag kwetter-auth-service:$(date +%s)
+      - name: Build the docker ProfileService image
+        run: docker build . --file ProfileServices/Kwetter.ProfileService/Dockerfile --tag kwetter-profile-service:$(date +%s)
         
   publish-docker:
     if: contains(github.ref, 'develop')
@@ -50,5 +50,5 @@ jobs:
         name: joegoslavie/kwetter-profileservice
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        dockerfile: ProfileServices/Kwetter.ProfileServices/Dockerfile 
+        dockerfile: ProfileServices/Kwetter.ProfileService/Dockerfile 
         #workdir: src
