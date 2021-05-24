@@ -1,16 +1,15 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
 FROM mcr.microsoft.com/dotnet/aspnet:5.0-buster-slim AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
-WORKDIR /src
-COPY ["Profile/Kwetter.ProfileService/Kwetter.ProfileService.csproj", "Profile/Kwetter.ProfileService/"]
-RUN dotnet restore "Profile/Kwetter.ProfileService/Kwetter.ProfileService.csproj"
+COPY ["ProfileServices/Kwetter.ProfileService/Kwetter.ProfileService.csproj", "Kwetter.ProfileService/"]
+COPY ["ProfileServices/Kwetter.ProfileService.Persistence/Kwetter.ProfileService.Persistence.csproj", "Kwetter.ProfileService.Persistence/"]
+
+RUN dotnet restore "Kwetter.ProfileService/Kwetter.ProfileService.csproj"
 COPY . .
-WORKDIR "/src/Profile/Kwetter.ProfileService"
+WORKDIR "/ProfileServices/Kwetter.ProfileService"
 RUN dotnet build "Kwetter.ProfileService.csproj" -c Release -o /app/build
 
 FROM build AS publish
