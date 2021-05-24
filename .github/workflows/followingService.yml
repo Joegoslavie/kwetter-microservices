@@ -35,8 +35,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - name: Build the docker FollowingServices image
-        run: docker build . --file FollowingServices/Kwetter.FollowingServices/Dockerfile --tag kwetter-follow-service:$(date +%s)
+      - name: Build the docker FollowingService image
+        run: docker build . --file FollowingServices/Kwetter.FollowingService/Dockerfile --tag kwetter-follow-service:$(date +%s)
         
   publish-docker:
     if: contains(github.ref, 'develop')
@@ -50,5 +50,5 @@ jobs:
         name: joegoslavie/kwetter-followingservice
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        dockerfile: FollowingServices/Kwetter.FollowingServices/Dockerfile 
+        dockerfile: FollowingServices/Kwetter.FollowingService/Dockerfile 
         #workdir: src

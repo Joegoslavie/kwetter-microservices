@@ -35,8 +35,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - name: Build the docker TweetServices image
-        run: docker build . --file TweetServices/Kwetter.TweetService/Dockerfile --tag kwetter-auth-service:$(date +%s)
+      - name: Build the docker TweetService image
+        run: docker build . --file TweetServices/Kwetter.TweetService/Dockerfile --tag kwetter-tweet-service:$(date +%s)
         
   publish-docker:
     if: contains(github.ref, 'develop')
