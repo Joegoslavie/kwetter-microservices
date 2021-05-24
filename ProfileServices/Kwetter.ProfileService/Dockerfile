@@ -9,7 +9,7 @@ COPY ["ProfileServices/Kwetter.ProfileService.Persistence/Kwetter.ProfileService
 
 RUN dotnet restore "Kwetter.ProfileService/Kwetter.ProfileService.csproj"
 COPY . .
-WORKDIR "/ProfileServices/Kwetter.ProfileService"
+WORKDIR "/Kwetter.ProfileService"
 RUN dotnet build "Kwetter.ProfileService.csproj" -c Release -o /app/build
 
 FROM build AS publish
