@@ -1,13 +1,13 @@
 ﻿namespace Kwetter.ProfileService.Services
 {
-    using Grpc.Core;
-    using Microsoft.Extensions.Logging;
-    using Microservice.ProfileGRPCService;
-    using System.Threading.Tasks;
-    using Kwetter.ProfileService.Persistence.Context;
-    using System.Linq;
-    using Kwetter.ProfileService.Extentions;
     using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Grpc.Core;
+    using Kwetter.ProfileService.Extentions;
+    using Kwetter.ProfileService.Persistence.Context;
+    using Microservice.ProfileGRPCService;
+    using Microsoft.Extensions.Logging;
 
     /// <summary>
     /// Profile GRPC service.
