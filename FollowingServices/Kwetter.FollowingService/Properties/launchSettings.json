@@ -7,6 +7,12 @@
       },
       "dotnetRunMessages": "true",
       "applicationUrl": "http://localhost:8501;https://localhost:8502"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "publishAllPorts": true,
+      "useSSL": true
     }
   }
 }
