@@ -67,6 +67,12 @@ namespace Kwetter.ProfileService
 
             app.UseRouting();
 
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<ProfileContext>();
+                context.Database.EnsureCreated();
+            }
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<Services.ProfileService>();

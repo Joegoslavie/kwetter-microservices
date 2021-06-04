@@ -49,6 +49,12 @@ namespace Kwetter.FollowingService
 
             app.UseRouting();
 
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<FollowingContext>();
+                context.Database.EnsureCreated();
+            }
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<Services.FollowingService>();

@@ -68,6 +68,12 @@ namespace Kwetter.TweetService
 
             app.UseRouting();
 
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<TweetContext>();
+                context.Database.EnsureCreated();
+            }
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<Services.TweetService>();
