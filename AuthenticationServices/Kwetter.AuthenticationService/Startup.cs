@@ -101,6 +101,13 @@ namespace Kwetter.AuthenticationService
             }
             app.UseRouting();
             app.UseAuthentication();
+
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<AuthenticationContext>();
+                context.Database.EnsureCreated();
+            }
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<Services.AuthenticationService>();

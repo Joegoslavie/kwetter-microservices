@@ -42,16 +42,6 @@ namespace Kwetter.TweetService
                 EnableAutoCommit = false,
             };
 
-            try
-            {
-                var context = services.BuildServiceProvider().GetRequiredService<TweetContext>();
-                context.Database.Migrate();
-            }
-            catch
-            {
-
-            }
-
             var builder = new ConsumerBuilder<Ignore, string>(config).Build();
 
             builder.Subscribe(EventSettings.TweetProfileEventTopic);
@@ -67,6 +57,13 @@ namespace Kwetter.TweetService
             }
 
             app.UseRouting();
+
+
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<TweetContext>();
+                context.Database.EnsureCreated();
+            }
 
             app.UseEndpoints(endpoints =>
             {
