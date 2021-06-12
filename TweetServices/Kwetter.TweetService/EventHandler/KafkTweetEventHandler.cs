@@ -74,6 +74,8 @@
                     Username = profileArgs.Username,
                     AvatarUrl = "default.jpg",
                 };
+
+                this.context.ProfileReferences.Add(entity);
             }
 
             entity.DisplayName = profileArgs.DisplayName;
