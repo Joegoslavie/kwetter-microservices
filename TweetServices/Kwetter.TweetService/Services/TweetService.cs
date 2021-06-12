@@ -67,7 +67,10 @@
             return await Task.Run(() =>
             {
                 var tweets = this.context.Tweets.Include(x => x.Author).Where(x => x.Author.UserId == request.UserId).Include(x => x.LikedBy).Include(x => x.Hashtags).ToList();
-                var response = new TweetResponse { Status = tweets.Any() };
+                var response = new TweetResponse
+                {
+                    Status = true,
+                };
 
                 response.Tweets.AddRange(tweets.Select(t => t.Convert()));
                 return response;
@@ -144,6 +147,7 @@
             {
                 // The tweet is already liked by the user.
                 this.context.Likes.Remove(likeRecord);
+                likeRecord = null;
             }
 
             await this.context.SaveChangesAsync().ConfigureAwait(false);

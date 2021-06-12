@@ -77,9 +77,8 @@
             }
 
             entity.DisplayName = profileArgs.DisplayName;
-            this.context.ProfileReferences.Add(entity);
-
             await this.context.SaveChangesAsync(token).ConfigureAwait(false);
+
             this.consumer.Commit();
         }
     }

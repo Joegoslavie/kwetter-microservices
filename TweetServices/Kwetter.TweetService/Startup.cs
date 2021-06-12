@@ -44,7 +44,7 @@ namespace Kwetter.TweetService
 
             var builder = new ConsumerBuilder<Ignore, string>(config).Build();
 
-            builder.Subscribe(EventSettings.TweetProfileEventTopic);
+            builder.Subscribe(EventSettings.TweetProfileUpdateEventTopic);
             services.AddHostedService(sp => new KafkTweetEventHandler(builder, services.BuildServiceProvider().GetRequiredService<TweetContext>()));
         }
 

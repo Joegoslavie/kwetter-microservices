@@ -17,5 +17,10 @@ namespace Kwetter.Messaging
         /// 
         /// </summary>
         public static string TweetProfileEventTopic { get; } = "TweetProfileEvent";
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static string TweetProfileUpdateEventTopic { get; } = "TweetProfileUpdateEvent";
     }
 }
