@@ -37,11 +37,6 @@
             this.context = context;
         }
 
-        public override Task<TweetResponse> GetTimelineOfUserId(TweetRequest request, ServerCallContext context)
-        {
-            return base.GetTimelineOfUserId(request, context);
-        }
-
         public override async Task<TweetResponse> PlaceTweet(PlaceTweetRequest request, ServerCallContext context)
         {
             var profile = this.context.ProfileReferences.FirstOrDefault(x => x.UserId == request.UserId);
@@ -113,7 +108,8 @@
                 var tweets = this.context.Tweets.Include(x => x.Author).Where(x => request.UserIds.Contains(x.Author.UserId))
                     .Include(x => x.LikedBy)
                     .Include(x => x.Hashtags)
-                    .OrderByDescending(x => x.CreatedAt)
+                    .OrderBy(x => Guid.NewGuid())
+                    .Take(100)
                     .ToList();
 
                 var response = new TweetResponse { Status = tweets.Any() };
