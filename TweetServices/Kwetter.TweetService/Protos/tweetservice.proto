@@ -9,6 +9,7 @@ service TweetGRPCService {
   rpc GetTweetsByUserId (TweetRequest) returns (TweetResponse);
   rpc GetTweetsByUsername (TweetRequest) returns (TweetResponse);
   rpc GetTweetsByUserIds (TweetRequest) returns (TweetResponse);
+  rpc GetTimelineOfUserId (TweetRequest) returns (TweetResponse);
 
   rpc PlaceTweet (PlaceTweetRequest) returns (TweetResponse);
   rpc ToggleLike (TweetOperationRequest) returns (TweetResponse);

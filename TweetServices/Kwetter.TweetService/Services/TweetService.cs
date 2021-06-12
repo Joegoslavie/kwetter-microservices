@@ -37,6 +37,11 @@
             this.context = context;
         }
 
+        public override Task<TweetResponse> GetTimelineOfUserId(TweetRequest request, ServerCallContext context)
+        {
+            return base.GetTimelineOfUserId(request, context);
+        }
+
         public override async Task<TweetResponse> PlaceTweet(PlaceTweetRequest request, ServerCallContext context)
         {
             var profile = this.context.ProfileReferences.FirstOrDefault(x => x.UserId == request.UserId);

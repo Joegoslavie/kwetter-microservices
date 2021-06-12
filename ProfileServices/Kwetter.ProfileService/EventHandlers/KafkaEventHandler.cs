@@ -15,11 +15,6 @@
     public class KafkaEventHandler : BackgroundService
     {
         /// <summary>
-        /// Topic name.
-        /// </summary>
-        private readonly string topic = "kwetter_pf";
-
-        /// <summary>
         /// Consumes the shit out of Kwetter.
         /// </summary>
         private readonly IConsumer<Ignore, string> consumer;
@@ -54,7 +49,7 @@
                     if (consumeResult != null)
                     {
                         var args = JsonConvert.DeserializeObject<ProfileEventArgs>(consumeResult.Message.Value);
-                        await this.CreateOrUpdate(args, token).ConfigureAwait(false);
+                        await this.InitializeProfile(args, token).ConfigureAwait(false);
                         Console.WriteLine($"Consumed message '{consumeResult.Message.Value}' at: '{consumeResult.TopicPartitionOffset}'.");
                     }
                 }
@@ -65,7 +60,7 @@
             }
         }
 
-        private async Task CreateOrUpdate(ProfileEventArgs profileArgs, CancellationToken token)
+        private async Task InitializeProfile(ProfileEventArgs profileArgs, CancellationToken token)
         {
             var entity = new ProfileEntity()
             {
