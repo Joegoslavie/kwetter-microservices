@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Grpc.Core;
+    using Kwetter.TweetService.Business;
     using Kwetter.TweetService.Extentions;
     using Kwetter.TweetService.Persistence.Context;
     using Kwetter.TweetService.Persistence.Entity;
@@ -25,19 +26,19 @@
         private readonly ILogger<TweetService> logger;
 
         /// <summary>
-        /// Tweet context instance.
+        /// Tweet manager instance.
         /// </summary>
-        private readonly TweetContext context;
+        private readonly TweetManager manager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TweetService"/> class.
         /// </summary>
         /// <param name="logger">Injected logger.</param>
-        /// <param name="context">Injected context.</param>
-        public TweetService(ILogger<TweetService> logger, TweetContext context)
+        /// <param name="manager">Injected manager.</param>
+        public TweetService(ILogger<TweetService> logger, TweetManager manager)
         {
             this.logger = logger;
-            this.context = context;
+            this.manager = manager;
         }
 
         /// <summary>
@@ -50,21 +51,13 @@
         {
             try
             {
-                // move to manager
                 return await Task.Run(() =>
                 {
-                    var tweets = this.context.Tweets
-                        .Include(x => x.Author)
-                        .Where(x => x.Author.UserId == request.UserId)
-                        .Include(x => x.LikedBy)
-                        .Include(x => x.Hashtags)
-                        .OrderByDescending(x => x.CreatedAt)
-                        .Skip(request.Page * request.Amount)
-                        .Take(request.Amount)
-                        .ToList();
-
+                    var tweets = this.manager.GetTweetsByUser(request.UserId, request.Page, request.Amount);
                     var response = new TweetResponse();
-                    response.Tweets.AddRange(tweets.Select(t => t.Convert()));
+                    response.Tweets.AddRange(
+                        tweets.Select(t => t.Convert()));
+
                     return response;
                 });
             }
@@ -82,31 +75,22 @@
         /// <returns><see cref="TweetResponse"/>.</returns>
         public override async Task<TweetResponse> GetTweetsByUsername(TweetRequest request, ServerCallContext context)
         {
-            // move to manager
-            return await Task.Run(() =>
+            try
             {
-                try
+                return await Task.Run(() =>
                 {
-                    var tweets = this.context.Tweets
-                        .Include(x => x.Author)
-                        .Where(x => x.Author.Username == request.Username)
-                        .Include(x => x.LikedBy)
-                        .Include(x => x.Hashtags)
-                        .OrderByDescending(x => x.CreatedAt)
-                        .Skip(request.Page * request.Amount)
-                        .Take(request.Amount)
-                        .ToList();
-
+                    var tweets = this.manager.GetTweetsByUser(request.Username, request.Page, request.Amount);
                     var response = new TweetResponse();
-                    response.Tweets.AddRange(tweets.Select(t => t.Convert()));
+                    response.Tweets.AddRange(
+                        tweets.Select(t => t.Convert()));
 
                     return response;
-                }
-                catch (Exception ex)
-                {
-                    throw new RpcException(new Status(StatusCode.Unknown, ex.Message));
-                }
-            });
+                });
+            }
+            catch (Exception ex)
+            {
+                throw new RpcException(new Status(StatusCode.Unknown, ex.Message));
+            }
         }
 
         /// <summary>
@@ -117,32 +101,22 @@
         /// <returns><see cref="TweetResponse"/>.</returns>
         public override async Task<TweetResponse> GetTweetsByUserIds(TweetRequest request, ServerCallContext context)
         {
-            // move to manager
-            return await Task.Run(() =>
+            try
             {
-                try
+                return await Task.Run(() =>
                 {
-                    var tweets = this.context.Tweets
-                        .Include(x => x.Author)
-                        .Where(x => request.UserIds
-                        .Contains(x.Author.UserId))
-                        .Include(x => x.LikedBy)
-                        .Include(x => x.Hashtags)
-                        .OrderBy(x => Guid.NewGuid())
-                        .Skip(request.Page * request.Amount)
-                        .Take(request.Amount)
-                        .ToList();
-
+                    var tweets = this.manager.TimelineOfUsers(request.UserIds, request.Page, request.Amount);
                     var response = new TweetResponse();
-                    response.Tweets.AddRange(tweets.Select(t => t.Convert()));
+                    response.Tweets.AddRange(
+                        tweets.Select(t => t.Convert()));
 
                     return response;
-                }
-                catch (Exception ex)
-                {
-                    throw new RpcException(new Status(StatusCode.Unknown, ex.Message));
-                }
-            });
+                });
+            }
+            catch (Exception ex)
+            {
+                throw new RpcException(new Status(StatusCode.Unknown, ex.Message));
+            }
         }
 
         /// <summary>
@@ -150,26 +124,19 @@
         /// </summary>
         /// <param name="request">req.</param>
         /// <param name="context">context.</param>
-        /// <returns></returns>
+        /// <returns>The new tweet.</returns>
         public override async Task<TweetResponse> PlaceTweet(PlaceTweetRequest request, ServerCallContext context)
         {
             try
             {
-                var profile = this.context.ProfileReferences.FirstOrDefault(x => x.UserId == request.UserId);
-                var tweet = new TweetEntity
+                return await Task.Run(async () =>
                 {
-                    Author = profile,
-                    Content = request.Content,
-                    CreatedAt = DateTime.Now,
-                };
+                    var tweet = await this.manager.CreateNewTweet(request.UserId, request.Content).ConfigureAwait(false);
 
-                this.context.Tweets.Add(tweet);
-                await this.context.SaveChangesAsync().ConfigureAwait(false);
-
-                var response = new TweetResponse();
-                response.Tweets.Add(tweet.Convert());
-
-                return response;
+                    var response = new TweetResponse();
+                    response.Tweets.Add(tweet.Convert());
+                    return response;
+                });
             }
             catch (Exception ex)
             {
@@ -188,33 +155,13 @@
         {
             try
             {
-                var likeRecord = this.context.Likes.Include(x => x.Author).FirstOrDefault(x => x.Author.UserId == request.UserId && x.TweetId == request.TweetId);
-                if (likeRecord == null)
+                return await Task.Run(async () =>
                 {
-                    var profile = this.context.ProfileReferences.FirstOrDefault(x => x.UserId == request.UserId);
-                    var tweet = this.context.Tweets.FirstOrDefault(x => x.Id == request.TweetId);
-                    if (profile != null && tweet != null)
+                    return new TweetResponse
                     {
-                        // This tweet is not yet liked by the user.
-                        likeRecord = new LikeEntity
-                        {
-                            Author = profile,
-                            Tweet = tweet,
-                            TweetId = request.TweetId,
-                        };
-
-                        this.context.Likes.Add(likeRecord);
-                    }
-                }
-                else
-                {
-                    // The tweet is already liked by the user.
-                    this.context.Likes.Remove(likeRecord);
-                    likeRecord = null;
-                }
-
-                await this.context.SaveChangesAsync().ConfigureAwait(false);
-                return new TweetResponse { Status = likeRecord != null };
+                        Status = await this.manager.ToggleTweetLike(request.UserId, request.TweetId).ConfigureAwait(false),
+                    };
+                });
             }
             catch (Exception ex)
             {
