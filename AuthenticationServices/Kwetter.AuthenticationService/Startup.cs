@@ -6,7 +6,7 @@ namespace Kwetter.AuthenticationService
     using Kwetter.AuthenticationService.Persistence.Entity;
     using Kwetter.Messaging;
     using Kwetter.Messaging.Events;
-    using Kwetter.Messaging.Interfaces;
+    using Kwetter.Messaging.Interfaces.Tweet;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -79,7 +79,7 @@ namespace Kwetter.AuthenticationService
 
             var builder = new ProducerBuilder<string, string>(config).Build();
             services.AddSingleton<IProfileEvent>(_ => new NewProfileEvent(builder, EventSettings.NewProfileEventTopic));
-            services.AddSingleton<ITweetProfileEvent>(_ => new TweetProfileEvent(builder, EventSettings.TweetProfileEventTopic));
+            services.AddSingleton<ITweetProfileEvent>(_ => new TweetProfileEvent(builder, EventSettings.NewTweetProfileEventTopic));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

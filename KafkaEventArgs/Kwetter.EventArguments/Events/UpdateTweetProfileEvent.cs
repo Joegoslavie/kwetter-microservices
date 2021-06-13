@@ -1,12 +1,8 @@
 ﻿using Confluent.Kafka;
 using Kwetter.Messaging.Arguments;
-using Kwetter.Messaging.Interfaces;
+using Kwetter.Messaging.Interfaces.Tweet;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kwetter.Messaging.Events
 {
