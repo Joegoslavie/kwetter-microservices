@@ -18,7 +18,7 @@
         private readonly string topic;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ITweetProfileEvent"/> class.
+        /// Initializes a new instance of the <see cref="NewProfileEvent"/> class.
         /// </summary>
         /// <param name="producer">Producer.</param>
         /// <param name="topicName">Topic string.</param>

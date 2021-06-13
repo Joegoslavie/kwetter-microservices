@@ -136,12 +136,14 @@
                 if (profile != null && tweet != null)
                 {
                     // This tweet is not yet liked by the user.
-                    this.context.Likes.Add(new Persistence.Entity.LikeEntity
+                    likeRecord = new LikeEntity
                     {
                         Author = profile,
                         Tweet = tweet,
                         TweetId = request.TweetId,
-                    });
+                    };
+
+                    this.context.Likes.Add(likeRecord);
                 }
             }
             else
