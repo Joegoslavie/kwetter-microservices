@@ -3,6 +3,7 @@ using Confluent.Kafka;
 using Kwetter.Messaging;
 using Kwetter.Messaging.Events;
 using Kwetter.Messaging.Interfaces;
+using Kwetter.Messaging.Interfaces.Tweet;
 using Kwetter.ProfileService.EventHandlers;
 using Kwetter.ProfileService.Persistence.Context;
 using Microsoft.AspNetCore.Builder;

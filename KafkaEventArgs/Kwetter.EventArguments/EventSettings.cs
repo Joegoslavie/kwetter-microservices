@@ -11,26 +11,26 @@ namespace Kwetter.Messaging
         /// <summary>
         /// New profile event topic.
         /// </summary>
-        public static string NewProfileEventTopic { get; } = "NewProfileEvent";
+        public const string NewProfileEventTopic = "NewProfileEvent";
 
         /// <summary>
         /// New tweet profile event topic.
         /// </summary>
-        public static string NewTweetProfileEventTopic { get; } = "TweetProfileEvent";
+        public const string NewTweetProfileEventTopic = "TweetProfileEvent";
 
         /// <summary>
         /// New mention in tweet event topic.
         /// </summary>
-        public static string NewTweetMentionEventTopic { get; } = "NewTweetMentionEvent";
+        public const string NewTweetMentionEventTopic = "NewTweetMentionEvent";
 
         /// <summary>
         /// Hashtag in tweet event topic.
         /// </summary>
-        public static string TweetContainsHashtagEventTopic { get; } = "TweetContainsHashtagEvent";
+        public const string TweetContainsHashtagEventTopic = "TweetContainsHashtagEvent";
 
         /// <summary>
         /// Update tweet reference profile event topic.
         /// </summary>
-        public static string TweetProfileUpdateEventTopic { get; } = "TweetProfileUpdateEvent";
+        public const string TweetProfileUpdateEventTopic = "TweetProfileUpdateEvent";
     }
 }

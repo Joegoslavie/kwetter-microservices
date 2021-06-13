@@ -3,13 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.IdentityModel.Tokens.Jwt;
-    using System.Linq;
     using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
     using Grpc.Core;
     using Kwetter.AuthenticationService.Persistence.Entity;
     using Kwetter.Messaging.Interfaces;
+    using Kwetter.Messaging.Interfaces.Tweet;
     using Microservice.AuthGRPCService;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.Configuration;

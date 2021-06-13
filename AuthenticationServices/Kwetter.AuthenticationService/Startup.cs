@@ -6,6 +6,7 @@ namespace Kwetter.AuthenticationService
     using Kwetter.AuthenticationService.Persistence.Entity;
     using Kwetter.Messaging;
     using Kwetter.Messaging.Events;
+    using Kwetter.Messaging.Interfaces;
     using Kwetter.Messaging.Interfaces.Tweet;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;

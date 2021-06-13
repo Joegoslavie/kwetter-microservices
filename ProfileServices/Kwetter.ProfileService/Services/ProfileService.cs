@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Grpc.Core;
-    using Kwetter.Messaging.Interfaces;
+    using Kwetter.Messaging.Interfaces.Tweet;
     using Kwetter.ProfileService.Extentions;
     using Kwetter.ProfileService.Persistence.Context;
     using Microservice.ProfileGRPCService;
