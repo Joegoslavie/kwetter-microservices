@@ -1,15 +1,19 @@
-﻿namespace Kwetter.Messaging.Events
-{
-    using Confluent.Kafka;
-    using Kwetter.Messaging.Arguments;
-    using Kwetter.Messaging.Interfaces.Tweet;
-    using Newtonsoft.Json;
-    using System;
+﻿using Confluent.Kafka;
+using Kwetter.Messaging.Arguments;
+using Kwetter.Messaging.Interfaces.Tweet;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
+namespace Kwetter.Messaging.Events
+{
     /// <summary>
-    /// 
+    /// s
     /// </summary>
-    public class TweetProfileEvent : ITweetProfileEvent, IDisposable
+    public class TweetMentionEvent : ITweetMentionEvent, IDisposable
     {
         private readonly IProducer<string, string> producer;
         private readonly string topic;
@@ -19,22 +23,27 @@
         /// </summary>
         /// <param name="producer">Producer.</param>
         /// <param name="topicName">Topic string.</param>
-        public TweetProfileEvent(IProducer<string, string> producer, string topicName)
+        public TweetMentionEvent(IProducer<string, string> producer, string topicName)
         {
             this.producer = producer;
             this.topic = topicName;
         }
 
         /// <inheritdoc/>
-        public void Invoke(int userId, string username, string displayName)
+        public void Dispose()
+        {
+
+        }
+
+        public void Invoke(int tweetId, int authorId, int mentionUserId)
         {
             try
             {
-                var content = new ProfileEventArgs
+                var content = new MentionEventArgs
                 {
-                    UserId = userId,
-                    Username = username,
-                    DisplayName = displayName,
+                    TweetId = tweetId,
+                    AuthorId = authorId,
+                    MentionUserId = mentionUserId,
                 };
 
                 var jsonContents = JsonConvert.SerializeObject(content);
@@ -42,14 +51,8 @@
             }
             catch (Exception ex)
             {
-                throw;
+                Console.WriteLine(ex.ToString());
             }
-        }
-
-        /// <inheritdoc/>
-        public void Dispose()
-        {
-
         }
     }
 }
