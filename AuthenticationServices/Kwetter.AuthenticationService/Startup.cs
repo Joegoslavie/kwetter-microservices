@@ -33,20 +33,10 @@ namespace Kwetter.AuthenticationService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
-            services.AddDbContext<AuthenticationContext>(o => o.UseSqlServer(this.configuration.GetConnectionString("kwetter-auth-db")));
+            services.AddDbContext<AuthenticationContext>(o => o.UseSqlServer(this.configuration.GetConnectionString("kwetter-auth-db-dev")));
             services.AddIdentity<KwetterUserEntity<int>, KwetterRoleEntity<int>>()
                 .AddEntityFrameworkStores<AuthenticationContext>()
                 .AddDefaultTokenProviders();
-
-            try
-            {
-                var context = services.BuildServiceProvider().GetRequiredService<AuthenticationContext>();
-                context.Database.Migrate();
-            }
-            catch
-            {
-
-            }
 
             services.Configure<IdentityOptions>(options =>
             {

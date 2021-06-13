@@ -25,7 +25,7 @@ namespace Kwetter.FollowingService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
-            services.AddDbContext<FollowingContext>(o => o.UseSqlServer(this.configuration.GetConnectionString("kwetter-follow-db")));
+            services.AddDbContext<FollowingContext>(o => o.UseSqlServer(this.configuration.GetConnectionString("kwetter-follow-db-dev")));
             services.AddTransient<FollowManager>();
         }
 
