@@ -21,6 +21,8 @@ message TweetRequest {
 	int32 userId = 1;
 	string username = 2;
 	repeated int32 userIds = 3;
+	int32 page = 4;
+	int32 amount = 5;
 }
 
 message PlaceTweetRequest {
