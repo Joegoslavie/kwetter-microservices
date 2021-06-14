@@ -45,6 +45,8 @@ namespace Kwetter.TweetService
                 EnableAutoCommit = false,
             };
 
+            Console.WriteLine($"Using kafka endpoint: {config.BootstrapServers}");
+
             var builder = new ConsumerBuilder<Ignore, string>(config).Build();
             builder.Subscribe(new List<string> 
             {

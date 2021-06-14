@@ -44,6 +44,8 @@ namespace Kwetter.ProfileService
                 EnableAutoCommit = false,
             };
 
+            Console.WriteLine($"Using kafka endpoint: {config.BootstrapServers}");
+
             var builder = new ConsumerBuilder<Ignore, string>(config).Build();
             builder.Subscribe(EventSettings.ProfileEventTopic);
             services.AddHostedService(sp => new KafkaEventHandler(builder, services.BuildServiceProvider().GetRequiredService<ProfileContext>()));
