@@ -62,7 +62,7 @@
 
         private async Task InitializeProfile(ProfileEventArgs profileArgs, CancellationToken token)
         {
-            var entity = new ProfileEntity()
+            var entity = new ProfileEntity
             {
                 UserId = profileArgs.UserId,
                 Username = profileArgs.Username,

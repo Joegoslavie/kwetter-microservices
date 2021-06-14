@@ -34,7 +34,7 @@
         /// <summary>
         /// 
         /// </summary>
-        private readonly IProfileEvent profileEvent;
+        private readonly IProfileUpdateEvent profileEvent;
 
         /// <summary>
         /// 
@@ -56,7 +56,7 @@
             UserManager<KwetterUserEntity<int>> userManager,
             IConfiguration configuration,
             ILogger<AuthenticationService> logger,
-            IProfileEvent profileEvent,
+            IProfileUpdateEvent profileEvent,
             ITweetProfileEvent tweetProfileEvent)
         {
             this.userManager = userManager;

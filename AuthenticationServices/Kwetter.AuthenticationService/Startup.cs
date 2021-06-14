@@ -79,7 +79,7 @@ namespace Kwetter.AuthenticationService
             };
 
             var builder = new ProducerBuilder<string, string>(config).Build();
-            services.AddSingleton<IProfileEvent>(_ => new NewProfileEvent(builder, EventSettings.NewProfileEventTopic));
+            services.AddSingleton<IProfileUpdateEvent>(_ => new NewProfileEvent(builder, EventSettings.NewProfileEventTopic));
             services.AddSingleton<ITweetProfileEvent>(_ => new TweetProfileEvent(builder, EventSettings.NewTweetProfileEventTopic));
         }
 

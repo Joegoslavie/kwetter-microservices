@@ -12,7 +12,7 @@
     /// <summary>
     /// 
     /// </summary>
-    public class NewProfileEvent : IProfileEvent, IDisposable
+    public class NewProfileEvent : IProfileUpdateEvent, IDisposable
     {
         private readonly IProducer<string, string> producer;
         private readonly string topic;
