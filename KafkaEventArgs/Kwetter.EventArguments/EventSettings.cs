@@ -14,6 +14,11 @@ namespace Kwetter.Messaging
         public const string NewProfileEventTopic = "NewProfileEvent";
 
         /// <summary>
+        /// New profile event topic.
+        /// </summary>
+        public const string ProfileEventTopic = "ProfileEvent";
+
+        /// <summary>
         /// New tweet profile event topic.
         /// </summary>
         public const string NewTweetProfileEventTopic = "TweetProfileEvent";

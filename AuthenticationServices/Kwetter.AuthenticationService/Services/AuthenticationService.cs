@@ -135,7 +135,7 @@
             var result = await this.userManager.CreateAsync(newUser, request.Password).ConfigureAwait(false);
             if (!result.Succeeded)
             {
-                throw new RpcException(new Status(StatusCode.InvalidArgument, "Failed to create account."));
+                throw new RpcException(new Status(StatusCode.InvalidArgument, result.Errors.ToString()));
             }
 
             this.profileEvent.Invoke(newUser.Id, newUser.UserName, newUser.UserName);

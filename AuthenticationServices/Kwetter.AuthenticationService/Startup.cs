@@ -46,7 +46,7 @@ namespace Kwetter.AuthenticationService
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 6;
+                options.Password.RequiredLength = 2;
                 options.Password.RequiredUniqueChars = 1;
             });
 
@@ -79,7 +79,7 @@ namespace Kwetter.AuthenticationService
             };
 
             var builder = new ProducerBuilder<string, string>(config).Build();
-            services.AddSingleton<IProfileUpdateEvent>(_ => new NewProfileEvent(builder, EventSettings.NewProfileEventTopic));
+            services.AddSingleton<IProfileUpdateEvent>(_ => new NewProfileEvent(builder, EventSettings.ProfileEventTopic));
             services.AddSingleton<ITweetProfileEvent>(_ => new TweetProfileEvent(builder, EventSettings.NewTweetProfileEventTopic));
         }
 
