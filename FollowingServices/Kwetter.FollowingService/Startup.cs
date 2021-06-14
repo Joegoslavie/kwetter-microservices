@@ -34,8 +34,8 @@ namespace Kwetter.FollowingService
 
             ConsumerConfig config = new ConsumerConfig
             {
-                BootstrapServers = configuration.GetValue<string>("ProducerConfiguration:Servers"),
-                GroupId = configuration.GetValue<string>("ProducerConfiguration:GroupId"),
+                BootstrapServers = this.configuration.GetValue<string>("ProducerConfiguration:Servers"),
+                GroupId = this.configuration.GetValue<string>("ProducerConfiguration:GroupId"),
                 AutoOffsetReset = AutoOffsetReset.Earliest,
                 EnableAutoCommit = false,
             };
@@ -43,7 +43,7 @@ namespace Kwetter.FollowingService
             Console.WriteLine($"Using kafka endpoint: {config.BootstrapServers}");
 
             var builder = new ConsumerBuilder<Ignore, string>(config).Build();
-            builder.Subscribe(EventSettings.ProfileEventTopic);
+            builder.Subscribe(EventSettings.NewProfileEventTopic);
             services.AddHostedService(sp => new KafkaEventHandler(builder, services.BuildServiceProvider().GetRequiredService<FollowingContext>()));
         }
 
