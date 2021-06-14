@@ -108,7 +108,7 @@
             this.context.Tweets.Add(tweet);
             await this.context.SaveChangesAsync().ConfigureAwait(false);
 
-            this.ScanForMentions(tweet, tweet.Content);
+            this.ScanForMentions(tweet);
             return tweet;
         }
 
@@ -151,24 +151,22 @@
         }
 
         /// <summary>
-        /// 
+        /// Gets a collection of tweets that tagged the specified username.
         /// </summary>
-        /// <param name="username"></param>
-        /// <param name="page"></param>
-        /// <param name="amount"></param>
-        /// <returns></returns>
+        /// <param name="username">.</param>
+        /// <param name="page">.</param>
+        /// <param name="amount">.</param>
+        /// <returns>.</returns>
         public async Task<List<TweetEntity>> GetMentionedTweets(string username, int page, int amount)
         {
-            //return this.context.Tweets
-            //    .Include(x => x.m)
-            //    .Include(x => x.Tweet)
-            //    .Where(x => x.DirectedTo.Username == username)
-            //    .OrderByDescending(x => x.Tweet.CreatedAt)
-            //    .Skip(page * amount)
-            //    .Take(amount)
-            //    .ToList();
-
-            return null;
+            return this.context.Mentions
+                .Include(x => x.DirectedTo)
+                .Where(x => x.DirectedTo.Username == username)
+                .Include(x => x.Tweet)
+                .Select(x => x.Tweet)
+                .Skip(page * amount)
+                .Take(amount)
+                .ToList();
         }
 
         /// <summary>
@@ -182,8 +180,25 @@
         {
             return this.context.Tweets
                 .Include(x => x.Author)
-                .Where(x => userIds
-                .Contains(x.Author.UserId))
+                .Where(x => userIds.Contains(x.Author.UserId))
+                .Include(x => x.LikedBy)
+                .Include(x => x.Hashtags)
+                .OrderBy(x => Guid.NewGuid())
+                .Skip(page * amount)
+                .Take(amount)
+                .ToList();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
+        public List<TweetEntity> RandomTimeline(int page, int amount)
+        {
+            return this.context.Tweets
+                .Include(x => x.Author)
                 .Include(x => x.LikedBy)
                 .Include(x => x.Hashtags)
                 .OrderBy(x => Guid.NewGuid())
@@ -196,10 +211,9 @@
         /// Scans the tweet for possible mentions and hashtags.
         /// </summary>
         /// <param name="tweet">Tweet.</param>
-        /// <param name="content">content.</param>
-        private void ScanForMentions(TweetEntity tweet, string content)
+        private void ScanForMentions(TweetEntity tweet)
         {
-            var tagsMentions = Regex.Matches(content, EventRegex);
+            var tagsMentions = Regex.Matches($"{tweet.Content} ", EventRegex);
             var matched = tagsMentions.Where(x => x.Success).ToList();
 
             var usernames =

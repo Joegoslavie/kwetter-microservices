@@ -120,19 +120,22 @@
         }
 
         /// <summary>
-        /// 
+        /// Gets a collection of tweets that tagged the specified username.
         /// </summary>
-        /// <param name="request"></param>
-        /// <param name="context"></param>
-        /// <returns></returns>
+        /// <param name="request">r.</param>
+        /// <param name="context">q.</param>
+        /// <returns>TweetResponse.</returns>
         public override async Task<TweetResponse> GetMentionsByUsername(TweetRequest request, ServerCallContext context)
         {
             try
             {
                 return await Task.Run(async () =>
                 {
-                    var mentions = await this.manager.GetMentionedTweets(request.Username, request.Page, request.Amount).ConfigureAwait(false);
+                    var tweets = await this.manager.GetMentionedTweets(request.Username, request.Page, request.Amount).ConfigureAwait(false);
                     var response = new TweetResponse();
+                    response.Tweets.AddRange(
+                        tweets.Select(x => x.Convert()));
+
                     return response;
                 });
             }

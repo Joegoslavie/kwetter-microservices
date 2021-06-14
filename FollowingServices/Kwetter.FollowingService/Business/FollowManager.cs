@@ -31,52 +31,50 @@ namespace Kwetter.FollowingService.Business
             return this.context.Followings.Where(x => x.UserId == userId).ToList();
         }
 
-        public async Task<Operation> ToggleFollower(int currentId, int followId)
+        public async Task<bool> ToggleFollower(int currentId, int followId)
         {
             var entity = this.context.Followings.FirstOrDefault(x => x.UserId == currentId && x.FollowingId == followId);
-            Operation result;
-
             if (entity == null)
             {
-                this.context.Followings.Add(new FollowingEntity
+                entity = new FollowingEntity
                 {
                     UserId = currentId,
                     FollowingId = followId,
-                });
-                result = Operation.Created;
+                };
+
+                this.context.Followings.Add(entity);
             }
             else
             {
                 this.context.Followings.Remove(entity);
-                result = Operation.Removed;
+                entity = null;
             }
 
             await this.context.SaveChangesAsync().ConfigureAwait(false);
-            return result;
+            return entity != null;
         }
 
-        public async Task<Operation> ToggleBlocked(int currentId, int blockId)
+        public async Task<bool> ToggleBlocked(int currentId, int blockId)
         {
             var entity = this.context.Blocked.FirstOrDefault(x => x.UserId == currentId && x.BlockedId == blockId);
-            Operation result;
 
             if (entity == null)
             {
-                this.context.Blocked.Add(new BlockEntity
+                entity = new BlockEntity
                 {
                     UserId = currentId,
                     BlockedId = blockId,
-                });
-                result = Operation.Created;
+                };
+                this.context.Blocked.Add(entity);
             }
             else
             {
                 this.context.Blocked.Remove(entity);
-                result = Operation.Removed;
+                entity = null;
             }
 
             await this.context.SaveChangesAsync().ConfigureAwait(false);
-            return result;
+            return entity != null;
         }
     }
 }

@@ -80,6 +80,8 @@
                 return;
             }
 
+            Console.WriteLine($"Proccessing topic {topicName}");
+
             switch (topicName)
             {
                 case EventSettings.NewTweetProfileEventTopic:

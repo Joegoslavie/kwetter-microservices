@@ -37,7 +37,10 @@
         /// </summary>
         public List<HashtagEntity> Hashtags { get; set; } = new List<HashtagEntity>();
 
-
+        /// <summary>
+        /// Gets or sets the mentions to other users in the tweet.
+        /// </summary>
+        public List<MentionEntity> Mentions { get; set; } = new List<MentionEntity>();
 
         /// <summary>
         /// Gets or sets a value indicating whether if the tweet is flagged.

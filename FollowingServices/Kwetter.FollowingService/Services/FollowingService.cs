@@ -42,22 +42,14 @@ namespace Kwetter.FollowingService.Services
         {
             try
             {
-                var result = await this.manager.ToggleFollower(request.UserId, request.FollowingId).ConfigureAwait(false);
-
-                switch (result)
+                return new OperationResponse
                 {
-                    case Operation.Created:
-                        return new OperationResponse { Status = true, Message = "Following user", };
-                    case Operation.Removed:
-                        return new OperationResponse { Status = true, Message = "Unfollowed user", };
-                    default:
-                        return new OperationResponse { Status = false, Message = string.Empty, };
-                }
+                    Status = await this.manager.ToggleFollower(request.UserId, request.FollowingId).ConfigureAwait(false),
+                };
             }
             catch (Exception ex)
             {
-                this.logger.LogError("Exception occurred!", ex);
-                throw;
+                throw new RpcException(new Status(StatusCode.Unknown, ex.Message));
             }
         }
 
@@ -65,22 +57,15 @@ namespace Kwetter.FollowingService.Services
         {
             try
             {
-                var result = await this.manager.ToggleBlocked(request.UserId, request.BlockId).ConfigureAwait(false);
-
-                switch (result)
+                return new OperationResponse
                 {
-                    case Operation.Created:
-                        return new OperationResponse { Status = true, Message = "Blocked user", };
-                    case Operation.Removed:
-                        return new OperationResponse { Status = true, Message = "Unblocked user", };
-                    default:
-                        return new OperationResponse { Status = false, Message = string.Empty, };
-                }
+                    Status = await this.manager.ToggleBlocked(request.UserId, request.BlockId).ConfigureAwait(false),
+                };
+
             }
             catch (Exception ex)
             {
-                this.logger.LogError("Exception occurred!", ex);
-                throw;
+                throw new RpcException(new Status(StatusCode.Unknown, ex.Message));
             }
         }
 
