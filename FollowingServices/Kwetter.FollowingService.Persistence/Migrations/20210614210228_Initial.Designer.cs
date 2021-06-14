@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kwetter.FollowingService.Persistence.Migrations
 {
     [DbContext(typeof(FollowingContext))]
-    [Migration("20210510090449_Initial")]
+    [Migration("20210614210228_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,6 +51,19 @@ namespace Kwetter.FollowingService.Persistence.Migrations
                     b.HasKey("UserId", "FollowingId");
 
                     b.ToTable("Followings");
+                });
+
+            modelBuilder.Entity("Kwetter.FollowingService.Persistence.Entity.ProfileReferenceEntity", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("ProfileReferences");
                 });
 #pragma warning restore 612, 618
         }

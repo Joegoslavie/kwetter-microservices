@@ -32,6 +32,18 @@ namespace Kwetter.FollowingService.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_Followings", x => new { x.UserId, x.FollowingId });
                 });
+
+            migrationBuilder.CreateTable(
+                name: "ProfileReferences",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProfileReferences", x => x.UserId);
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -41,6 +53,9 @@ namespace Kwetter.FollowingService.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Followings");
+
+            migrationBuilder.DropTable(
+                name: "ProfileReferences");
         }
     }
 }

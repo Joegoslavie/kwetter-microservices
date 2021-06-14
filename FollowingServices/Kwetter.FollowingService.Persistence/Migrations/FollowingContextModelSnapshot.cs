@@ -50,6 +50,19 @@ namespace Kwetter.FollowingService.Persistence.Migrations
 
                     b.ToTable("Followings");
                 });
+
+            modelBuilder.Entity("Kwetter.FollowingService.Persistence.Entity.ProfileReferenceEntity", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("ProfileReferences");
+                });
 #pragma warning restore 612, 618
         }
     }

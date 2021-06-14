@@ -2,6 +2,7 @@
 {
     using Kwetter.FollowingService.Persistence.Entity;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Design;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -22,11 +23,9 @@
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FollowingContext"/> class.
-        /// </summary>
         public FollowingContext()
         {
+
         }
 
         /// <summary>
@@ -51,7 +50,7 @@
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BlockEntity>().HasKey(t => new { t.UserId, t.BlockedId });
-            modelBuilder.Entity<FollowingEntity>().HasKey(t => new { t.UserId, t.FollowingId});
+            modelBuilder.Entity<FollowingEntity>().HasKey(t => new { t.UserId, t.FollowingId });
         }
     }
 }
