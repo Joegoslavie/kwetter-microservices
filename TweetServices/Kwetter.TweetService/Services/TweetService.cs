@@ -120,6 +120,29 @@
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override async Task<TweetResponse> GetMentionsByUsername(TweetRequest request, ServerCallContext context)
+        {
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    var mentions = await this.manager.GetMentionedTweets(request.Username, request.Page, request.Amount).ConfigureAwait(false);
+                    var response = new TweetResponse();
+                    return response;
+                });
+            }
+            catch (Exception ex)
+            {
+                throw new RpcException(new Status(StatusCode.Unknown, ex.Message));
+            }
+        }
+
+        /// <summary>
         /// Creates a new tweet.
         /// </summary>
         /// <param name="request">req.</param>

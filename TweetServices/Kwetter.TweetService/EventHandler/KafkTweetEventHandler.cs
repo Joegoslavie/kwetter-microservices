@@ -30,7 +30,7 @@
         private readonly TweetContext context;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="KafkaEventHandler"/> class.
+        /// Initializes a new instance of the <see cref="KafkTweetEventHandler"/> class.
         /// </summary>
         /// <param name="consumer">Consumer.</param>
         /// <param name="context">Context.</param>
@@ -84,18 +84,20 @@
             {
                 case EventSettings.NewTweetProfileEventTopic:
                 case EventSettings.TweetProfileUpdateEventTopic:
+
                     var profileArgs = JsonConvert.DeserializeObject<ProfileEventArgs>(messageContents);
                     await this.CreateOrUpdateProfileRef(profileArgs).ConfigureAwait(false);
+                    this.consumer.Commit();
                     break;
 
                 case EventSettings.NewTweetMentionEventTopic:
+
                     var mentionArgs = JsonConvert.DeserializeObject<MentionEventArgs>(messageContents);
                     await this.CreateTweetMention(mentionArgs).ConfigureAwait(false);
+                    this.consumer.Commit();
                     break;
 
             }
-
-            this.consumer.Commit();
         }
 
         /// <summary>
@@ -107,11 +109,10 @@
              if (this.context.Mentions.Include(x => x.DirectedTo).Where
                     (x => x.DirectedTo.UserId == mentionArgs.MentionUserId && x.TweetId == mentionArgs.TweetId).Any())
             {
-                // the user is already mentioned in this tweet.
                 return;
             }
 
-             var tweet = this.context.Tweets.Include(x => x.Author).FirstOrDefault(x => x.Author.UserId == mentionArgs.TweetId);
+             var tweet = this.context.Tweets.Include(x => x.Author).FirstOrDefault(x => x.Author.UserId == mentionArgs.AuthorId);
              var mentionEntity = new MentionEntity
              {
                 DirectedTo = this.context.ProfileReferences.FirstOrDefault(x => x.UserId == mentionArgs.MentionUserId),

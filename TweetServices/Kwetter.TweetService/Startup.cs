@@ -54,8 +54,7 @@ namespace Kwetter.TweetService
             });
 
             var producer = new ProducerBuilder<string, string>(config).Build();
-            services.AddSingleton<ITweetMentionEvent>(_ => new TweetMentionEvent(producer, EventSettings.NewProfileEventTopic));
-
+            services.AddSingleton<ITweetEvent>(_ => new TweetMentionEvent(producer, EventSettings.NewTweetMentionEventTopic));
             services.AddHostedService(sp => new KafkTweetEventHandler(builder, services.BuildServiceProvider().GetRequiredService<TweetContext>()));
         }
 

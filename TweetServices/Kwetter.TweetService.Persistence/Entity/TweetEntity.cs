@@ -37,6 +37,8 @@
         /// </summary>
         public List<HashtagEntity> Hashtags { get; set; } = new List<HashtagEntity>();
 
+
+
         /// <summary>
         /// Gets or sets a value indicating whether if the tweet is flagged.
         /// </summary>

@@ -34,7 +34,7 @@
         /// <summary>
         /// Event when a mention is present inside the to be placed tweet.
         /// </summary>
-        private readonly ITweetMentionEvent tweetMentionEvent;
+        private readonly ITweetEvent tweetMentionEvent;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TweetManager"/> class.
@@ -42,7 +42,7 @@
         /// <param name="logger">Injected logger.</param>
         /// <param name="mentionEvent">Mention event.</param>
         /// <param name="context">Injected context.</param>
-        public TweetManager(ILogger<TweetManager> logger, ITweetMentionEvent mentionEvent, TweetContext context)
+        public TweetManager(ILogger<TweetManager> logger, ITweetEvent mentionEvent, TweetContext context)
         {
             this.context = context;
             this.logger = logger;
@@ -151,6 +151,27 @@
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="page"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
+        public async Task<List<TweetEntity>> GetMentionedTweets(string username, int page, int amount)
+        {
+            //return this.context.Tweets
+            //    .Include(x => x.m)
+            //    .Include(x => x.Tweet)
+            //    .Where(x => x.DirectedTo.Username == username)
+            //    .OrderByDescending(x => x.Tweet.CreatedAt)
+            //    .Skip(page * amount)
+            //    .Take(amount)
+            //    .ToList();
+
+            return null;
+        }
+
+        /// <summary>
         /// Constructs timeline basd on user ids.
         /// </summary>
         /// <param name="userIds">User id collection.</param>
@@ -181,22 +202,22 @@
             var tagsMentions = Regex.Matches(content, EventRegex);
             var matched = tagsMentions.Where(x => x.Success).ToList();
 
-            if (matched.Any())
+            var usernames =
+                    matched
+                        .Select(x => x.Value.Trim())
+                        .Distinct()
+                        .Where(x => x.StartsWith("@"))
+                        .Select(x => x[1..])
+                        .ToList();
+
+            usernames.ForEach(username =>
             {
-                var actions = matched.Select(x => x.Value).Distinct().ToList();
-                actions.ForEach(username =>
+                var mentionedUser = this.context.ProfileReferences.FirstOrDefault(x => x.Username.ToLower() == username.ToLower());
+                if (mentionedUser != null)
                 {
-                    Console.WriteLine(username + Environment.NewLine);
-
-                    var mentionedUser = this.context.ProfileReferences.FirstOrDefault(x => x.Username == username.Substring(1));
-                    if (mentionedUser != null)
-                    {
-                        this.tweetMentionEvent.Invoke(tweet.Id, tweet.Author.UserId, mentionedUser.UserId);
-
-                        // Invoke hashtag event as well later
-                    }
-                });
-            }
+                    this.tweetMentionEvent.Invoke(tweet.Id, tweet.Author.UserId, mentionedUser.UserId);
+                }
+            });
         }
     }
 }
