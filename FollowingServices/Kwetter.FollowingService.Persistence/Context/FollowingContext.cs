@@ -40,6 +40,11 @@
         public DbSet<FollowingEntity> Followings { get; set; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public DbSet<ProfileReferenceEntity> ProfileReferences { get; set; }
+
+        /// <summary>
         /// Overrides creating models.
         /// </summary>
         /// <param name="modelBuilder">Used to build the models.</param>
