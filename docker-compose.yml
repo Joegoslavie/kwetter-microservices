@@ -5,6 +5,7 @@ networks:
     driver: bridge
 
 services:
+
   zoo:
     image: 'bitnami/zookeeper:latest'
     networks:
