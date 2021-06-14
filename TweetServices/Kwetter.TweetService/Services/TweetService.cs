@@ -94,6 +94,32 @@
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override async Task<TweetResponse> GetRandomTimeline(TweetRequest request, ServerCallContext context)
+        {
+            try
+            {
+                return await Task.Run(() =>
+                {
+                    var tweets = this.manager.RandomTimeline(request.Page, request.Amount);
+                    var response = new TweetResponse();
+                    response.Tweets.AddRange(
+                        tweets.Select(t => t.Convert()));
+
+                    return response;
+                });
+            }
+            catch (Exception ex)
+            {
+                throw new RpcException(new Status(StatusCode.Unknown, ex.Message));
+            }
+        }
+
+        /// <summary>
         /// Retrieves all tweets of the passed user ids. Can be used to construct the timeline of a user.
         /// </summary>
         /// <param name="request">Incoming request.</param>
