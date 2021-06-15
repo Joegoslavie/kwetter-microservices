@@ -21,27 +21,18 @@ namespace Kwetter.FollowingService.Business
             this.context = context;
         }
 
-        public List<FollowingEntity> GetFollowerIds(int userId)
+        public async Task<bool> ToggleFollower(int currentId, string username)
         {
-            return this.context.Followings.Where(x => x.FollowingId == userId).ToList();
-        }
+            var profileRef = this.context.ProfileReferences.SingleOrDefault(x => x.Username == username);
+            var entity = this.context.Followings.FirstOrDefault(x => x.UserId == currentId && x.FollowingId == profileRef.UserId);
 
-        public List<FollowingEntity> GetFollowingIds(int userId)
-        {
-            return this.context.Followings.Where(x => x.UserId == userId).ToList();
-        }
-
-        public async Task<bool> ToggleFollower(int currentId, int followId)
-        {
-            var entity = this.context.Followings.FirstOrDefault(x => x.UserId == currentId && x.FollowingId == followId);
             if (entity == null)
             {
                 entity = new FollowingEntity
                 {
                     UserId = currentId,
-                    FollowingId = followId,
+                    FollowingId = profileRef.UserId,
                 };
-
                 this.context.Followings.Add(entity);
             }
             else
@@ -54,16 +45,52 @@ namespace Kwetter.FollowingService.Business
             return entity != null;
         }
 
-        public async Task<bool> ToggleBlocked(int currentId, int blockId)
+        public async Task<List<int>> GetFollowing(string username, int page, int amount)
         {
-            var entity = this.context.Blocked.FirstOrDefault(x => x.UserId == currentId && x.BlockedId == blockId);
+            var profileRef = this.context.ProfileReferences.SingleOrDefault(x => x.Username == username);
+            if (profileRef == null)
+            {
+                throw new KeyNotFoundException(nameof(username));
+            }
+
+            return this.context.Followings
+                .Where(f => f.UserId == profileRef.UserId)
+                .OrderByDescending(x => x.FollowingSince)
+                .Select(x => x.FollowingId)
+                .Skip(page * amount)
+                .Take(amount)
+                .ToList();
+        }
+
+        public async Task<List<int>> GetFollowers(string username, int page, int amount)
+        {
+            var profileRef = this.context.ProfileReferences.SingleOrDefault(x => x.Username == username);
+            if (profileRef == null)
+            {
+                throw new KeyNotFoundException(nameof(username));
+            }
+
+            return this.context.Followings
+                .Where(f => f.FollowingId == profileRef.UserId)
+                .OrderByDescending(x => x.FollowingSince)
+                .Select(x => x.FollowingId)
+                .Skip(page * amount)
+                .Take(amount)
+                .ToList();
+        }
+
+        public async Task<bool> ToggleBlocked(int currentId, string username)
+        {
+            var profileRef = this.context.ProfileReferences.SingleOrDefault(x => x.Username == username);
+
+            var entity = this.context.Blocked.FirstOrDefault(x => x.UserId == currentId && x.BlockedId == profileRef.UserId);
 
             if (entity == null)
             {
                 entity = new BlockEntity
                 {
                     UserId = currentId,
-                    BlockedId = blockId,
+                    BlockedId = profileRef.UserId,
                 };
                 this.context.Blocked.Add(entity);
             }

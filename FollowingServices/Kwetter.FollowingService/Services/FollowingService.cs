@@ -15,37 +15,32 @@ namespace Kwetter.FollowingService.Services
 
         private readonly FollowManager manager;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FollowingService"/> class.
+        /// </summary>
+        /// <param name="logger">L.</param>
+        /// <param name="manager">M.</param>
         public FollowingService(ILogger<FollowingService> logger, FollowManager manager)
         {
             this.logger = logger;
             this.manager = manager;
         }
 
-        public override async Task<OperationResponse> GetFollowIds(FollowerRequest request, ServerCallContext context)
-        {
-            int userId = request.UserId;
-            var followingIds = this.manager.GetFollowingIds(userId);
-            var followerIds = this.manager.GetFollowerIds(userId);
-
-            var response = new OperationResponse
-            {
-                Status = true,
-                Message = "Success",
-            };
-
-            response.Followers.AddRange(followerIds.Select(x => x.UserId));
-            response.Following.AddRange(followingIds.Select(x => x.FollowingId));
-            return response;
-        }
-
-        public override async Task<OperationResponse> ToggleFollow(FollowRequest request, ServerCallContext context)
+        /// <summary>
+        /// Gets following ids of the username.
+        /// </summary>
+        /// <param name="request">request.</param>
+        /// <param name="context">context.</param>
+        /// <returns>OperationResponse.</returns>
+        public override async Task<OperationResponse> GetFollowingByUsername(FollowInfoRequest request, ServerCallContext context)
         {
             try
             {
-                return new OperationResponse
-                {
-                    Status = await this.manager.ToggleFollower(request.UserId, request.FollowingId).ConfigureAwait(false),
-                };
+                var result = new OperationResponse();
+                result.ProfileIds.AddRange(
+                    await this.manager.GetFollowing(request.Username, request.Page, request.Amount).ConfigureAwait(false));
+
+                return result;
             }
             catch (Exception ex)
             {
@@ -53,15 +48,57 @@ namespace Kwetter.FollowingService.Services
             }
         }
 
-        public override async Task<OperationResponse> ToggleBlock(BlockRequest request, ServerCallContext context)
+        /// <summary>
+        /// Gets follower ids of the username.
+        /// </summary>
+        /// <param name="request">request.</param>
+        /// <param name="context">context.</param>
+        /// <returns>OperationResponse.</returns>
+        public override async Task<OperationResponse> GetFollowersByUsername(FollowInfoRequest request, ServerCallContext context)
         {
             try
             {
-                return new OperationResponse
-                {
-                    Status = await this.manager.ToggleBlocked(request.UserId, request.BlockId).ConfigureAwait(false),
-                };
+                var result = new OperationResponse();
+                result.ProfileIds.AddRange(
+                    await this.manager.GetFollowers(request.Username, request.Page, request.Amount).ConfigureAwait(false));
 
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new RpcException(new Status(StatusCode.Unknown, ex.Message));
+            }
+        }
+
+        /// <summary>
+        /// Toggles a follow.
+        /// </summary>
+        /// <param name="request">request.</param>
+        /// <param name="context">context.</param>
+        /// <returns>OperationResponse.</returns>
+        public override async Task<OperationResponse> ToggleFollow(ToggleFollowRequest request, ServerCallContext context)
+        {
+            try
+            {
+                return new OperationResponse { Status = await this.manager.ToggleFollower(request.UserId, request.Username).ConfigureAwait(false), };
+            }
+            catch (Exception ex)
+            {
+                throw new RpcException(new Status(StatusCode.Unknown, ex.Message));
+            }
+        }
+
+        /// <summary>
+        /// Toggles a block.
+        /// </summary>
+        /// <param name="request">request.</param>
+        /// <param name="context">context.</param>
+        /// <returns>OperationResponse.</returns>
+        public override async Task<OperationResponse> ToggleBlock(ToggleBlockRequest request, ServerCallContext context)
+        {
+            try
+            {
+                return new OperationResponse { Status = await this.manager.ToggleBlocked(request.UserId, request.Username).ConfigureAwait(false), };
             }
             catch (Exception ex)
             {

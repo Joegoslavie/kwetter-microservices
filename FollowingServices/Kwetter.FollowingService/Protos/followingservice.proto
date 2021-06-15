@@ -6,32 +6,31 @@ package domain;
 
 // The greeting service definition.
 service FollowGRPCService {
-  rpc ToggleBlock (BlockRequest) returns (OperationResponse);
-  rpc ToggleFollow (FollowRequest) returns (OperationResponse);
-  rpc GetFollowIdsByUsername (FollowerRequest) returns (OperationResponse);
-  rpc GetFollowIds (FollowerRequest) returns (OperationResponse);
+  rpc ToggleBlock (ToggleBlockRequest) returns (OperationResponse);
+  rpc ToggleFollow (ToggleFollowRequest) returns (OperationResponse);
+
+  rpc GetFollowersByUsername (FollowInfoRequest) returns (OperationResponse);
+  rpc GetFollowingByUsername (FollowInfoRequest) returns (OperationResponse);
 }
 
-// The request message containing the user's name.
-message BlockRequest {
-  int32 UserId = 1;
-  int32 BlockId = 2;
+message ToggleBlockRequest {
+	int32 userId = 1;
+	string username = 2;
 }
 
-// The response message containing the greetings.
-message FollowRequest {
-  int32 UserId = 1;
-  int32 FollowingId = 2;
+message ToggleFollowRequest {
+	int32 userId = 1;
+	string username = 2;
 }
 
-message FollowerRequest {
-	int32 UserId = 1;
-	string Username = 2;
+message FollowInfoRequest {
+	int32 userId = 1;
+	string username = 2;
+	int32 page = 3;
+	int32 amount = 4;
 }
 
 message OperationResponse {
 	bool Status = 1;
-	string Message = 2;
-	repeated int32 following = 3;
-	repeated int32 followers = 4;
+	repeated int32 profileIds = 2;
 }
