@@ -34,7 +34,7 @@ namespace Kwetter.ProfileService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
-            services.AddDbContext<ProfileContext>(o => o.UseSqlServer(this.configuration.GetConnectionString("kwetter-profile-db-dev")));
+            services.AddDbContext<ProfileContext>(o => o.UseSqlServer(this.configuration.GetConnectionString("kwetter-profile-db")));
 
             ConsumerConfig config = new ConsumerConfig
             {

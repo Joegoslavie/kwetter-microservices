@@ -6,15 +6,6 @@ networks:
 
 services:
 
-  zoo:
-    image: 'bitnami/zookeeper:latest'
-    networks:
-      - kafka-net
-    ports:
-      - '2181:2181'
-    environment:
-      - ALLOW_ANONYMOUS_LOGIN=yes
-  
   db:
     image: "mcr.microsoft.com/mssql/server"
     environment:
@@ -24,6 +15,15 @@ services:
       - "13371:1433"
     volumes:
       - sqlserver:/sqlserver
+      
+  zoo:
+    image: 'bitnami/zookeeper:latest'
+    networks:
+      - kafka-net
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
 
   broker:
     image: 'bitnami/kafka:latest'
