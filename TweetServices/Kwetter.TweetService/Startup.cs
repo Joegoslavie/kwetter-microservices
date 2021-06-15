@@ -34,7 +34,7 @@ namespace Kwetter.TweetService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
-            services.AddDbContext<TweetContext>(o => o.UseSqlServer(this.configuration.GetConnectionString("kwetter-tweet-db-dev")));
+            services.AddDbContext<TweetContext>(o => o.UseSqlServer(this.configuration.GetConnectionString("kwetter-tweet-db")));
             services.AddTransient<TweetManager>();
 
             ConsumerConfig config = new ConsumerConfig
