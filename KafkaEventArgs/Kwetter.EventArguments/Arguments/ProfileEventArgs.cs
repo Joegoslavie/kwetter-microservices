@@ -9,5 +9,6 @@ namespace Kwetter.Messaging.Arguments
         public int UserId { get; set; }
         public string Username { get; set; }
         public string DisplayName { get; set; }
+        public string AvatarUrl { get; set; }
     }
 }

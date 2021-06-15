@@ -47,11 +47,16 @@ namespace Kwetter.ProfileService
             Console.WriteLine($"Using kafka endpoint: {config.BootstrapServers}");
 
             var builder = new ConsumerBuilder<Ignore, string>(config).Build();
-            builder.Subscribe(EventSettings.ProfileEventTopic);
-            services.AddHostedService(sp => new KafkaEventHandler(builder, services.BuildServiceProvider().GetRequiredService<ProfileContext>()));
-
             var producer = new ProducerBuilder<string, string>(config).Build();
-            services.AddSingleton<ITweetUpdateEvent>(_ => new UpdateTweetProfileEvent(producer, EventSettings.TweetProfileUpdateEventTopic));
+
+            builder.Subscribe(EventSettings.ProfileEventTopic);
+
+            services.AddHostedService(sp => new KafkaEventHandler(builder, services.BuildServiceProvider().GetRequiredService<ProfileContext>()));
+            services.AddSingleton<IProfileEvent>(_ => new ProfileEvent(producer, new List<string> 
+            { 
+                EventSettings.TweetProfileRefEventTopic, 
+                EventSettings.FollowRefProfileEventTopic 
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

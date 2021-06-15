@@ -131,7 +131,7 @@
                 throw new RpcException(new Status(StatusCode.InvalidArgument, result.Errors.ToString()));
             }
 
-            this.profileEvent.Invoke(newUser.Id, newUser.UserName, newUser.UserName);
+            this.profileEvent.Invoke(newUser.Id, newUser.UserName, newUser.UserName, "default.jpg");
             return new AuthenticationResponse
             {
                 Status = true,

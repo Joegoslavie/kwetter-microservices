@@ -50,8 +50,7 @@ namespace Kwetter.TweetService
             var builder = new ConsumerBuilder<Ignore, string>(config).Build();
             builder.Subscribe(new List<string> 
             {
-                EventSettings.NewTweetProfileEventTopic,
-                EventSettings.TweetProfileUpdateEventTopic,
+                EventSettings.TweetProfileRefEventTopic,
                 EventSettings.NewTweetMentionEventTopic,
             });
 

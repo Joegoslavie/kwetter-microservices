@@ -32,18 +32,15 @@ namespace Kwetter.FollowingService
             services.AddDbContext<FollowingContext>(o => o.UseSqlServer(this.configuration.GetConnectionString("kwetter-follow-db")));
             services.AddTransient<FollowManager>();
 
-            ConsumerConfig config = new ConsumerConfig
+            var builder = new ConsumerBuilder<Ignore, string>(new ConsumerConfig
             {
                 BootstrapServers = this.configuration.GetValue<string>("ProducerConfiguration:Servers"),
-                GroupId = this.configuration.GetValue<string>("ProducerConfiguration:GroupId"),
+                GroupId = null,
                 AutoOffsetReset = AutoOffsetReset.Earliest,
                 EnableAutoCommit = false,
-            };
+            }).Build();
 
-            Console.WriteLine($"Using kafka endpoint: {config.BootstrapServers}");
-
-            var builder = new ConsumerBuilder<Ignore, string>(config).Build();
-            builder.Subscribe(EventSettings.NewFollowRefProfileEventTopic);
+            builder.Subscribe(EventSettings.FollowRefProfileEventTopic);
             services.AddHostedService(sp => new KafkaEventHandler(builder, services.BuildServiceProvider().GetRequiredService<FollowingContext>()));
         }
 

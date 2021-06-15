@@ -12,7 +12,7 @@
     using Microsoft.Extensions.Hosting;
     using Newtonsoft.Json;
 
-    class KafkaEventHandler : BackgroundService
+    public class KafkaEventHandler : BackgroundService
     {
         /// <summary>
         /// Consumes the shit out of Kwetter.
@@ -62,16 +62,19 @@
 
         private async Task InitializeProfile(ProfileEventArgs profileArgs, CancellationToken token)
         {
-            if (this.context.ProfileReferences.Any(x => x.UserId == profileArgs.UserId))
+            var entity = this.context.ProfileReferences.SingleOrDefault(p => p.UserId == profileArgs.UserId);
+            if (entity == null)
             {
-                return;
+                entity = new ProfileReferenceEntity
+                {
+                    UserId = profileArgs.UserId,
+                };
+                this.context.ProfileReferences.Add(entity);
             }
 
-            this.context.ProfileReferences.Add(new ProfileReferenceEntity
-            {
-                UserId = profileArgs.UserId,
-                Username = profileArgs.Username,
-            });
+            entity.Username = profileArgs.Username;
+            entity.DisplayName = profileArgs.DisplayName;
+            entity.AvatarUrl = profileArgs.AvatarUrl;
 
             await this.context.SaveChangesAsync(token).ConfigureAwait(false);
             this.consumer.Commit();

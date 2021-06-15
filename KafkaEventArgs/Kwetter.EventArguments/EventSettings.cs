@@ -11,22 +11,17 @@ namespace Kwetter.Messaging
         /// <summary>
         /// New profile event topic.
         /// </summary>
-        public const string NewProfileEventTopic = "NewProfileEvent";
-
-        /// <summary>
-        /// New profile event topic.
-        /// </summary>
-        public const string NewFollowRefProfileEventTopic = "NewFollowRefProfileEvent";
-
-        /// <summary>
-        /// New profile event topic.
-        /// </summary>
         public const string ProfileEventTopic = "ProfileEvent";
 
         /// <summary>
-        /// New tweet profile event topic.
+        /// New profile event topic.
         /// </summary>
-        public const string NewTweetProfileEventTopic = "TweetProfileEvent";
+        public const string TweetProfileRefEventTopic = "TweetProfileRefEvent";
+
+        /// <summary>
+        /// New profile event topic.
+        /// </summary>
+        public const string FollowRefProfileEventTopic = "FollowRefProfileEvent";
 
         /// <summary>
         /// New mention in tweet event topic.
@@ -37,10 +32,5 @@ namespace Kwetter.Messaging
         /// Hashtag in tweet event topic.
         /// </summary>
         public const string TweetContainsHashtagEventTopic = "TweetContainsHashtagEvent";
-
-        /// <summary>
-        /// Update tweet reference profile event topic.
-        /// </summary>
-        public const string TweetProfileUpdateEventTopic = "TweetProfileUpdateEvent";
     }
 }

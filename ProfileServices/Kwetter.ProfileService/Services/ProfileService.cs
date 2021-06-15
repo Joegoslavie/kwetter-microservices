@@ -142,8 +142,7 @@
             this.context.Profiles.Update(profile);
             await this.context.SaveChangesAsync().ConfigureAwait(false);
 
-            this.tweetProfileUpdate.Invoke(profile.UserId, profile.Username, profile.DisplayName);
-
+            this.tweetProfileUpdate.Invoke(profile.UserId, profile.Username, profile.DisplayName, profile.AvatarUri);
             return new SingleProfileResponse
             {
                 Status = true,

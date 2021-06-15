@@ -12,7 +12,7 @@
     /// <summary>
     /// 
     /// </summary>
-    public class NewProfileEvent : IProfileEvent, IDisposable
+    public class ProfileEvent : IProfileEvent, IDisposable
     {
         private readonly IProducer<string, string> producer;
         private readonly List<string> topics;
@@ -22,27 +22,41 @@
         /// </summary>
         /// <param name="producer">Producer.</param>
         /// <param name="topicName">Topic string.</param>
-        public NewProfileEvent(IProducer<string, string> producer, List<string> topicNames)
+        public ProfileEvent(IProducer<string, string> producer, List<string> topicNames)
         {
             this.producer = producer;
             this.topics = topicNames;
         }
 
         /// <inheritdoc/>
-        public void Invoke(int userId, string username, string displayName)
+        public void Invoke(int userId, string username, string displayName, string avatarUrl)
+        {
+            this.Fire(new ProfileEventArgs {
+                UserId = userId,
+                Username = username,
+                DisplayName = displayName,
+                AvatarUrl = avatarUrl
+            });
+        }
+
+        /// <inheritdoc/>
+        public void Invoke(ProfileEventArgs args)
+        {
+            this.Fire(args);
+        }
+
+        /// <inheritdoc/>
+        private void Fire(ProfileEventArgs args)
         {
             try
             {
-                var content = new ProfileEventArgs
-                {
-                    UserId = userId,
-                    Username = username,
-                    DisplayName = displayName,
+                var message = new Message<string, string> 
+                { 
+                    Value = JsonConvert.SerializeObject(args) 
                 };
 
-                var jsonContents = JsonConvert.SerializeObject(content);
-                var message = new Message<string, string> { Value = jsonContents };
-                this.topics.ForEach(topic => this.producer.ProduceAsync(topic, message).ConfigureAwait(false));
+                this.topics.ForEach(topic => 
+                    this.producer.ProduceAsync(topic, message).ConfigureAwait(false));
             }
             catch (Exception ex)
             {
@@ -55,5 +69,6 @@
         {
 
         }
+
     }
 }

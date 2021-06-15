@@ -84,8 +84,7 @@
 
             switch (topicName)
             {
-                case EventSettings.NewTweetProfileEventTopic:
-                case EventSettings.TweetProfileUpdateEventTopic:
+                case EventSettings.TweetProfileRefEventTopic:
 
                     var profileArgs = JsonConvert.DeserializeObject<ProfileEventArgs>(messageContents);
                     await this.CreateOrUpdateProfileRef(profileArgs).ConfigureAwait(false);
@@ -133,22 +132,22 @@
         /// <returns>Task.</returns>
         private async Task CreateOrUpdateProfileRef(ProfileEventArgs profileArgs)
         {
-            var entity = this.context.ProfileReferences.FirstOrDefault(p => p.UserId == profileArgs.UserId);
-
+            var entity = this.context.ProfileReferences.SingleOrDefault(p => p.UserId == profileArgs.UserId);
             if (entity == null)
             {
-                entity = new ProfileReferenceEntity()
+                entity = new ProfileReferenceEntity
                 {
                     UserId = profileArgs.UserId,
-                    Username = profileArgs.Username,
-                    AvatarUrl = "default.jpg",
                 };
-
                 this.context.ProfileReferences.Add(entity);
             }
 
+            entity.Username = profileArgs.Username;
             entity.DisplayName = profileArgs.DisplayName;
+            entity.AvatarUrl = profileArgs.AvatarUrl;
+
             await this.context.SaveChangesAsync().ConfigureAwait(false);
+            this.consumer.Commit();
         }
     }
 }

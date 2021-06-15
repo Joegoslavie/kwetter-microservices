@@ -1,5 +1,6 @@
 ﻿namespace Kwetter.Messaging.Interfaces
 {
+    using Kwetter.Messaging.Arguments;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -7,6 +8,8 @@
 
     public interface IProfileEvent
     {
-        void Invoke(int userId, string username, string displayName);
+        void Invoke(int userId, string username, string displayName, string avatarUrl);
+
+        void Invoke(ProfileEventArgs args);
     }
 }
