@@ -16,6 +16,11 @@ namespace Kwetter.Messaging
         /// <summary>
         /// New profile event topic.
         /// </summary>
+        public const string NewFollowRefProfileEventTopic = "NewFollowRefProfileEvent";
+
+        /// <summary>
+        /// New profile event topic.
+        /// </summary>
         public const string ProfileEventTopic = "ProfileEvent";
 
         /// <summary>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kwetter.Messaging.Interfaces.Tweet
 {
-    public interface ITweetUpdateEvent : ITweetProfileEvent
+    public interface ITweetUpdateEvent : IProfileEvent
     {
     }
 }

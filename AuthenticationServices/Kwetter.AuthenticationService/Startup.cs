@@ -18,6 +18,7 @@ namespace Kwetter.AuthenticationService
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.IdentityModel.Tokens;
+    using System.Collections.Generic;
     using System.Text;
 
     public class Startup
@@ -79,8 +80,12 @@ namespace Kwetter.AuthenticationService
             };
 
             var builder = new ProducerBuilder<string, string>(config).Build();
-            services.AddSingleton<IProfileUpdateEvent>(_ => new NewProfileEvent(builder, EventSettings.ProfileEventTopic));
-            services.AddSingleton<ITweetProfileEvent>(_ => new TweetProfileEvent(builder, EventSettings.NewTweetProfileEventTopic));
+            services.AddSingleton<IProfileEvent>(_ => new NewProfileEvent(builder, new List<string>
+            {
+                EventSettings.ProfileEventTopic,
+                EventSettings.NewTweetProfileEventTopic,
+                EventSettings.NewFollowRefProfileEventTopic
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline. 

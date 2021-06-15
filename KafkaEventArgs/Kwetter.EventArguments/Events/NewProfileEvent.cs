@@ -12,20 +12,20 @@
     /// <summary>
     /// 
     /// </summary>
-    public class NewProfileEvent : IProfileUpdateEvent, IDisposable
+    public class NewProfileEvent : IProfileEvent, IDisposable
     {
         private readonly IProducer<string, string> producer;
-        private readonly string topic;
+        private readonly List<string> topics;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NewProfileEvent"/> class.
         /// </summary>
         /// <param name="producer">Producer.</param>
         /// <param name="topicName">Topic string.</param>
-        public NewProfileEvent(IProducer<string, string> producer, string topicName)
+        public NewProfileEvent(IProducer<string, string> producer, List<string> topicNames)
         {
             this.producer = producer;
-            this.topic = topicName;
+            this.topics = topicNames;
         }
 
         /// <inheritdoc/>
@@ -41,7 +41,8 @@
                 };
 
                 var jsonContents = JsonConvert.SerializeObject(content);
-                this.producer.ProduceAsync(this.topic, new Message<string, string> { Value = jsonContents }).ConfigureAwait(false);
+                var message = new Message<string, string> { Value = jsonContents };
+                this.topics.ForEach(topic => this.producer.ProduceAsync(topic, message).ConfigureAwait(false));
             }
             catch (Exception ex)
             {

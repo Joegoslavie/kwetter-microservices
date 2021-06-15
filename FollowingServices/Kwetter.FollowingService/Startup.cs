@@ -43,7 +43,7 @@ namespace Kwetter.FollowingService
             Console.WriteLine($"Using kafka endpoint: {config.BootstrapServers}");
 
             var builder = new ConsumerBuilder<Ignore, string>(config).Build();
-            builder.Subscribe(EventSettings.NewProfileEventTopic);
+            builder.Subscribe(EventSettings.NewFollowRefProfileEventTopic);
             services.AddHostedService(sp => new KafkaEventHandler(builder, services.BuildServiceProvider().GetRequiredService<FollowingContext>()));
         }
 

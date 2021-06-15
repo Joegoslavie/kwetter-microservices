@@ -34,12 +34,7 @@
         /// <summary>
         /// 
         /// </summary>
-        private readonly IProfileUpdateEvent profileEvent;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private readonly ITweetProfileEvent tweetProfileEvent;
+        private readonly IProfileEvent profileEvent;
 
         /// <summary>
         /// Interface for reading the configuration file.
@@ -56,14 +51,12 @@
             UserManager<KwetterUserEntity<int>> userManager,
             IConfiguration configuration,
             ILogger<AuthenticationService> logger,
-            IProfileUpdateEvent profileEvent,
-            ITweetProfileEvent tweetProfileEvent)
+            IProfileEvent profileEvent)
         {
             this.userManager = userManager;
             this.configuration = configuration;
             this.logger = logger;
             this.profileEvent = profileEvent;
-            this.tweetProfileEvent = tweetProfileEvent;
         }
 
         /// <summary>
@@ -139,8 +132,6 @@
             }
 
             this.profileEvent.Invoke(newUser.Id, newUser.UserName, newUser.UserName);
-            this.tweetProfileEvent.Invoke(newUser.Id, newUser.UserName, newUser.UserName);
-
             return new AuthenticationResponse
             {
                 Status = true,
