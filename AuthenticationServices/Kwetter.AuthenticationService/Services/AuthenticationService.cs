@@ -132,6 +132,8 @@
             }
 
             this.profileEvent.Invoke(newUser.Id, newUser.UserName, newUser.UserName, "default.jpg");
+            this.logger.LogInformation("User created, fired profile event.");
+
             return new AuthenticationResponse
             {
                 Status = true,

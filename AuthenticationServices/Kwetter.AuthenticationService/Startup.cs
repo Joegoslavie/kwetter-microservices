@@ -17,16 +17,19 @@ namespace Kwetter.AuthenticationService
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
     using Microsoft.IdentityModel.Tokens;
     using System.Collections.Generic;
     using System.Text;
 
     public class Startup
     {
+        private readonly ILogger<Startup> logger;
         private readonly IConfiguration configuration;
 
-        public Startup(IConfiguration configuration)
+        public Startup(ILogger<Startup> logger, IConfiguration configuration)
         {
+            this.logger = logger;
             this.configuration = configuration;
         }
 
@@ -74,8 +77,11 @@ namespace Kwetter.AuthenticationService
             });
 
             // Kafka unit.
+            var kafkaServer = configuration.GetValue<string>("ProducerConfiguration:Servers");
+            this.logger.LogInformation($"Using kafka endpoints {kafkaServer}");
+
             var builder = new ProducerBuilder<string, string>(new ProducerConfig {
-                BootstrapServers = configuration.GetValue<string>("ProducerConfiguration:Servers"), // docker port
+                BootstrapServers = kafkaServer, // docker port
             }).Build();
 
             services.AddSingleton<IProfileEvent>(_ => new ProfileEvent(builder, new List<string>
