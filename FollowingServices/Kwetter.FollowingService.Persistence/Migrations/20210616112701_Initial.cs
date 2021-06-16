@@ -38,7 +38,9 @@ namespace Kwetter.FollowingService.Persistence.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AvatarUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

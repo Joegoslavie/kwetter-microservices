@@ -56,6 +56,12 @@ namespace Kwetter.FollowingService.Persistence.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("AvatarUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 

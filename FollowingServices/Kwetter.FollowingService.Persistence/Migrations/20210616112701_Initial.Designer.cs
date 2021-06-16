@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kwetter.FollowingService.Persistence.Migrations
 {
     [DbContext(typeof(FollowingContext))]
-    [Migration("20210614210228_Initial")]
+    [Migration("20210616112701_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,6 +57,12 @@ namespace Kwetter.FollowingService.Persistence.Migrations
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<string>("AvatarUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
