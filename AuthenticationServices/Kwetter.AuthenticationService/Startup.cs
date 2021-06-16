@@ -24,12 +24,11 @@ namespace Kwetter.AuthenticationService
 
     public class Startup
     {
-        private readonly ILogger<Startup> logger;
+        private ILogger<Startup> logger;
         private readonly IConfiguration configuration;
 
-        public Startup(ILogger<Startup> logger, IConfiguration configuration)
+        public Startup(IConfiguration configuration)
         {
-            this.logger = logger;
             this.configuration = configuration;
         }
 
@@ -76,12 +75,8 @@ namespace Kwetter.AuthenticationService
                 };
             });
 
-            // Kafka unit.
-            var kafkaServer = configuration.GetValue<string>("ProducerConfiguration:Servers");
-            this.logger.LogInformation($"Using kafka endpoints {kafkaServer}");
-
             var builder = new ProducerBuilder<string, string>(new ProducerConfig {
-                BootstrapServers = kafkaServer, // docker port
+                BootstrapServers = this.configuration.GetValue<string>("ProducerConfiguration:Servers"),
             }).Build();
 
             services.AddSingleton<IProfileEvent>(_ => new ProfileEvent(builder, new List<string>
@@ -95,19 +90,25 @@ namespace Kwetter.AuthenticationService
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline. 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            this.logger = app.ApplicationServices.GetService<ILogger<Startup>>();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseRouting();
             app.UseAuthentication();
 
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetService<AuthenticationContext>();
-                context.Database.EnsureCreated();
+                this.logger.LogInformation($"Running EF EnsureCreated method..");
+                var result = context.Database.EnsureCreated();
+
+                this.logger.LogInformation($"...done, result: {result}");
             }
 
+            this.logger.LogInformation($"Kafka address: {this.configuration.GetValue<string>("ProducerConfiguration:Servers")}");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<Services.AuthenticationService>();
