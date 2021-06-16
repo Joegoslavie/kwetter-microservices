@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Grpc.Core;
+    using Kwetter.Messaging.Interfaces;
     using Kwetter.Messaging.Interfaces.Tweet;
     using Kwetter.ProfileService.Extentions;
     using Kwetter.ProfileService.Persistence.Context;
@@ -25,18 +26,18 @@
         /// </summary>
         private readonly ProfileContext context;
 
-        private readonly ITweetUpdateEvent tweetProfileUpdate;
+        private readonly IProfileEvent profileUpdateEvent;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProfileService"/> class.
         /// </summary>
         /// <param name="logger">Injected logger.</param>
         /// <param name="context">Injected context.</param>
-        public ProfileService(ILogger<ProfileService> logger, ProfileContext context, ITweetUpdateEvent tweetProfileEvent)
+        public ProfileService(ILogger<ProfileService> logger, ProfileContext context, IProfileEvent profileUpdateEvent)
         {
             this.logger = logger;
             this.context = context;
-            this.tweetProfileUpdate = tweetProfileEvent;
+            this.profileUpdateEvent = profileUpdateEvent;
         }
 
         /// <summary>
@@ -142,7 +143,7 @@
             this.context.Profiles.Update(profile);
             await this.context.SaveChangesAsync().ConfigureAwait(false);
 
-            this.tweetProfileUpdate.Invoke(profile.UserId, profile.Username, profile.DisplayName, profile.AvatarUri);
+            this.profileUpdateEvent.Invoke(profile.UserId, profile.Username, profile.DisplayName, profile.AvatarUri);
             return new SingleProfileResponse
             {
                 Status = true,
