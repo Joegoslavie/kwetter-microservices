@@ -45,7 +45,7 @@ namespace Kwetter.FollowingService.Business
             return entity != null;
         }
 
-        public async Task<List<int>> GetFollowing(string username, int page, int amount)
+        public async Task<List<ProfileReferenceEntity>> GetFollowing(string username, int page, int amount)
         {
             var profileRef = this.context.ProfileReferences.SingleOrDefault(x => x.Username == username);
             if (profileRef == null)
@@ -54,15 +54,15 @@ namespace Kwetter.FollowingService.Business
             }
 
             return this.context.Followings
-                .Where(f => f.UserId == profileRef.UserId)
+                .Where(f => f.UserProfile.UserId == profileRef.UserId)
                 .OrderByDescending(x => x.FollowingSince)
-                .Select(x => x.FollowingId)
+                .Select(x => x.FollowingProfile)
                 .Skip(page * amount)
                 .Take(amount)
                 .ToList();
         }
 
-        public async Task<List<int>> GetFollowers(string username, int page, int amount)
+        public async Task<List<ProfileReferenceEntity>> GetFollowers(string username, int page, int amount)
         {
             var profileRef = this.context.ProfileReferences.SingleOrDefault(x => x.Username == username);
             if (profileRef == null)
@@ -71,9 +71,9 @@ namespace Kwetter.FollowingService.Business
             }
 
             return this.context.Followings
-                .Where(f => f.FollowingId == profileRef.UserId)
+                .Where(f => f.FollowingProfile.UserId == profileRef.UserId)
                 .OrderByDescending(x => x.FollowingSince)
-                .Select(x => x.FollowingId)
+                .Select(x => x.FollowingProfile)
                 .Skip(page * amount)
                 .Take(amount)
                 .ToList();

@@ -1,14 +1,14 @@
-﻿using Grpc.Core;
-using Kwetter.FollowingService.Business;
-using Kwetter.FollowingService.Business.Enum;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Kwetter.FollowingService.Services
+﻿namespace Kwetter.FollowingService.Services
 {
+    using Grpc.Core;
+    using Kwetter.FollowingService.Business;
+    using Kwetter.FollowingService.Business.Enum;
+    using Microsoft.Extensions.Logging;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
     public class FollowingService : FollowGRPCService.FollowGRPCServiceBase
     {
         private readonly ILogger<FollowingService> logger;
@@ -37,8 +37,14 @@ namespace Kwetter.FollowingService.Services
             try
             {
                 var result = new OperationResponse();
-                result.ProfileIds.AddRange(
-                    await this.manager.GetFollowing(request.Username, request.Page, request.Amount).ConfigureAwait(false));
+                var profiles = await this.manager.GetFollowing(request.Username, request.Page, request.Amount).ConfigureAwait(false);
+                result.Profiles.AddRange(profiles.Select(p => new ProfileFollowResponse
+                {
+                    UserId = p.UserId,
+                    Username = p.Username,
+                    DisplayName = p.DisplayName,
+                    AvatarUrl = p.AvatarUrl,
+                }));
 
                 return result;
             }
@@ -59,8 +65,14 @@ namespace Kwetter.FollowingService.Services
             try
             {
                 var result = new OperationResponse();
-                result.ProfileIds.AddRange(
-                    await this.manager.GetFollowers(request.Username, request.Page, request.Amount).ConfigureAwait(false));
+                var profiles = await this.manager.GetFollowers(request.Username, request.Page, request.Amount).ConfigureAwait(false);
+                result.Profiles.AddRange(profiles.Select(p => new ProfileFollowResponse
+                {
+                    UserId = p.UserId,
+                    Username = p.Username,
+                    DisplayName = p.DisplayName,
+                    AvatarUrl = p.AvatarUrl,
+                }));
 
                 return result;
             }

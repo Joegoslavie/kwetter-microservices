@@ -32,5 +32,12 @@ message FollowInfoRequest {
 
 message OperationResponse {
 	bool Status = 1;
-	repeated int32 profileIds = 2;
+	repeated ProfileFollowResponse profiles = 2;
+}
+
+message ProfileFollowResponse{
+	int32 userId = 1;
+	string username = 2;
+	string displayName = 3;
+	string avatarUrl = 4;
 }

@@ -43,10 +43,20 @@ namespace Kwetter.FollowingService.Persistence.Migrations
                     b.Property<int>("FollowingId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("FollowingProfileUserId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("FollowingSince")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("UserProfileUserId")
+                        .HasColumnType("int");
+
                     b.HasKey("UserId", "FollowingId");
+
+                    b.HasIndex("FollowingProfileUserId");
+
+                    b.HasIndex("UserProfileUserId");
 
                     b.ToTable("Followings");
                 });
@@ -68,6 +78,21 @@ namespace Kwetter.FollowingService.Persistence.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("ProfileReferences");
+                });
+
+            modelBuilder.Entity("Kwetter.FollowingService.Persistence.Entity.FollowingEntity", b =>
+                {
+                    b.HasOne("Kwetter.FollowingService.Persistence.Entity.ProfileReferenceEntity", "FollowingProfile")
+                        .WithMany()
+                        .HasForeignKey("FollowingProfileUserId");
+
+                    b.HasOne("Kwetter.FollowingService.Persistence.Entity.ProfileReferenceEntity", "UserProfile")
+                        .WithMany()
+                        .HasForeignKey("UserProfileUserId");
+
+                    b.Navigation("FollowingProfile");
+
+                    b.Navigation("UserProfile");
                 });
 #pragma warning restore 612, 618
         }
