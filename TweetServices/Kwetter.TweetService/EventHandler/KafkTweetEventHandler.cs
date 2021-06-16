@@ -73,31 +73,22 @@
         /// <param name="messageContents">Message body.</param>
         /// <param name="token">Token.</param>
         /// <returns>Task.</returns>
-        private async Task ProcessTopic (string topicName, string messageContents, CancellationToken token)
+        private async Task ProcessTopic(string topicName, string messageContents, CancellationToken token)
         {
-            if (string.IsNullOrEmpty(topicName) || string.IsNullOrEmpty(messageContents))
-            {
-                return;
-            }
-
             Console.WriteLine($"Proccessing topic {topicName}");
-
             switch (topicName)
             {
                 case EventSettings.TweetProfileRefEventTopic:
 
                     var profileArgs = JsonConvert.DeserializeObject<ProfileEventArgs>(messageContents);
                     await this.CreateOrUpdateProfileRef(profileArgs).ConfigureAwait(false);
-                    this.consumer.Commit();
                     break;
 
                 case EventSettings.NewTweetMentionEventTopic:
 
                     var mentionArgs = JsonConvert.DeserializeObject<MentionEventArgs>(messageContents);
                     await this.CreateTweetMention(mentionArgs).ConfigureAwait(false);
-                    this.consumer.Commit();
                     break;
-
             }
         }
 
@@ -107,22 +98,23 @@
         /// <returns></returns>
         private async Task CreateTweetMention(MentionEventArgs mentionArgs)
         {
-             if (this.context.Mentions.Include(x => x.DirectedTo).Where
-                    (x => x.DirectedTo.UserId == mentionArgs.MentionUserId && x.TweetId == mentionArgs.TweetId).Any())
+            if (this.context.Mentions.Include(x => x.DirectedTo).Where
+                   (x => x.DirectedTo.UserId == mentionArgs.MentionUserId && x.TweetId == mentionArgs.TweetId).Any())
             {
                 return;
             }
 
-             var tweet = this.context.Tweets.Include(x => x.Author).FirstOrDefault(x => x.Author.UserId == mentionArgs.AuthorId);
-             var mentionEntity = new MentionEntity
-             {
+            var tweet = this.context.Tweets.Include(x => x.Author).SingleOrDefault(x => x.Id == mentionArgs.TweetId);
+            var mentionEntity = new MentionEntity
+            {
                 DirectedTo = this.context.ProfileReferences.FirstOrDefault(x => x.UserId == mentionArgs.MentionUserId),
                 Tweet = tweet,
                 TweetId = tweet.Id,
-             };
+            };
 
-             this.context.Mentions.Add(mentionEntity);
-             await this.context.SaveChangesAsync().ConfigureAwait(false);
+            this.context.Mentions.Add(mentionEntity);
+            await this.context.SaveChangesAsync().ConfigureAwait(false);
+            this.consumer.Commit();
         }
 
         /// <summary>

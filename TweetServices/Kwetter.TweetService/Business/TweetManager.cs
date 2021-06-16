@@ -163,6 +163,7 @@
                 .Include(x => x.DirectedTo)
                 .Where(x => x.DirectedTo.Username == username)
                 .Include(x => x.Tweet)
+                .ThenInclude(x => x.Author)
                 .Select(x => x.Tweet)
                 .Skip(page * amount)
                 .Take(amount)

@@ -24,6 +24,8 @@ namespace Kwetter.FollowingService.Business
         public async Task<bool> ToggleFollower(int currentId, string username)
         {
             var profileRef = this.context.ProfileReferences.SingleOrDefault(x => x.Username == username);
+            var myProfileRef = this.context.ProfileReferences.SingleOrDefault(x => x.UserId == currentId);
+
             var entity = this.context.Followings.FirstOrDefault(x => x.UserId == currentId && x.FollowingId == profileRef.UserId);
 
             if (entity == null)
@@ -32,6 +34,8 @@ namespace Kwetter.FollowingService.Business
                 {
                     UserId = currentId,
                     FollowingId = profileRef.UserId,
+                    FollowingProfile = profileRef,
+                    UserProfile = myProfileRef,
                 };
                 this.context.Followings.Add(entity);
             }
@@ -73,7 +77,7 @@ namespace Kwetter.FollowingService.Business
             return this.context.Followings
                 .Where(f => f.FollowingProfile.UserId == profileRef.UserId)
                 .OrderByDescending(x => x.FollowingSince)
-                .Select(x => x.FollowingProfile)
+                .Select(x => x.UserProfile)
                 .Skip(page * amount)
                 .Take(amount)
                 .ToList();
