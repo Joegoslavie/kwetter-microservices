@@ -38,8 +38,8 @@ namespace Kwetter.ProfileService
 
             ConsumerConfig config = new ConsumerConfig
             {
-                BootstrapServers = configuration.GetValue<string>("ProducerConfiguration:Servers"),
-                GroupId = configuration.GetValue<string>("ProducerConfiguration:GroupId"),
+                BootstrapServers = this.configuration.GetValue<string>("kafka-service:9092"),
+                GroupId = this.configuration.GetValue<string>("microservice"),
                 AutoOffsetReset = AutoOffsetReset.Earliest,
                 EnableAutoCommit = false,
             };
