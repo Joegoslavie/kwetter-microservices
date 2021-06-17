@@ -40,10 +40,11 @@
                 var profiles = await this.manager.GetFollowing(request.Username, request.Page, request.Amount).ConfigureAwait(false);
                 result.Profiles.AddRange(profiles.Select(p => new ProfileFollowResponse
                 {
-                    UserId = p.UserId,
-                    Username = p.Username,
-                    DisplayName = p.DisplayName,
-                    AvatarUrl = p.AvatarUrl,
+                    UserId = p.UserProfile.UserId,
+                    Username = p.UserProfile.Username,
+                    DisplayName = p.UserProfile.DisplayName,
+                    AvatarUrl = p.UserProfile.AvatarUrl,
+                    Since = p.FollowingSince.Ticks,
                 }));
 
                 return result;
@@ -68,10 +69,11 @@
                 var profiles = await this.manager.GetFollowers(request.Username, request.Page, request.Amount).ConfigureAwait(false);
                 result.Profiles.AddRange(profiles.Select(p => new ProfileFollowResponse
                 {
-                    UserId = p.UserId,
-                    Username = p.Username,
-                    DisplayName = p.DisplayName,
-                    AvatarUrl = p.AvatarUrl,
+                    UserId = p.UserProfile.UserId,
+                    Username = p.UserProfile.Username,
+                    DisplayName = p.UserProfile.DisplayName,
+                    AvatarUrl = p.UserProfile.AvatarUrl,
+                    Since = p.FollowingSince.Ticks,
                 }));
 
                 return result;

@@ -40,4 +40,5 @@ message ProfileFollowResponse{
 	string username = 2;
 	string displayName = 3;
 	string avatarUrl = 4;
+	int64 since = 5;
 }
