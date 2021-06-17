@@ -34,8 +34,8 @@ namespace Kwetter.FollowingService
 
             var builder = new ConsumerBuilder<Ignore, string>(new ConsumerConfig
             {
-                BootstrapServers = this.configuration.GetValue<string>("kafka-service:9092"),
-                GroupId = this.configuration.GetValue<string>("microservice"),
+                BootstrapServers = "kafka-service:9092",
+                GroupId = "microservice",
                 AutoOffsetReset = AutoOffsetReset.Earliest,
                 EnableAutoCommit = false,
             }).Build();

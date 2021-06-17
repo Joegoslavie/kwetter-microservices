@@ -76,7 +76,7 @@ namespace Kwetter.AuthenticationService
             });
 
             var builder = new ProducerBuilder<string, string>(new ProducerConfig {
-                BootstrapServers = this.configuration.GetValue<string>("kafka-service:9092"),
+                BootstrapServers = "kafka-service:9092",
             }).Build();
 
             services.AddSingleton<IProfileEvent>(_ => new ProfileEvent(builder, new List<string>
