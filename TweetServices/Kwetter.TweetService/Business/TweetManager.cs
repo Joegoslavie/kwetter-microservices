@@ -70,6 +70,16 @@
         }
 
         /// <summary>
+        /// Get the total amount of tweets the user has placed.
+        /// </summary>
+        /// <param name="username">Username.</param>
+        /// <returns>amount of tweets as int.</returns>
+        public int TotalTweets(string username)
+        {
+            return this.context.Tweets.Where(x => x.Author.Username == username).Count();
+        }
+
+        /// <summary>
         /// Gets the tweets with the associated account.
         /// </summary>
         /// <param name="userId">user id.</param>
@@ -179,6 +189,11 @@
         /// <returns>Tweets</returns>
         public List<TweetEntity> TimelineOfUsers(IEnumerable<int> userIds, int page, int amount)
         {
+            if (!userIds.Any())
+            {
+                return this.RandomTimeline(page, amount);
+            }
+
             return this.context.Tweets
                 .Include(x => x.Author)
                 .Where(x => userIds.Contains(x.Author.UserId))

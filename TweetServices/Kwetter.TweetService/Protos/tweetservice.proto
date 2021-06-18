@@ -40,8 +40,9 @@ message TweetOperationRequest {
 
 message TweetResponse {
 	repeated TweetResponseData tweets = 1;
-	string message = 2;
-	bool status = 3;
+	int32 total = 2;
+	string message = 3;
+	bool status = 4;
 }
 
 message TweetResponseData {

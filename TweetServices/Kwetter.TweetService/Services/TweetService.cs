@@ -54,7 +54,8 @@
                 return await Task.Run(() =>
                 {
                     var tweets = this.manager.GetTweetsByUser(request.UserId, request.Page, request.Amount);
-                    var response = new TweetResponse();
+                    var response = new TweetResponse() { Total = this.manager.TotalTweets(request.Username) };
+
                     response.Tweets.AddRange(
                         tweets.Select(t => t.Convert()));
 
@@ -80,7 +81,7 @@
                 return await Task.Run(() =>
                 {
                     var tweets = this.manager.GetTweetsByUser(request.Username, request.Page, request.Amount);
-                    var response = new TweetResponse();
+                    var response = new TweetResponse() { Total = this.manager.TotalTweets(request.Username) };
                     response.Tweets.AddRange(
                         tweets.Select(t => t.Convert()));
 
