@@ -52,5 +52,4 @@ jobs:
         sonarProjectName: KwetterMicroservices
         sonarOrganization: Hugo
         dotnetBuildArguments: KwetterMicroservices.sln
-        dotnetTestArguments: KwetterMicroservices.sln  --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
         sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
